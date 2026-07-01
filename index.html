@@ -461,7 +461,7 @@ td{padding:12px 13px;border-top:1px solid var(--line)}
           <p class="lede">Pick from our library of supported forms — we keep a clean, up-to-date copy of each and fill it from your profile. Or snap a photo and we'll find the match.</p>
 
           <div style="font-size:12px;font-weight:800;color:var(--ink2);letter-spacing:.4px;margin:4px 2px 10px">CHOOSE FROM OUR LIBRARY</div>
-          <div class="task" onclick="loadThen('Loading template…','freview')" style="cursor:pointer"><div style="font-size:20px">🏛️</div><div><div class="tt">Moving-in Notification</div><div class="td">転入届 · City Hall · the most common first form</div></div></div>
+          <div class="task" onclick="openFiller()" style="cursor:pointer"><div style="font-size:20px">🏛️</div><div><div class="tt">Moving-in Notification</div><div class="td">転入届 · City Hall · the most common first form</div></div></div>
           <div class="task" onclick="loadThen('Loading template…','freview')" style="cursor:pointer"><div style="font-size:20px">🏛️</div><div><div class="tt">Certificate of Residence</div><div class="td">住民票 · City Hall · proof of address</div></div></div>
           <div class="task" onclick="loadThen('Loading template…','freview')" style="cursor:pointer"><div style="font-size:20px">🏦</div><div><div class="tt">Bank account opening</div><div class="td">Most major banks</div></div></div>
           <div class="task" style="opacity:.5"><div style="font-size:20px">🔜</div><div><div class="tt">National Health Insurance</div><div class="td">Coming soon</div></div></div>
@@ -806,5 +806,165 @@ function playDemo(){
 /* init */
 setRing(71); setMoment('settle'); applyVerify(); go('home');
 </script>
+<!-- ============================================================
+     REAL MINATO MOVE-IN FORM FILLER (integrated)
+     Opens over the app when the user taps "Moving-in Notification".
+     Config paths (adjust if your repo names differ):
+============================================================ -->
+<div id="ff-overlay" style="position:fixed;inset:0;background:#0c1020;color:#eef1f8;z-index:9999;display:none;flex-direction:column;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif">
+  <div style="display:flex;align-items:center;gap:10px;padding:11px 16px;background:#111731;border-bottom:1px solid #26304b;flex-wrap:wrap">
+    <b style="font-size:14px">🗾 Minato Moving-in form · auto-filled</b>
+    <span style="flex:1"></span>
+    <span style="font-size:12px;color:#9fb0d8">Student</span>
+    <select id="ff-student" style="background:#1b2340;color:#fff;border:1px solid #33406a;border-radius:9px;padding:7px 9px;font-size:13px"></select>
+    <span style="font-size:12px;color:#9fb0d8">pt</span>
+    <input type="number" id="ff-fsize" value="10" min="6" max="20" step="0.5" style="width:58px;background:#1b2340;color:#fff;border:1px solid #33406a;border-radius:9px;padding:7px 8px;font-size:13px">
+    <button id="ff-reset" style="background:#232c4d;color:#fff;border:0;border-radius:9px;padding:8px 12px;font-size:13px;font-weight:700;cursor:pointer">Reset</button>
+    <button id="ff-copy" style="background:#232c4d;color:#fff;border:0;border-radius:9px;padding:8px 12px;font-size:13px;font-weight:700;cursor:pointer">Copy layout</button>
+    <button id="ff-dl" disabled style="background:#2A3CCA;color:#fff;border:0;border-radius:9px;padding:8px 14px;font-size:13px;font-weight:700;cursor:pointer">⬇ Download PDF</button>
+    <button onclick="closeFiller()" style="background:#232c4d;color:#fff;border:0;border-radius:9px;padding:8px 12px;font-size:13px;font-weight:700;cursor:pointer">✕ Close</button>
+  </div>
+  <div id="ff-status" style="padding:7px 16px;font-size:12.5px;color:#9fb0d8;background:#0e1430">Loading…</div>
+  <div id="ff-pdfpick" style="display:none;padding:8px 16px;background:#0e1430;color:#ffd27a;font-size:12px;gap:8px;align-items:center">Couldn't auto-load the PDF — choose <b>&nbsp;jyuminidotodokejapanese.pdf&nbsp;</b>: <input type="file" id="ff-pdffile" accept="application/pdf"></div>
+  <div id="ff-fontpick" style="display:none;padding:8px 16px;background:#0e1430;color:#ffd27a;font-size:12px;gap:8px;align-items:center">Couldn't auto-load the font — choose a <b>&nbsp;NotoSansJP .ttf&nbsp;</b> (static Regular is safest): <input type="file" id="ff-fontfile" accept=".ttf,.otf"></div>
+  <div style="flex:1;display:flex;gap:12px;padding:12px;overflow:auto;align-items:flex-start">
+    <div style="width:250px;flex-shrink:0;background:#111731;border:1px solid #26304b;border-radius:12px;padding:11px;max-height:100%;overflow:auto">
+      <div style="font-size:11px;letter-spacing:.5px;color:#8ea0cf;text-transform:uppercase;margin-bottom:8px">Fields — tick, edit, drag onto the form</div>
+      <div id="ff-fieldlist"></div>
+    </div>
+    <div style="flex:1;background:#1b2340;border-radius:12px;padding:10px;overflow:auto">
+      <div id="ff-canvasbox" style="position:relative;display:inline-block;background:#fff">
+        <canvas id="ff-canvas"></canvas>
+        <div id="ff-ov" style="position:absolute;inset:0"></div>
+      </div>
+    </div>
+  </div>
+  <a id="ff-a" style="display:none"></a>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@pdf-lib/fontkit@1.1.1/dist/fontkit.umd.min.js"></script>
+<script>
+/* ==== paths in your repo (change if names differ) ==== */
+var FF_PDF  = "jyuminidotodokejapanese.pdf";
+var FF_FONT = "NotoSansJP-VariableFont_wght.ttf";  // a static NotoSansJP-Regular.ttf is safest
+
+var FF_STUDENTS=[
+ { name:"Smith John (USA)", f:{
+   notifDate:"2026年7月1日", moveDate:"2026年6月26日", arrival:"2026年6月25日",
+   furigana:"スミス ジョン", nameRoman:"Smith John", dob:"2002年5月15日", gender:"男",
+   nationality:"アメリカ", newAddr:"東京都港区芝公園4-2-8", oldAddr:"123 Main Street, New York, NY, USA",
+   householder:"スミス ジョン", applicant:"世帯主", relation:"世帯主", school:"Temple University, Japan Campus" } },
+ { name:"Kim Min-ji (South Korea)", f:{
+   notifDate:"2026年7月1日", moveDate:"2026年6月24日", arrival:"2026年6月22日",
+   furigana:"キム ミンジ", nameRoman:"Kim Min-ji", dob:"2003年11月20日", gender:"女",
+   nationality:"韓国", newAddr:"東京都港区六本木6-10-1", oldAddr:"456 Sejong-daero, Jongno-gu, Seoul, South Korea",
+   householder:"キム ミンジ", applicant:"世帯主", relation:"世帯主", school:"Temple University, Japan Campus" } }
+];
+var FF_FIELDS=[
+ ["notifDate","届出日"],["moveDate","異動日"],["arrival","入国日"],["furigana","フリガナ"],
+ ["nameRoman","氏名"],["dob","生年月日"],["gender","性別"],["nationality","国籍"],
+ ["newAddr","新住所"],["oldAddr","旧住所"],["householder","世帯主"],["applicant","届出人区分"],
+ ["relation","続柄"],["school","学校名"]
+];
+var FF_DEF={}; FF_FIELDS.forEach(function(fd,i){ FF_DEF[fd[0]]={x:130,y:80+i*28}; });
+
+var ffBooted=false, ffPdf=null, ffFont=null, ffScale=1, ffPtW=0, ffPtH=0;
+var ffPOS=JSON.parse(JSON.stringify(FF_DEF));
+var ffEnabled={}; FF_FIELDS.forEach(function(fd){ffEnabled[fd[0]]=true;});
+var ffVals={};
+function ffStat(t,e){var s=document.getElementById('ff-status');s.textContent=t;s.style.color=e?'#ffb4b4':'#9fb0d8';}
+
+function openFiller(){
+  document.getElementById('ff-overlay').style.display='flex';
+  if(!ffBooted){ ffBooted=true; ffBoot(); }
+}
+function closeFiller(){ document.getElementById('ff-overlay').style.display='none'; }
+
+async function ffTry(p){ try{var r=await fetch(p); if(!r.ok)throw 0; return await r.arrayBuffer();}catch(e){return null;} }
+async function ffBoot(){
+  if(typeof pdfjsLib!=="undefined") pdfjsLib.GlobalWorkerOptions.workerSrc="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+  ffStat("Loading the Minato form…");
+  ffPdf=await ffTry(FF_PDF);
+  if(!ffPdf){ document.getElementById('ff-pdfpick').style.display='flex'; ffStat("Please choose the PDF file.",true); }
+  ffFont=await ffTry(FF_FONT);
+  if(!ffFont){ document.getElementById('ff-fontpick').style.display='flex'; }
+  ffLoadStudent();
+  if(ffPdf) await ffRender();
+  ffDlState();
+}
+document.getElementById('ff-pdffile').onchange=async function(e){ ffPdf=await e.target.files[0].arrayBuffer(); document.getElementById('ff-pdfpick').style.display='none'; await ffRender(); ffDlState(); };
+document.getElementById('ff-fontfile').onchange=async function(e){ ffFont=await e.target.files[0].arrayBuffer(); document.getElementById('ff-fontpick').style.display='none'; ffDlState(); };
+
+async function ffRender(){
+  ffStat("Rendering form…");
+  var doc=await pdfjsLib.getDocument({data:ffPdf.slice(0)}).promise;
+  var page=await doc.getPage(1);
+  var base=page.getViewport({scale:1}); ffPtW=base.width; ffPtH=base.height;
+  ffScale=Math.min(1.4, 1000/base.width);
+  var vp=page.getViewport({scale:ffScale});
+  var cv=document.getElementById('ff-canvas'); cv.width=vp.width; cv.height=vp.height;
+  var ov=document.getElementById('ff-ov'); ov.style.width=vp.width+'px'; ov.style.height=vp.height+'px';
+  await page.render({canvasContext:cv.getContext('2d'),viewport:vp}).promise;
+  ffStat("Ready. Drag the yellow chips onto the form, then Download PDF.");
+  ffChips();
+}
+function ffDlState(){ document.getElementById('ff-dl').disabled=!(ffPdf&&ffFont); }
+
+var ffSel=document.getElementById('ff-student');
+FF_STUDENTS.forEach(function(s,i){var o=document.createElement('option');o.value=i;o.textContent=s.name;ffSel.appendChild(o);});
+ffSel.onchange=ffLoadStudent;
+function ffLoadStudent(){ ffVals=Object.assign({},FF_STUDENTS[ffSel.value].f); ffList(); ffChips(); }
+function ffList(){
+  var box=document.getElementById('ff-fieldlist'); box.innerHTML='';
+  FF_FIELDS.forEach(function(fd){var k=fd[0];
+    var row=document.createElement('div'); row.style.cssText='display:flex;align-items:center;gap:7px;margin-bottom:6px';
+    row.innerHTML='<input type="checkbox" '+(ffEnabled[k]?'checked':'')+' style="width:15px;height:15px"><span style="width:64px;font-size:11px;color:#9fb0d8">'+fd[1]+'</span><input value="'+(ffVals[k]||'').replace(/"/g,'&quot;')+'" style="flex:1;min-width:0;background:#1b2340;color:#fff;border:1px solid #33406a;border-radius:7px;padding:5px 7px;font-size:12px">';
+    row.querySelector('input[type=checkbox]').onchange=function(e){ffEnabled[k]=e.target.checked;ffChips();};
+    row.querySelector('input:not([type=checkbox])').oninput=function(e){ffVals[k]=e.target.value;var c=document.querySelector('#ff-ov .ffchip[data-k="'+k+'"]');if(c)c.firstChild.textContent=e.target.value;};
+    box.appendChild(row);
+  });
+}
+function ffChips(){
+  var ov=document.getElementById('ff-ov'); if(!ov)return; ov.innerHTML='';
+  var fs=parseFloat(document.getElementById('ff-fsize').value)*ffScale;
+  FF_FIELDS.forEach(function(fd){var k=fd[0]; if(!ffEnabled[k])return;
+    var c=document.createElement('div'); c.className='ffchip'; c.dataset.k=k;
+    c.style.cssText='position:absolute;color:#000;white-space:nowrap;cursor:grab;user-select:none;line-height:1;background:rgba(255,235,120,.35);border:1px dashed rgba(180,140,0,.55);padding:1px 2px;border-radius:3px;font-family:sans-serif';
+    c.style.left=(ffPOS[k]?ffPOS[k].x:130)+'px'; c.style.top=(ffPOS[k]?ffPOS[k].y:90)+'px'; c.style.fontSize=fs+'px';
+    c.appendChild(document.createTextNode(ffVals[k]||''));
+    ov.appendChild(c); ffDrag(c,k);
+  });
+}
+document.getElementById('ff-fsize').oninput=ffChips;
+function ffDrag(c,k){var sx,sy,ox,oy,d=false;
+  c.addEventListener('mousedown',function(e){d=true;c.style.background='rgba(120,190,255,.45)';sx=e.clientX;sy=e.clientY;ox=parseFloat(c.style.left);oy=parseFloat(c.style.top);e.preventDefault();});
+  window.addEventListener('mousemove',function(e){if(!d)return;var nx=ox+(e.clientX-sx),ny=oy+(e.clientY-sy);c.style.left=nx+'px';c.style.top=ny+'px';ffPOS[k]={x:nx,y:ny};});
+  window.addEventListener('mouseup',function(){if(d){d=false;c.style.background='rgba(255,235,120,.35)';}});
+}
+document.getElementById('ff-reset').onclick=function(){ffPOS=JSON.parse(JSON.stringify(FF_DEF));ffChips();};
+document.getElementById('ff-copy').onclick=function(){navigator.clipboard.writeText(JSON.stringify(ffPOS));ffStat("Layout copied — paste it back to lock these positions.");};
+
+document.getElementById('ff-dl').onclick=async function(){
+  try{
+    ffStat("Building filled PDF…");
+    var doc=await PDFLib.PDFDocument.load(ffPdf.slice(0));
+    doc.registerFontkit(fontkit);
+    var font; try{font=await doc.embedFont(ffFont.slice(0),{subset:true});}catch(e){font=await doc.embedFont(ffFont.slice(0),{subset:false});}
+    var page=doc.getPages()[0];
+    var fs=parseFloat(document.getElementById('ff-fsize').value);
+    FF_FIELDS.forEach(function(fd){var k=fd[0]; if(!ffEnabled[k])return; var v=ffVals[k]; if(!v)return;
+      var p=ffPOS[k]||FF_DEF[k];
+      page.drawText(v,{x:p.x/ffScale,y:ffPtH-(p.y/ffScale)-fs*0.82,size:fs,font:font,color:PDFLib.rgb(0,0,0)});
+    });
+    var bytes=await doc.save();
+    var a=document.getElementById('ff-a'); a.href=URL.createObjectURL(new Blob([bytes],{type:'application/pdf'}));
+    a.download='minato_movein_'+FF_STUDENTS[ffSel.value].name.split(' ')[0]+'.pdf'; a.click();
+    ffStat("Done ✓ Filled PDF downloaded.");
+  }catch(err){ ffStat("Error: "+err.message+" — if it mentions the font, use a static NotoSansJP-Regular.ttf.",true); }
+};
+</script>
+
 </body>
 </html>
