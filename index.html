@@ -216,7 +216,7 @@ svg.ic{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:2;strok
 .dmain{flex:1;padding:22px;background:var(--surface2);min-width:0}
 .kpis{display:flex;gap:13px;margin-bottom:16px;flex-wrap:wrap}
 .kpi{flex:1;min-width:120px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:15px}
-.kpi .n{font-size:27px;font-weight:800}.kpi .l{font-size:12px;color:var(--ink2)}
+.kpi .n覆{font-size:27px;font-weight:800}.kpi .l{font-size:12px;color:var(--ink2)}
 .kpi.g .n{color:var(--green)}.kpi.a .n{color:var(--amber)}.kpi.r .n{color:var(--red)}
 table{width:100%;border-collapse:collapse;background:var(--surface);border:1px solid var(--line);border-radius:13px;overflow:hidden;font-size:13px}
 th{text-align:left;background:var(--surface2);padding:11px 13px;font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--ink2)}
@@ -260,7 +260,6 @@ td{padding:12px 13px;border-top:1px solid var(--line)}
 
     <div class="viewport" id="viewport">
 
-      <!-- SIGN UP -->
       <div class="view" id="v-signup">
         <div class="pad" style="padding-top:34px">
           <div style="font-weight:800;font-size:22px;margin-bottom:24px">nyuu<span style="color:var(--orange)">ly</span></div>
@@ -287,7 +286,6 @@ td{padding:12px 13px;border-top:1px solid var(--line)}
         </div>
       </div>
 
-      <!-- SETUP CHOICE -->
       <div class="view" id="v-setup">
         <div class="appbar"><button class="back" onclick="go('signup')">‹</button><span class="muted" style="font-weight:700">Set up · 1 of 3</span><span style="width:24px"></span></div>
         <div class="pad">
@@ -306,7 +304,6 @@ td{padding:12px 13px;border-top:1px solid var(--line)}
         </div>
       </div>
 
-      <!-- PROFILE -->
       <div class="view" id="v-profile">
         <div class="appbar"><button class="back" onclick="go('setup')">‹</button><span class="muted" style="font-weight:700">Set up · 2 of 3</span><span style="width:24px"></span></div>
         <div class="pad">
@@ -329,7 +326,6 @@ td{padding:12px 13px;border-top:1px solid var(--line)}
         </div>
       </div>
 
-      <!-- JOURNEY SETUP -->
       <div class="view" id="v-journey">
         <div class="appbar"><button class="back" onclick="go('profile')">‹</button><span class="muted" style="font-weight:700">Set up · 3 of 3</span><span style="width:24px"></span></div>
         <div class="pad">
@@ -351,7 +347,6 @@ td{padding:12px 13px;border-top:1px solid var(--line)}
         </div>
       </div>
 
-      <!-- HOME (adaptive) -->
       <div class="view tabbed" id="v-home">
         <div class="appbar">
           <div><div class="muted" style="font-weight:700">Tue, 23 June</div><div class="ttl" style="font-size:18px">Hi Jessie 👋</div></div>
@@ -366,7 +361,6 @@ td{padding:12px 13px;border-top:1px solid var(--line)}
             <div><h3>Compliance</h3><p id="scoreNote">71% — 3 mandatory items left to reach 100%</p></div>
           </div>
 
-          <!-- moment panels -->
           <div class="moment-panel" data-m="settle">
             <div class="hero settle">
               <div class="nowtag">⚡ Your next step</div>
@@ -404,7 +398,6 @@ td{padding:12px 13px;border-top:1px solid var(--line)}
         </div>
       </div>
 
-      <!-- SECTION (settling) -->
       <div class="view" id="v-section">
         <div class="appbar"><button class="back" onclick="go('home')">‹</button><span class="ttl">City Hall</span><span class="muted" style="font-weight:700" id="chCount">4/6</span></div>
         <div class="pad">
@@ -423,7 +416,6 @@ td{padding:12px 13px;border-top:1px solid var(--line)}
         </div>
       </div>
 
-      <!-- SECTION (renewal) -->
       <div class="view" id="v-section-renew">
         <div class="appbar"><button class="back" onclick="go('home')">‹</button><span class="ttl">Visa renewal</span><span style="width:24px"></span></div>
         <div class="pad">
@@ -438,7 +430,6 @@ td{padding:12px 13px;border-top:1px solid var(--line)}
         </div>
       </div>
 
-      <!-- SECTION (graduation) -->
       <div class="view" id="v-section-grad">
         <div class="appbar"><button class="back" onclick="go('home')">‹</button><span class="ttl">Change of status</span><span style="width:24px"></span></div>
         <div class="pad">
@@ -453,7 +444,6 @@ td{padding:12px 13px;border-top:1px solid var(--line)}
         </div>
       </div>
 
-      <!-- FORM: pick -->
       <div class="view tabbed" id="v-fupload">
         <div class="appbar"><button class="back" onclick="go('home')">‹</button><span class="ttl">Fill a form</span><span style="width:24px"></span></div>
         <div class="pad">
@@ -475,7 +465,6 @@ td{padding:12px 13px;border-top:1px solid var(--line)}
         </div>
       </div>
 
-      <!-- FORM: review -->
       <div class="view" id="v-freview">
         <div class="appbar"><button class="back" onclick="go('fupload')">‹</button><span class="ttl">Review</span><span style="width:24px"></span></div>
         <div class="pad">
@@ -491,7 +480,6 @@ td{padding:12px 13px;border-top:1px solid var(--line)}
         </div>
       </div>
 
-      <!-- FORM: output -->
       <div class="view" id="v-foutput">
         <div class="appbar"><button class="back" onclick="go('freview')">‹</button><span class="ttl">Done</span><span style="width:24px"></span></div>
         <div class="pad center">
@@ -508,7 +496,6 @@ td{padding:12px 13px;border-top:1px solid var(--line)}
         </div>
       </div>
 
-      <!-- DECODER -->
       <div class="view tabbed" id="v-decoder">
         <div class="appbar"><button class="back" onclick="go('home')">‹</button><span class="ttl">Decode mail</span><span style="width:24px"></span></div>
         <div class="pad">
@@ -533,438 +520,4 @@ td{padding:12px 13px;border-top:1px solid var(--line)}
               <div class="task" style="box-shadow:none;margin-bottom:0"><div style="font-size:15px">2️⃣</div><div class="td" style="margin:0">Keep the receipt for your records.</div></div>
             </div>
             <div class="alert warn"><div style="font-size:18px">⏰</div><div><div class="at">Due July 31, 2026</div><div class="ad">We've added this to your reminders.</div></div></div>
-            <div class="note center">Not sure we got it right? <span class="link">Ask a human · AskMe</span></div>
-            <button class="btn soft" onclick="go('home')">Got it</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- SHARE -->
-      <div class="view" id="v-share">
-        <div class="appbar"><button class="back" onclick="go('profile-app')">‹</button><span class="ttl">Sharing</span><span style="width:24px"></span></div>
-        <div class="pad">
-          <h1 class="big serif">Share your dashboard</h1>
-          <p class="lede">Like a Google Sheet — invite someone by name, choose exactly which sections they see, and revoke anytime. They can view but never edit, and your data stays yours.</p>
-          <div class="card">
-            <label class="field" style="margin-top:0">Invite by email</label>
-            <div style="display:flex;gap:8px"><input class="inp" value="office@tuj.temple.edu" style="flex:1"><button class="btn primary" style="width:auto;padding:14px 18px">Invite</button></div>
-            <div class="muted" style="margin-top:8px">🔒 Named-email invites only — no public links.</div>
-            <label class="field">Choose what they can see</label>
-            <div class="tog"><div class="n">City Hall paperwork</div><div class="sw on" onclick="this.classList.toggle('on')"></div></div>
-            <div class="tog"><div class="n">Work permit</div><div class="sw on" onclick="this.classList.toggle('on')"></div></div>
-            <div class="tog"><div class="n">Upcoming transitions</div><div class="sw on" onclick="this.classList.toggle('on')"></div></div>
-            <div class="tog"><div class="n">Housing &amp; bank</div><div class="sw" onclick="this.classList.toggle('on')"></div></div>
-          </div>
-          <div class="card">
-            <label class="field" style="margin-top:0">Shared with</label>
-            <div style="display:flex;align-items:center;justify-content:space-between">
-              <div><div style="font-weight:700;font-size:14px">🏫 Temple University Japan</div><div class="muted">3 sections + transitions · view-only</div></div>
-              <button class="btn ghost" style="width:auto;padding:11px 16px;color:var(--red);border-color:color-mix(in srgb,var(--red) 35%,transparent)" onclick="go('revoke')">Revoke</button>
-            </div>
-          </div>
-          <button class="btn soft" onclick="go('viewer')">👁 Preview exactly what they see</button>
-        </div>
-      </div>
-
-      <!-- REVOKE -->
-      <div class="view" id="v-revoke">
-        <div class="appbar"><button class="back" onclick="go('share')">‹</button><span class="ttl">Revoke</span><span style="width:24px"></span></div>
-        <div class="pad">
-          <div id="revC">
-            <h1 class="big serif">Stop sharing?</h1>
-            <p class="lede">You're about to remove access for <b>Temple University Japan</b>. They'll immediately lose sight of your dashboard and compliance score.</p>
-            <div class="note center">Don't worry — this isn't forever. You can invite them again whenever you like. 🙂</div>
-            <button class="btn danger" onclick="document.getElementById('revC').style.display='none';document.getElementById('revD').style.display='block';fireConfetti()">Yes, revoke access</button>
-            <button class="btn soft" onclick="go('share')">Keep sharing</button>
-          </div>
-          <div id="revD" style="display:none" class="center">
-            <div style="font-size:48px;margin:34px 0 6px">✅</div>
-            <h1 class="big serif">Done</h1>
-            <p class="lede">You're back in full control.</p>
-            <button class="btn primary" onclick="go('share')">Back</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- VIEWER -->
-      <div class="view" id="v-viewer">
-        <div class="vbanner">👁️ Viewing Jessie's dashboard · read-only</div>
-        <div class="appbar"><button class="back" onclick="go('share')">‹ Exit</button><span class="ttl">Viewer</span><span style="width:24px"></span></div>
-        <div class="pad">
-          <h1 class="big serif">Jessie Tan</h1>
-          <p class="lede">Student · visa expires Nov 16, 2026. This is the read-only view the university sees — only the sections Jessie chose to share.</p>
-          <div class="scoreCard"><div class="ring"><svg width="74" height="74" viewBox="0 0 74 74"><circle cx="37" cy="37" r="31" stroke="rgba(255,255,255,.16)" stroke-width="9" fill="none"/><circle cx="37" cy="37" r="31" stroke="#fff" stroke-width="9" fill="none" stroke-linecap="round" stroke-dasharray="195" stroke-dashoffset="57"/></svg><div class="lab"><b>71%</b><span>COMPLIANT</span></div></div><div><h3>Compliance</h3><p>Based on shared sections</p></div></div>
-          <div class="alert warn"><div style="font-size:18px">⏭️</div><div><div class="at">Coming up: graduating → status change</div><div class="ad">A shared transition — the university can offer help early.</div></div></div>
-          <div style="font-size:13px;font-weight:800;margin:6px 2px 10px">Shared sections</div>
-          <div class="task"><div class="chk on"><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg></div><div><div class="tt">City Hall paperwork</div><div class="td">4 / 6 complete · next: My Number card</div></div></div>
-          <div class="task"><div class="chk"><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg></div><div><div class="tt">Work permit</div><div class="td">0 / 1 complete</div></div></div>
-          <div class="note center">🔒 3 other sections are private and not shared with you.</div>
-        </div>
-      </div>
-
-      <!-- PROFILE (in-app) -->
-      <div class="view tabbed" id="v-profile-app">
-        <div class="appbar"><span class="ttl">Profile</span><span style="width:24px"></span></div>
-        <div class="pad">
-          <div style="display:flex;align-items:center;gap:14px;margin-bottom:8px">
-            <div class="avatar">JT</div>
-            <div><div style="font-weight:800;font-size:18px">Jessie Tan</div><div class="badge-ver" id="profVer" style="margin:5px 0 0">✓ Verified</div></div>
-          </div>
-          <div class="profrow" onclick="go('profile')"><div class="pi">👤</div><div><div style="font-weight:700;font-size:14px">My details</div></div></div>
-          <div class="profrow" onclick="go('share')"><div class="pi">🔗</div><div><div style="font-weight:700;font-size:14px">Sharing</div></div></div>
-          <div class="profrow" onclick="openSheet()"><div class="pi">🔄</div><div><div style="font-weight:700;font-size:14px">My situation</div></div></div>
-          <div class="profrow"><div class="pi">🔔</div><div style="flex:1"><div style="font-weight:700;font-size:14px">Reminders</div></div><div class="sw on" onclick="event.stopPropagation();this.classList.toggle('on')"></div></div>
-          <button class="btn soft" style="color:var(--red);margin-top:10px" onclick="go('signup')">Log out</button>
-        </div>
-      </div>
-
-    </div><!-- viewport -->
-
-    <!-- tab bar (single, fixed) -->
-    <div class="tabbar" id="tabbar"></div>
-
-    <!-- situation sheet -->
-    <div class="sheet-mask" id="sheetMask" onclick="closeSheet()"></div>
-    <div class="sheet" id="sheet">
-      <div class="grab"></div>
-      <h1 class="big serif" style="font-size:21px">What's changed?</h1>
-      <p class="lede">We'll reshape your dashboard.</p>
-      <div class="tile" onclick="pickMoment('settle')"><div class="ti">🛬</div><div><div class="tn">Settling in</div></div></div>
-      <div class="tile" onclick="pickMoment('renew')"><div class="ti">🛂</div><div><div class="tn">My visa is expiring</div></div></div>
-      <div class="tile" onclick="pickMoment('grad')"><div class="ti">🎓</div><div><div class="tn">Graduating with a job</div></div></div>
-    </div>
-  </div>
-</div>
-
-<!-- university desktop -->
-<div class="deskwrap" id="deskwrap">
-  <div class="desk">
-    <div class="dtop"><div style="font-weight:800">nyuu<span style="color:var(--orange)">ly</span> · University Admin</div><div style="font-size:13px;color:#9fb0d8">Temple University Japan · Global Office</div></div>
-    <div class="dbody">
-      <div class="dside"><div class="on">📊 Overview</div><div>👥 Students</div><div>🔔 Alerts</div><div>📑 Reports</div></div>
-      <div class="dmain">
-        <div style="font-size:18px;font-weight:800">Students who need attention</div>
-        <div class="muted" style="margin-bottom:14px">Sorted by risk · only students who shared with you.</div>
-        <div class="kpis">
-          <div class="kpi g"><div class="n">78</div><div class="l">On track</div></div>
-          <div class="kpi a"><div class="n">31</div><div class="l">At risk</div></div>
-          <div class="kpi r"><div class="n">11</div><div class="l">Critical</div></div>
-          <div class="kpi"><div class="n">120<span style="font-size:14px;color:var(--ink2)"> / 138</span></div><div class="l">Sharing</div></div>
-        </div>
-        <table>
-          <tr><th>Student</th><th>Score</th><th>Moment</th><th>Status</th><th></th></tr>
-          <tr><td>Chen Wei</td><td><b>34%</b></td><td>Settling in</td><td><span class="stat crit">Critical</span></td><td><button class="btn ghost" style="width:auto;padding:8px 13px">🔔 Nudge</button></td></tr>
-          <tr><td>Kim Minseo</td><td>61%</td><td>🎓 Graduating</td><td><span class="stat risk">At risk</span></td><td><button class="btn ghost" style="width:auto;padding:8px 13px">🔔 Nudge</button></td></tr>
-          <tr><td>Nguyen Anh Minh</td><td>92%</td><td>🛂 Renewing</td><td><span class="stat ok">On track</span></td><td><button class="btn ghost" style="width:auto;padding:8px 13px">🔔 Nudge</button></td></tr>
-          <tr><td>Rahman Aisha</td><td>88%</td><td>Settling in</td><td><span class="stat ok">On track</span></td><td><button class="btn ghost" style="width:auto;padding:8px 13px">🔔 Nudge</button></td></tr>
-        </table>
-        <div class="muted" style="margin-top:10px">You only see what students share. "Moment" shows each student's current life stage.</div>
-      </div>
-    </div>
-  </div>
-</div>
-</div>
-
-<!-- demo menu -->
-<div class="menu-mask" id="menuMask" onclick="closeMenu()"></div>
-<div class="menu" id="menu">
-  <div style="display:flex;justify-content:space-between;align-items:center"><b>Jump to a screen</b><button class="iconbtn" onclick="closeMenu()">✕</button></div>
-  <h4>Onboarding</h4>
-  <button class="mi" onclick="jump('signup')">Sign up · OTP</button>
-  <button class="mi" onclick="jump('setup')">Setup · scan card</button>
-  <button class="mi" onclick="jump('profile')">Profile</button>
-  <button class="mi" onclick="jump('journey')">Where are you?</button>
-  <h4>Adaptive dashboard</h4>
-  <button class="mi" onclick="jump('home','settle')">Home · Settling in</button>
-  <button class="mi" onclick="jump('home','renew')">Home · Visa renewal</button>
-  <button class="mi" onclick="jump('home','grad')">Home · Graduating → work</button>
-  <button class="mi" onclick="jump('section')">Section · City Hall</button>
-  <h4>Forms &amp; Decoder</h4>
-  <button class="mi" onclick="jump('fupload')">Fill a form</button>
-  <button class="mi" onclick="jump('freview')">Review</button>
-  <button class="mi" onclick="jump('foutput')">PDF output</button>
-  <button class="mi" onclick="jump('decoder')">Decoder</button>
-  <h4>Sharing</h4>
-  <button class="mi" onclick="jump('share')">Share</button>
-  <button class="mi" onclick="jump('revoke')">Revoke</button>
-  <button class="mi" onclick="jump('viewer')">Viewer</button>
-  <h4>Account</h4>
-  <button class="mi" onclick="jump('profile-app')">Profile / settings</button>
-  <h4>University (desktop)</h4>
-  <button class="mi" onclick="showDesk()">Master dashboard</button>
-</div>
-
-<script>
-var TABS=[
-  ['home','Home','<svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>'],
-  ['fupload','Forms','<svg viewBox="0 0 24 24"><path d="M14 3H6v18h12V8z"/><path d="M14 3v5h4"/><path d="M9 13h6M9 17h6"/></svg>'],
-  ['decoder','Decode','<svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>'],
-  ['profile-app','Profile','<svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M5 21c0-4 3.5-6 7-6s7 2 7 6"/></svg>']
-];
-var TABVIEWS=TABS.map(function(t){return t[0];});
-document.getElementById('tabbar').innerHTML=TABS.map(function(t){return '<div class="tab" data-go="'+t[0]+'">'+t[2]+'<span>'+t[1]+'</span></div>';}).join('');
-document.querySelectorAll('#tabbar .tab').forEach(function(tab){tab.onclick=function(){go(tab.getAttribute('data-go'));};});
-
-var current='home', verified=false;
-function go(id){
-  hideDesk();
-  var cur=document.querySelector('.view.active'); var next=document.getElementById('v-'+id);
-  if(!next) return;
-  if(cur&&cur!==next) cur.classList.remove('active');
-  next.classList.add('active'); next.scrollTop=0; current=id;
-  // single fixed tab bar
-  var bar=document.getElementById('tabbar');
-  var show=TABVIEWS.indexOf(id)>=0;
-  bar.classList.toggle('show',show);
-  document.querySelectorAll('#tabbar .tab').forEach(function(t){t.classList.toggle('on',t.getAttribute('data-go')===id);});
-  // transient resets
-  if(id==='revoke'){document.getElementById('revC').style.display='block';document.getElementById('revD').style.display='none';}
-  if(id==='decoder'){document.getElementById('decRes').style.display='none';document.getElementById('decScan').style.display='block';}
-}
-function jump(id,m){closeMenu();if(m)setMoment(m);go(id);}
-
-/* setup: scan vs manual */
-function chooseSetup(scan){
-  verified=scan;
-  if(scan){ loadThen('Reading your My Number Card…','profile',applyVerify); }
-  else { applyVerify(); go('profile'); }
-}
-function applyVerify(){
-  document.getElementById('verBadge').style.display=verified?'inline-flex':'none';
-  document.getElementById('verNudge').style.display=verified?'none':'flex';
-  document.getElementById('profVer').style.display=verified?'inline-flex':'none';
-}
-
-/* journey setup */
-var chosenMoment='settle';
-function selJourney(el){
-  document.querySelectorAll('#v-journey .tile').forEach(function(t){t.classList.remove('sel');});
-  el.classList.add('sel'); chosenMoment=el.getAttribute('data-moment');
-  document.getElementById('doneBlock').style.display = chosenMoment==='settle' ? 'block':'none';
-}
-function finishJourney(){ setMoment(chosenMoment); go('home'); }
-
-/* moments */
-function setMoment(m){
-  document.querySelectorAll('.moment-panel').forEach(function(p){p.style.display=p.getAttribute('data-m')===m?'block':'none';});
-  var notes={settle:'3 steps to 100%',renew:'Keep your score up while you renew',grad:'Finish before graduation'};
-  var sn=document.getElementById('scoreNote'); if(sn) sn.textContent=notes[m]||notes.settle;
-}
-function pickMoment(m){closeSheet();setMoment(m);go('home');}
-function openSheet(){document.getElementById('sheetMask').classList.add('show');document.getElementById('sheet').classList.add('show');}
-function closeSheet(){document.getElementById('sheetMask').classList.remove('show');document.getElementById('sheet').classList.remove('show');}
-
-/* ring + tasks */
-var R=31, CIRC=2*Math.PI*R;
-function setRing(pct){var a=document.getElementById('ringArc');if(a){a.setAttribute('stroke-dasharray',CIRC);a.setAttribute('stroke-dashoffset',CIRC*(1-pct/100));}var p=document.getElementById('ringPct');if(p)p.textContent=Math.round(pct)+'%';}
-function toggleTask(el){ el.classList.toggle('on'); recompute(); }
-function recompute(){
-  var list=document.getElementById('taskList'); if(!list)return;
-  var all=list.querySelectorAll('.chk'),d=0; all.forEach(function(c){if(c.classList.contains('on'))d++;});
-  var cc=document.getElementById('chCount'); if(cc)cc.textContent=d+'/'+all.length;
-  setRing(Math.round(45+(d/all.length)*55));
-}
-/* loading + confetti */
-function loadThen(txt,view,cb){var l=document.getElementById('loading');document.getElementById('loadingTxt').textContent=txt;l.classList.add('show');
-  setTimeout(function(){l.classList.remove('show');if(view)go(view);if(cb)cb();},1050);}
-function fireConfetti(){var c=document.getElementById('confetti'),cols=['#2A3CCA','#4a5cf0','#FFA555','#12b67a','#7c5cff'];
-  for(var i=0;i<60;i++){var d=document.createElement('div');d.className='cf';d.style.left=Math.random()*100+'%';d.style.background=cols[i%cols.length];
-  d.style.animationDuration=(2+Math.random()*1.5)+'s';d.style.animationDelay=(Math.random()*.4)+'s';c.appendChild(d);}
-  setTimeout(function(){c.innerHTML='';},3500);}
-
-/* menu + desktop */
-function openMenu(){document.getElementById('menuMask').classList.add('show');document.getElementById('menu').classList.add('show');}
-function closeMenu(){document.getElementById('menuMask').classList.remove('show');document.getElementById('menu').classList.remove('show');}
-function showDesk(){closeMenu();document.getElementById('deskwrap').classList.add('show');document.querySelector('.device').style.display='none';}
-function hideDesk(){var d=document.getElementById('deskwrap');if(d.classList.contains('show')){d.classList.remove('show');document.querySelector('.device').style.display='';}}
-
-/* guided demo */
-var demoSteps=[
-  function(){go('signup');},
-  function(){document.querySelector('#v-signup .btn.primary').click();},
-  function(){go('setup');},
-  function(){chooseSetup(true);},
-  function(){go('journey');},
-  function(){finishJourney();},
-  function(){go('section');},
-  function(){go('fupload');},
-  function(){loadThen('Loading template…','freview');},
-  function(){loadThen('Generating your PDF…','foutput',fireConfetti);},
-  function(){setMoment('renew');go('home');},
-  function(){setMoment('grad');go('home');},
-  function(){go('share');},
-  function(){go('viewer');}
-];
-var demoOn=false,demoT=null;
-function playDemo(){
-  if(demoOn){demoOn=false;clearTimeout(demoT);document.querySelector('.tbtn.play').textContent='▶ Play demo';return;}
-  demoOn=true;document.querySelector('.tbtn.play').textContent='⏸ Stop';var i=0;
-  (function step(){if(!demoOn||i>=demoSteps.length){demoOn=false;document.querySelector('.tbtn.play').textContent='▶ Play demo';return;}
-   demoSteps[i]();i++;demoT=setTimeout(step,1850);})();
-}
-
-/* init */
-setRing(71); setMoment('settle'); applyVerify(); go('home');
-</script>
-<!-- ============================================================
-     REAL MINATO MOVE-IN FORM FILLER (integrated)
-     Opens over the app when the user taps "Moving-in Notification".
-     Config paths (adjust if your repo names differ):
-============================================================ -->
-<div id="ff-overlay" style="position:fixed;inset:0;background:#0c1020;color:#eef1f8;z-index:9999;display:none;flex-direction:column;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif">
-  <div style="display:flex;align-items:center;gap:10px;padding:11px 16px;background:#111731;border-bottom:1px solid #26304b;flex-wrap:wrap">
-    <b style="font-size:14px">🗾 Minato Moving-in form · auto-filled</b>
-    <span style="flex:1"></span>
-    <span style="font-size:12px;color:#9fb0d8">Student</span>
-    <select id="ff-student" style="background:#1b2340;color:#fff;border:1px solid #33406a;border-radius:9px;padding:7px 9px;font-size:13px"></select>
-    <span style="font-size:12px;color:#9fb0d8">pt</span>
-    <input type="number" id="ff-fsize" value="10" min="6" max="20" step="0.5" style="width:58px;background:#1b2340;color:#fff;border:1px solid #33406a;border-radius:9px;padding:7px 8px;font-size:13px">
-    <button id="ff-reset" style="background:#232c4d;color:#fff;border:0;border-radius:9px;padding:8px 12px;font-size:13px;font-weight:700;cursor:pointer">Reset</button>
-    <button id="ff-copy" style="background:#232c4d;color:#fff;border:0;border-radius:9px;padding:8px 12px;font-size:13px;font-weight:700;cursor:pointer">Copy layout</button>
-    <button id="ff-dl" disabled style="background:#2A3CCA;color:#fff;border:0;border-radius:9px;padding:8px 14px;font-size:13px;font-weight:700;cursor:pointer">⬇ Download PDF</button>
-    <button onclick="closeFiller()" style="background:#232c4d;color:#fff;border:0;border-radius:9px;padding:8px 12px;font-size:13px;font-weight:700;cursor:pointer">✕ Close</button>
-  </div>
-  <div id="ff-status" style="padding:7px 16px;font-size:12.5px;color:#9fb0d8;background:#0e1430">Loading…</div>
-  <div id="ff-pdfpick" style="display:none;padding:8px 16px;background:#0e1430;color:#ffd27a;font-size:12px;gap:8px;align-items:center">Couldn't auto-load the PDF — choose <b>&nbsp;jyuminidotodokejapanese.pdf&nbsp;</b>: <input type="file" id="ff-pdffile" accept="application/pdf"></div>
-  <div id="ff-fontpick" style="display:none;padding:8px 16px;background:#0e1430;color:#ffd27a;font-size:12px;gap:8px;align-items:center">Couldn't auto-load the font — choose a <b>&nbsp;NotoSansJP .ttf&nbsp;</b> (static Regular is safest): <input type="file" id="ff-fontfile" accept=".ttf,.otf"></div>
-  <div style="flex:1;display:flex;gap:12px;padding:12px;overflow:auto;align-items:flex-start">
-    <div style="width:250px;flex-shrink:0;background:#111731;border:1px solid #26304b;border-radius:12px;padding:11px;max-height:100%;overflow:auto">
-      <div style="font-size:11px;letter-spacing:.5px;color:#8ea0cf;text-transform:uppercase;margin-bottom:8px">Fields — tick, edit, drag onto the form</div>
-      <div id="ff-fieldlist"></div>
-    </div>
-    <div style="flex:1;background:#1b2340;border-radius:12px;padding:10px;overflow:auto">
-      <div id="ff-canvasbox" style="position:relative;display:inline-block;background:#fff">
-        <canvas id="ff-canvas"></canvas>
-        <div id="ff-ov" style="position:absolute;inset:0"></div>
-      </div>
-    </div>
-  </div>
-  <a id="ff-a" style="display:none"></a>
-</div>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@pdf-lib/fontkit@1.1.1/dist/fontkit.umd.min.js"></script>
-<script>
-/* ==== paths in your repo (change if names differ) ==== */
-var FF_PDF  = "jyuminidotodokejapanese.pdf";
-var FF_FONT = "NotoSansJP-VariableFont_wght.ttf";  // a static NotoSansJP-Regular.ttf is safest
-
-var FF_STUDENTS=[
- { name:"Smith John (USA)", f:{
-   notifDate:"2026年7月1日", moveDate:"2026年6月26日", arrival:"2026年6月25日",
-   furigana:"スミス ジョン", nameRoman:"Smith John", dob:"2002年5月15日", gender:"男",
-   nationality:"アメリカ", newAddr:"東京都港区芝公園4-2-8", oldAddr:"123 Main Street, New York, NY, USA",
-   householder:"スミス ジョン", applicant:"世帯主", relation:"世帯主", school:"Temple University, Japan Campus" } },
- { name:"Kim Min-ji (South Korea)", f:{
-   notifDate:"2026年7月1日", moveDate:"2026年6月24日", arrival:"2026年6月22日",
-   furigana:"キム ミンジ", nameRoman:"Kim Min-ji", dob:"2003年11月20日", gender:"女",
-   nationality:"韓国", newAddr:"東京都港区六本木6-10-1", oldAddr:"456 Sejong-daero, Jongno-gu, Seoul, South Korea",
-   householder:"キム ミンジ", applicant:"世帯主", relation:"世帯主", school:"Temple University, Japan Campus" } }
-];
-var FF_FIELDS=[
- ["notifDate","届出日"],["moveDate","異動日"],["arrival","入国日"],["furigana","フリガナ"],
- ["nameRoman","氏名"],["dob","生年月日"],["gender","性別"],["nationality","国籍"],
- ["newAddr","新住所"],["oldAddr","旧住所"],["householder","世帯主"],["applicant","届出人区分"],
- ["relation","続柄"],["school","学校名"]
-];
-var FF_DEF={}; FF_FIELDS.forEach(function(fd,i){ FF_DEF[fd[0]]={x:130,y:80+i*28}; });
-
-var ffBooted=false, ffPdf=null, ffFont=null, ffScale=1, ffPtW=0, ffPtH=0;
-var ffPOS=JSON.parse(JSON.stringify(FF_DEF));
-var ffEnabled={}; FF_FIELDS.forEach(function(fd){ffEnabled[fd[0]]=true;});
-var ffVals={};
-function ffStat(t,e){var s=document.getElementById('ff-status');s.textContent=t;s.style.color=e?'#ffb4b4':'#9fb0d8';}
-
-function openFiller(){
-  document.getElementById('ff-overlay').style.display='flex';
-  if(!ffBooted){ ffBooted=true; ffBoot(); }
-}
-function closeFiller(){ document.getElementById('ff-overlay').style.display='none'; }
-
-async function ffTry(p){ try{var r=await fetch(p); if(!r.ok)throw 0; return await r.arrayBuffer();}catch(e){return null;} }
-async function ffBoot(){
-  if(typeof pdfjsLib!=="undefined") pdfjsLib.GlobalWorkerOptions.workerSrc="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
-  ffStat("Loading the Minato form…");
-  ffPdf=await ffTry(FF_PDF);
-  if(!ffPdf){ document.getElementById('ff-pdfpick').style.display='flex'; ffStat("Please choose the PDF file.",true); }
-  ffFont=await ffTry(FF_FONT);
-  if(!ffFont){ document.getElementById('ff-fontpick').style.display='flex'; }
-  ffLoadStudent();
-  if(ffPdf) await ffRender();
-  ffDlState();
-}
-document.getElementById('ff-pdffile').onchange=async function(e){ ffPdf=await e.target.files[0].arrayBuffer(); document.getElementById('ff-pdfpick').style.display='none'; await ffRender(); ffDlState(); };
-document.getElementById('ff-fontfile').onchange=async function(e){ ffFont=await e.target.files[0].arrayBuffer(); document.getElementById('ff-fontpick').style.display='none'; ffDlState(); };
-
-async function ffRender(){
-  ffStat("Rendering form…");
-  var doc=await pdfjsLib.getDocument({data:ffPdf.slice(0)}).promise;
-  var page=await doc.getPage(1);
-  var base=page.getViewport({scale:1}); ffPtW=base.width; ffPtH=base.height;
-  ffScale=Math.min(1.4, 1000/base.width);
-  var vp=page.getViewport({scale:ffScale});
-  var cv=document.getElementById('ff-canvas'); cv.width=vp.width; cv.height=vp.height;
-  var ov=document.getElementById('ff-ov'); ov.style.width=vp.width+'px'; ov.style.height=vp.height+'px';
-  await page.render({canvasContext:cv.getContext('2d'),viewport:vp}).promise;
-  ffStat("Ready. Drag the yellow chips onto the form, then Download PDF.");
-  ffChips();
-}
-function ffDlState(){ document.getElementById('ff-dl').disabled=!(ffPdf&&ffFont); }
-
-var ffSel=document.getElementById('ff-student');
-FF_STUDENTS.forEach(function(s,i){var o=document.createElement('option');o.value=i;o.textContent=s.name;ffSel.appendChild(o);});
-ffSel.onchange=ffLoadStudent;
-function ffLoadStudent(){ ffVals=Object.assign({},FF_STUDENTS[ffSel.value].f); ffList(); ffChips(); }
-function ffList(){
-  var box=document.getElementById('ff-fieldlist'); box.innerHTML='';
-  FF_FIELDS.forEach(function(fd){var k=fd[0];
-    var row=document.createElement('div'); row.style.cssText='display:flex;align-items:center;gap:7px;margin-bottom:6px';
-    row.innerHTML='<input type="checkbox" '+(ffEnabled[k]?'checked':'')+' style="width:15px;height:15px"><span style="width:64px;font-size:11px;color:#9fb0d8">'+fd[1]+'</span><input value="'+(ffVals[k]||'').replace(/"/g,'&quot;')+'" style="flex:1;min-width:0;background:#1b2340;color:#fff;border:1px solid #33406a;border-radius:7px;padding:5px 7px;font-size:12px">';
-    row.querySelector('input[type=checkbox]').onchange=function(e){ffEnabled[k]=e.target.checked;ffChips();};
-    row.querySelector('input:not([type=checkbox])').oninput=function(e){ffVals[k]=e.target.value;var c=document.querySelector('#ff-ov .ffchip[data-k="'+k+'"]');if(c)c.firstChild.textContent=e.target.value;};
-    box.appendChild(row);
-  });
-}
-function ffChips(){
-  var ov=document.getElementById('ff-ov'); if(!ov)return; ov.innerHTML='';
-  var fs=parseFloat(document.getElementById('ff-fsize').value)*ffScale;
-  FF_FIELDS.forEach(function(fd){var k=fd[0]; if(!ffEnabled[k])return;
-    var c=document.createElement('div'); c.className='ffchip'; c.dataset.k=k;
-    c.style.cssText='position:absolute;color:#000;white-space:nowrap;cursor:grab;user-select:none;line-height:1;background:rgba(255,235,120,.35);border:1px dashed rgba(180,140,0,.55);padding:1px 2px;border-radius:3px;font-family:sans-serif';
-    c.style.left=(ffPOS[k]?ffPOS[k].x:130)+'px'; c.style.top=(ffPOS[k]?ffPOS[k].y:90)+'px'; c.style.fontSize=fs+'px';
-    c.appendChild(document.createTextNode(ffVals[k]||''));
-    ov.appendChild(c); ffDrag(c,k);
-  });
-}
-document.getElementById('ff-fsize').oninput=ffChips;
-function ffDrag(c,k){var sx,sy,ox,oy,d=false;
-  c.addEventListener('mousedown',function(e){d=true;c.style.background='rgba(120,190,255,.45)';sx=e.clientX;sy=e.clientY;ox=parseFloat(c.style.left);oy=parseFloat(c.style.top);e.preventDefault();});
-  window.addEventListener('mousemove',function(e){if(!d)return;var nx=ox+(e.clientX-sx),ny=oy+(e.clientY-sy);c.style.left=nx+'px';c.style.top=ny+'px';ffPOS[k]={x:nx,y:ny};});
-  window.addEventListener('mouseup',function(){if(d){d=false;c.style.background='rgba(255,235,120,.35)';}});
-}
-document.getElementById('ff-reset').onclick=function(){ffPOS=JSON.parse(JSON.stringify(FF_DEF));ffChips();};
-document.getElementById('ff-copy').onclick=function(){navigator.clipboard.writeText(JSON.stringify(ffPOS));ffStat("Layout copied — paste it back to lock these positions.");};
-
-document.getElementById('ff-dl').onclick=async function(){
-  try{
-    ffStat("Building filled PDF…");
-    var doc=await PDFLib.PDFDocument.load(ffPdf.slice(0));
-    doc.registerFontkit(fontkit);
-    var font; try{font=await doc.embedFont(ffFont.slice(0),{subset:true});}catch(e){font=await doc.embedFont(ffFont.slice(0),{subset:false});}
-    var page=doc.getPages()[0];
-    var fs=parseFloat(document.getElementById('ff-fsize').value);
-    FF_FIELDS.forEach(function(fd){var k=fd[0]; if(!ffEnabled[k])return; var v=ffVals[k]; if(!v)return;
-      var p=ffPOS[k]||FF_DEF[k];
-      page.drawText(v,{x:p.x/ffScale,y:ffPtH-(p.y/ffScale)-fs*0.82,size:fs,font:font,color:PDFLib.rgb(0,0,0)});
-    });
-    var bytes=await doc.save();
-    var a=document.getElementById('ff-a'); a.href=URL.createObjectURL(new Blob([bytes],{type:'application/pdf'}));
-    a.download='minato_movein_'+FF_STUDENTS[ffSel.value].name.split(' ')[0]+'.pdf'; a.click();
-    ffStat("Done ✓ Filled PDF downloaded.");
-  }catch(err){ ffStat("Error: "+err.message+" — if it mentions the font, use a static NotoSansJP-Regular.ttf.",true); }
-};
-</script>
-
-</body>
-</html>
+            <div class="note center">Not sure we got it right? <span class="link">Ask a human ·
