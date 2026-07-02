@@ -9,9 +9,15 @@
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{
-  --blue:#2A3CCA; --blue2:#4a5cf0; --navy:#0c1a44;
-  --orange:#FFA555; --green:#12b67a; --red:#e5556a; --amber:#dd9038; --purple:#7c5cff;
+  /* Nyuuly_BrandBook.pdf v1.0 — A3-01 Brand color / UI palette */
+  --blue:#2A3CCA; --blue2:#366CFF; --navy:#051C58;
+  --blue-light:#C9DBFF; --blue-lighter:#E0E9F8;
+  --orange:#FFA555; --orange-light:#FFE7D9;
+  --green:#02B93C; --green-light:#D5FBE4;
+  --red:#A70000; --red-light:#FFE2E2;
+  --yellow:#FFD755; --amber:#FFD755; --purple:#7c5cff;
   --ink:#1d2433; --ink2:#828a9c; --line:#edf0f6; --surface:#ffffff; --surface2:#f6f8fc;
+  --gray-900:#171717; --gray-600:#818181; --gray-200:#E7E7E7;
   --shadow:0 12px 34px rgba(20,30,70,.10); --shadow-sm:0 4px 16px rgba(20,30,70,.06);
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -104,9 +110,9 @@ svg.ic{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:2;strok
 
 /* next-step hero */
 .hero{border-radius:22px;padding:20px;margin-bottom:14px;color:#fff;box-shadow:var(--shadow);position:relative;overflow:hidden}
-.hero.settle{background:linear-gradient(130deg,#12b67a,#0c9460)}
-.hero.renew{background:linear-gradient(130deg,#e5556a,#c23a52)}
-.hero.grad{background:linear-gradient(130deg,#7c5cff,#5a37e0)}
+.hero.settle{background:linear-gradient(130deg,var(--green),#029130)}
+.hero.renew{background:linear-gradient(130deg,var(--red),#7a0000)}
+.hero.grad{background:linear-gradient(130deg,var(--purple),#5a37e0)}
 .hero .nowtag{font-size:11px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;opacity:.92}
 .hero h2{font-size:21px;margin:7px 0 5px;font-weight:800;letter-spacing:-.3px}
 .hero .hd{font-size:13px;opacity:.95;line-height:1.45;margin:0 0 12px}
@@ -126,7 +132,7 @@ svg.ic{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:2;strok
 .gnode:hover{background:var(--surface)}
 .gnode .bub{width:48px;height:48px;border-radius:16px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:21px;
   border:2px solid var(--line);background:var(--surface);box-shadow:var(--shadow-sm);position:relative;z-index:2}
-.gnode.done .bub{background:linear-gradient(135deg,var(--green),#0c9460);border-color:transparent}
+.gnode.done .bub{background:linear-gradient(135deg,var(--green),#029130);border-color:transparent}
 .gnode.now .bub{background:linear-gradient(135deg,var(--blue),var(--blue2));border-color:transparent;box-shadow:0 0 0 5px color-mix(in srgb,var(--blue) 20%,transparent)}
 .gnode.lock .bub{opacity:.55}
 .gnode .gl{font-size:14.5px;font-weight:700}
@@ -143,9 +149,10 @@ svg.ic{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:2;strok
 .task .tt{font-size:14.5px;font-weight:700}
 .task .td{font-size:12px;color:var(--ink2);margin-top:3px;line-height:1.45}
 .tag{font-size:10px;font-weight:800;padding:3px 9px;border-radius:30px;text-transform:uppercase;letter-spacing:.4px;display:inline-block;margin-top:7px}
-.tag.must{background:color-mix(in srgb,var(--red) 14%,transparent);color:var(--red)}
-.tag.rec{background:color-mix(in srgb,var(--blue) 13%,transparent);color:var(--blue)}
+.tag.must{background:var(--red-light);color:var(--red)}
+.tag.rec{background:var(--blue-lighter);color:var(--blue2)}
 .tag.opt{background:var(--surface2);color:var(--ink2)}
+.tag.inferred{opacity:.7;cursor:help}
 .note{font-size:12px;color:var(--ink2);background:var(--surface2);border-radius:14px;padding:13px;line-height:1.5;margin-bottom:14px}
 
 /* toggles */
@@ -188,6 +195,34 @@ svg.ic{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:2;strok
 .tab svg{width:23px;height:23px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .tab.on{color:var(--blue)}
 
+/* section prev/next nav (single, fixed — sibling of tabbar, not scrolled content) */
+.view.hasnav{padding-bottom:88px}
+.secnav{position:absolute;left:10px;right:10px;bottom:10px;z-index:30;display:none;align-items:center;gap:8px}
+.secnav.show{display:flex}
+.secnav .navarrow{width:52px;height:52px;border-radius:50%;background:var(--surface);border:1px solid var(--line);
+  box-shadow:var(--shadow);display:flex;align-items:center;justify-content:center;font-size:21px;font-weight:800;
+  color:var(--blue);cursor:pointer;flex-shrink:0;transition:.15s}
+.secnav .navarrow:active{transform:scale(.92)}
+.secnav .navarrow.disabled{opacity:.32;pointer-events:none;color:var(--ink2)}
+.secnav .navmap{flex:1;height:46px;border-radius:23px;background:color-mix(in srgb,var(--surface) 94%,transparent);
+  backdrop-filter:blur(16px);border:1px solid var(--line);box-shadow:var(--shadow-sm);display:flex;align-items:center;
+  justify-content:center;gap:6px;font-size:12.5px;font-weight:800;color:var(--navy);cursor:pointer;white-space:nowrap}
+
+/* celebration pop-up (balloons + confetti) */
+.sg-celebrate-mask{position:absolute;inset:0;background:rgba(10,18,44,.5);opacity:0;pointer-events:none;transition:.25s;z-index:90}
+.sg-celebrate-mask.show{opacity:1;pointer-events:auto}
+.sg-celebrate{position:absolute;left:50%;top:50%;transform:translate(-50%,-42%) scale(.85);width:82%;max-width:300px;
+  background:var(--surface);border-radius:26px;padding:26px 22px 22px;text-align:center;box-shadow:0 30px 60px rgba(10,18,44,.4);
+  z-index:91;opacity:0;pointer-events:none;transition:transform .38s cubic-bezier(.34,1.56,.64,1),opacity .3s}
+.sg-celebrate.show{transform:translate(-50%,-50%) scale(1);opacity:1;pointer-events:auto}
+.sg-celebrate .emoji{font-size:52px;line-height:1;margin-bottom:6px;display:inline-block;animation:sgPop .6s cubic-bezier(.34,1.56,.64,1)}
+.sg-celebrate h2{font-size:19px;margin:4px 0 6px;font-weight:800;color:var(--navy)}
+.sg-celebrate p{font-size:13px;color:var(--ink2);line-height:1.5;margin:0 0 18px}
+@keyframes sgPop{0%{transform:scale(0) rotate(-15deg)}60%{transform:scale(1.25) rotate(8deg)}100%{transform:scale(1) rotate(0)}}
+.balloons{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:89}
+.bln{position:absolute;bottom:-60px;font-size:30px;animation:blnUp linear forwards}
+@keyframes blnUp{to{transform:translateY(-780px) translateX(var(--drift,0px)) rotate(var(--rot,0deg));opacity:.15}}
+
 /* sheet */
 .sheet-mask{position:absolute;inset:0;background:rgba(10,18,44,.46);opacity:0;pointer-events:none;transition:.3s;z-index:70}
 .sheet-mask.show{opacity:1;pointer-events:auto}
@@ -216,7 +251,7 @@ svg.ic{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:2;strok
 .dmain{flex:1;padding:22px;background:var(--surface2);min-width:0}
 .kpis{display:flex;gap:13px;margin-bottom:16px;flex-wrap:wrap}
 .kpi{flex:1;min-width:120px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:15px}
-.kpi .n覆{font-size:27px;font-weight:800}.kpi .l{font-size:12px;color:var(--ink2)}
+.kpi .n{font-size:27px;font-weight:800}.kpi .l{font-size:12px;color:var(--ink2)}
 .kpi.g .n{color:var(--green)}.kpi.a .n{color:var(--amber)}.kpi.r .n{color:var(--red)}
 table{width:100%;border-collapse:collapse;background:var(--surface);border:1px solid var(--line);border-radius:13px;overflow:hidden;font-size:13px}
 th{text-align:left;background:var(--surface2);padding:11px 13px;font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--ink2)}
@@ -241,8 +276,8 @@ td{padding:12px 13px;border-top:1px solid var(--line)}
 
 <div class="pagehead">
   <div class="brandrow">
-    <svg width="25" height="25" viewBox="0 0 100 100"><path d="M20 82 L46 41 a5 5 0 0 1 8 0 L80 82" fill="none" stroke="#2A3CCA" stroke-width="21" stroke-linecap="round" stroke-linejoin="round"/><circle cx="75" cy="29" r="15" fill="#FFA555"/></svg>
-    nyuu<span style="color:var(--orange)">ly</span> Compass 2.0 <span class="sub">Prototype</span>
+    <svg width="25" height="25" viewBox="0 0 165 105"><path fill="#2A3CCA" d="M127.546875 70.566407 L67.937500 6.195313 C64.160156 2.125000 58.972656 0.140625 53.820312 0.250000 C53.574219 0.250000 53.363281 0.285157 53.117187 0.285157 C52.375000 0.320313 51.667969 0.355469 50.960937 0.460938 C48.667969 0.812500 46.410156 1.593750 44.328125 2.867188 C43.691406 3.292969 43.164062 3.789063 42.597656 4.246094 C42.210937 4.566407 41.750000 4.812500 41.398437 5.167969 C41.328125 5.203125 41.292969 5.273438 41.257812 5.343750 C40.835937 5.769531 40.480469 6.195313 40.128906 6.652344 C39.597656 7.289063 39.035156 7.890625 38.609375 8.566407 C38.433593 8.847657 38.292969 9.132813 38.117187 9.449219 C37.550781 10.371094 37.093750 11.359375 36.703125 12.351563 C36.667969 12.421875 36.632812 12.527344 36.632812 12.597657 C34.304687 19.003907 35.328125 26.507813 40.269531 31.851563 C41.187500 33.160157 42.210937 36.308594 42.210937 38.824219 C42.210937 42.890625 40.023437 49.332031 32.753906 51.667969 C31.480469 52.058594 29.222656 52.375000 27.351562 52.164063 C22.835937 51.667969 17.929687 52.304688 12.671875 55.312500 C6.035156 59.136719 1.128906 65.824219 0.175781 73.433594 C0.000000 74.777344 0.000000 76.050781 0.035156 77.363281 C0.035156 77.539063 0.000000 77.679688 0.000000 77.855469 C0.000000 91.445313 10.976562 102.453125 24.527343 102.453125 C38.082031 102.453125 49.058593 91.445313 49.058593 77.855469 C49.058593 77.750000 49.023437 77.609375 49.023437 77.503907 C48.843750 76.476563 48.773437 75.769531 48.738281 74.953125 C48.667969 69.257813 51.808593 64.867188 55.796875 62.746094 C57.773437 61.683594 59.855469 61.257813 61.761719 61.187500 L62.152343 61.187500 C66.351562 61.257813 69.632812 63.027344 72.171875 65.929688 L99.242187 95.871094 C100.371093 97.109375 101.640625 98.136719 103.019531 99.019531 C110.640625 104.929688 121.828125 104.257813 128.605469 96.542969 C135.097656 89.144531 134.214843 77.785157 127.546875 70.566407 Z"/><path fill="#FFA555" d="M140.101562 49.613281 C153.765625 49.613281 164.839843 38.507813 164.839843 24.808594 C164.839843 11.105469 153.765625 0.000000 140.101562 0.000000 C126.437500 0.000000 115.363281 11.105469 115.363281 24.808594 C115.363281 38.507813 126.437500 49.613281 140.101562 49.613281 Z"/></svg>
+    nyu<span style="color:var(--orange)">u</span>ly Compass 2.0 <span class="sub">Prototype</span>
   </div>
   <div class="toolbar">
     <button class="tbtn play" onclick="playDemo()">▶ Play demo</button>
@@ -260,9 +295,10 @@ td{padding:12px 13px;border-top:1px solid var(--line)}
 
     <div class="viewport" id="viewport">
 
+      <!-- SIGN UP -->
       <div class="view" id="v-signup">
         <div class="pad" style="padding-top:34px">
-          <div style="font-weight:800;font-size:22px;margin-bottom:24px">nyuu<span style="color:var(--orange)">ly</span></div>
+          <div style="font-weight:800;font-size:22px;margin-bottom:24px">nyu<span style="color:var(--orange)">u</span>ly</div>
           <h1 class="big serif">Welcome 👋</h1>
           <p class="lede">Sign in with a one-time code — no password to remember. Save your progress, fill your Japanese forms, and settle in with confidence.</p>
           <div class="card">
@@ -286,6 +322,7 @@ td{padding:12px 13px;border-top:1px solid var(--line)}
         </div>
       </div>
 
+      <!-- SETUP CHOICE -->
       <div class="view" id="v-setup">
         <div class="appbar"><button class="back" onclick="go('signup')">‹</button><span class="muted" style="font-weight:700">Set up · 1 of 3</span><span style="width:24px"></span></div>
         <div class="pad">
@@ -304,6 +341,7 @@ td{padding:12px 13px;border-top:1px solid var(--line)}
         </div>
       </div>
 
+      <!-- PROFILE -->
       <div class="view" id="v-profile">
         <div class="appbar"><button class="back" onclick="go('setup')">‹</button><span class="muted" style="font-weight:700">Set up · 2 of 3</span><span style="width:24px"></span></div>
         <div class="pad">
@@ -326,6 +364,7 @@ td{padding:12px 13px;border-top:1px solid var(--line)}
         </div>
       </div>
 
+      <!-- JOURNEY SETUP -->
       <div class="view" id="v-journey">
         <div class="appbar"><button class="back" onclick="go('profile')">‹</button><span class="muted" style="font-weight:700">Set up · 3 of 3</span><span style="width:24px"></span></div>
         <div class="pad">
@@ -347,6 +386,7 @@ td{padding:12px 13px;border-top:1px solid var(--line)}
         </div>
       </div>
 
+      <!-- HOME (adaptive) -->
       <div class="view tabbed" id="v-home">
         <div class="appbar">
           <div><div class="muted" style="font-weight:700">Tue, 23 June</div><div class="ttl" style="font-size:18px">Hi Jessie 👋</div></div>
@@ -361,15 +401,16 @@ td{padding:12px 13px;border-top:1px solid var(--line)}
             <div><h3>Compliance</h3><p id="scoreNote">71% — 3 mandatory items left to reach 100%</p></div>
           </div>
 
+          <!-- moment panels -->
           <div class="moment-panel" data-m="settle">
             <div class="hero settle">
               <div class="nowtag">⚡ Your next step</div>
-              <h2>Register at City Hall</h2>
-              <p class="hd">You moved in 12 days ago. You must register your address within 14 days — it unlocks insurance, pension, a bank account and more.</p>
-              <div class="due">⏰ Due in 2 days · 🏛️ Shinjuku City Office</div>
-              <button class="heroBtn" onclick="go('section')">Show me how →</button>
+              <h2 id="settleNextTitle">Register at City Hall</h2>
+              <p class="hd" id="settleNextDesc">Loading your journey…</p>
+              <div class="due" id="settleNextDue">Student journey · Before &amp; after arrival</div>
+              <button class="heroBtn" id="settleNextBtn" onclick="go('journeymap')">Show me how →</button>
             </div>
-            <div class="jrow" onclick="go('section')"><div class="ji">🗺️</div><div style="flex:1"><div style="font-weight:700;font-size:14px">Your journey · 2 of 6 stages done</div><div class="jbar"><i style="width:33%"></i></div></div><span style="color:var(--blue);font-weight:800">›</span></div>
+            <div class="jrow" onclick="go('journeymap')"><div class="ji">🗺️</div><div style="flex:1"><div style="font-weight:700;font-size:14px" id="settleJrowText">Your journey · 0 of 10 phases done</div><div class="jbar"><i id="settleJrowBar" style="width:0%"></i></div></div><span style="color:var(--blue);font-weight:800">›</span></div>
           </div>
 
           <div class="moment-panel" data-m="renew" style="display:none">
@@ -398,24 +439,65 @@ td{padding:12px 13px;border-top:1px solid var(--line)}
         </div>
       </div>
 
-      <div class="view" id="v-section">
-        <div class="appbar"><button class="back" onclick="go('home')">‹</button><span class="ttl">City Hall</span><span class="muted" style="font-weight:700" id="chCount">4/6</span></div>
+      <!-- JOURNEY MAP — full Student journey (Students.docx, Part 1 + Part 2) -->
+      <div class="view" id="v-journeymap">
+        <div class="appbar"><button class="back" onclick="go('home')">‹</button><span class="ttl">Your journey</span><span class="muted" style="font-weight:700" id="jmCount">0/10</span></div>
         <div class="pad">
-          <h1 class="big serif">City Hall paperwork</h1>
-          <p class="lede">Do these within 2 weeks of deciding your address. Only <b>Mandatory</b> items count toward your compliance score — tick each off as you go.</p>
-          <div id="taskList">
-            <div class="task"><div class="chk on" onclick="toggleTask(this)"><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg></div><div><div class="tt">Register your residency (Jūmin Tōroku)</div><div class="td">Staff update the address on the back of your Residence Card the same day.</div><span class="tag must">Mandatory</span></div></div>
-            <div class="task"><div class="chk on" onclick="toggleTask(this)"><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg></div><div><div class="tt">Decide your katakana name</div><div class="td">Needed for your pension and bank account. Save it so you don't have to fix mistakes later.</div><span class="tag rec">Recommended</span></div></div>
-            <div class="task"><div class="chk" onclick="toggleTask(this)"><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg></div><div><div class="tt">Receive your My Number notice</div><div class="td">Keep the 12-digit number safe; apply for the physical card online afterwards.</div><span class="tag must">Mandatory</span></div></div>
-            <div class="task"><div class="chk on" onclick="toggleTask(this)"><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg></div><div><div class="tt">Request a Certificate of Residence</div><div class="td">Official proof of your registered address (Jūminhyō) — handy for many sign-ups.</div><span class="tag rec">Recommended</span></div></div>
-            <div class="task"><div class="chk" onclick="toggleTask(this)"><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg></div><div><div class="tt">Confirm health insurance &amp; pension</div><div class="td">If your sponsor enrols you in Shakai Hoken, you don't enrol here — just confirm it.</div><span class="tag rec">Recommended</span></div></div>
-            <div class="task"><div class="chk on" onclick="toggleTask(this)"><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg></div><div><div class="tt">Prepare the documents to bring</div><div class="td">Residence Card, passport, and your school's address.</div><span class="tag opt">Optional</span></div></div>
-          </div>
-          <button class="btn primary" onclick="go('fupload')">📄 Fill the Moving-in Notification</button>
+          <h1 class="big serif">nyu<span style="color:var(--orange)">u</span>ly Compass, for Students</h1>
+          <p class="lede">A warm, simple guide for starting your new life in Japan. Tap any stage to see its steps — only <b>Mandatory</b> items count toward your compliance score.</p>
+          <div style="font-size:12px;font-weight:800;color:var(--ink2);letter-spacing:.4px;margin:4px 2px 6px">PART 1 — BEFORE ARRIVAL</div>
+          <div class="gmap" id="gmapPart1"></div>
+          <div style="font-size:12px;font-weight:800;color:var(--ink2);letter-spacing:.4px;margin:18px 2px 6px">PART 2 — AFTER ARRIVAL</div>
+          <div class="gmap" id="gmapPart2"></div>
           <button class="btn soft" onclick="go('home')">Back to home</button>
         </div>
       </div>
 
+      <!-- SECTION: Part 1 phases -->
+      <div class="view hasnav" id="v-sec-school">
+        <div class="appbar"><button class="back" onclick="go('journeymap')">‹</button><span class="ttl">School Phase</span><span class="muted" style="font-weight:700" id="cnt-school">0/4</span></div>
+        <div class="pad" id="pad-school"></div>
+      </div>
+      <div class="view hasnav" id="v-sec-visa">
+        <div class="appbar"><button class="back" onclick="go('journeymap')">‹</button><span class="ttl">Visa Application</span><span class="muted" style="font-weight:700" id="cnt-visa">0/3</span></div>
+        <div class="pad" id="pad-visa"></div>
+      </div>
+      <div class="view hasnav" id="v-sec-travelprep">
+        <div class="appbar"><button class="back" onclick="go('journeymap')">‹</button><span class="ttl">Travel Preparation</span><span class="muted" style="font-weight:700" id="cnt-travelprep">0/2</span></div>
+        <div class="pad" id="pad-travelprep"></div>
+      </div>
+
+      <!-- SECTION: Part 2 phases -->
+      <div class="view hasnav" id="v-sec-airport">
+        <div class="appbar"><button class="back" onclick="go('journeymap')">‹</button><span class="ttl">Arrival at Airport</span><span class="muted" style="font-weight:700" id="cnt-airport">0/3</span></div>
+        <div class="pad" id="pad-airport"></div>
+      </div>
+      <div class="view hasnav" id="v-sec-housing">
+        <div class="appbar"><button class="back" onclick="go('journeymap')">‹</button><span class="ttl">Finding Your New Home</span><span class="muted" style="font-weight:700" id="cnt-housing">0/6</span></div>
+        <div class="pad" id="pad-housing"></div>
+      </div>
+      <div class="view hasnav" id="v-sec-cityhall">
+        <div class="appbar"><button class="back" onclick="go('journeymap')">‹</button><span class="ttl">City Hall</span><span class="muted" style="font-weight:700" id="cnt-cityhall">0/6</span></div>
+        <div class="pad" id="pad-cityhall"></div>
+      </div>
+      <div class="view hasnav" id="v-sec-bank">
+        <div class="appbar"><button class="back" onclick="go('journeymap')">‹</button><span class="ttl">Bank Account</span><span class="muted" style="font-weight:700" id="cnt-bank">0/3</span></div>
+        <div class="pad" id="pad-bank"></div>
+      </div>
+      <div class="view hasnav" id="v-sec-phone">
+        <div class="appbar"><button class="back" onclick="go('journeymap')">‹</button><span class="ttl">Phone Number</span><span class="muted" style="font-weight:700" id="cnt-phone">0/2</span></div>
+        <div class="pad" id="pad-phone"></div>
+      </div>
+      <div class="view hasnav" id="v-sec-permit">
+        <div class="appbar"><button class="back" onclick="go('journeymap')">‹</button><span class="ttl">Work Permit</span><span class="muted" style="font-weight:700" id="cnt-permit">0/1</span></div>
+        <div class="pad" id="pad-permit"></div>
+      </div>
+      <div class="view hasnav" id="v-sec-daily">
+        <div class="appbar"><button class="back" onclick="go('journeymap')">‹</button><span class="ttl">Daily Life</span><span class="muted" style="font-weight:700" id="cnt-daily">0/3</span></div>
+        <div class="pad" id="pad-daily"></div>
+      </div>
+
+      <!-- SECTION (renewal) -->
       <div class="view" id="v-section-renew">
         <div class="appbar"><button class="back" onclick="go('home')">‹</button><span class="ttl">Visa renewal</span><span style="width:24px"></span></div>
         <div class="pad">
@@ -430,6 +512,7 @@ td{padding:12px 13px;border-top:1px solid var(--line)}
         </div>
       </div>
 
+      <!-- SECTION (graduation) -->
       <div class="view" id="v-section-grad">
         <div class="appbar"><button class="back" onclick="go('home')">‹</button><span class="ttl">Change of status</span><span style="width:24px"></span></div>
         <div class="pad">
@@ -444,6 +527,7 @@ td{padding:12px 13px;border-top:1px solid var(--line)}
         </div>
       </div>
 
+      <!-- FORM: pick -->
       <div class="view tabbed" id="v-fupload">
         <div class="appbar"><button class="back" onclick="go('home')">‹</button><span class="ttl">Fill a form</span><span style="width:24px"></span></div>
         <div class="pad">
@@ -465,6 +549,7 @@ td{padding:12px 13px;border-top:1px solid var(--line)}
         </div>
       </div>
 
+      <!-- FORM: review -->
       <div class="view" id="v-freview">
         <div class="appbar"><button class="back" onclick="go('fupload')">‹</button><span class="ttl">Review</span><span style="width:24px"></span></div>
         <div class="pad">
@@ -480,6 +565,7 @@ td{padding:12px 13px;border-top:1px solid var(--line)}
         </div>
       </div>
 
+      <!-- FORM: output -->
       <div class="view" id="v-foutput">
         <div class="appbar"><button class="back" onclick="go('freview')">‹</button><span class="ttl">Done</span><span style="width:24px"></span></div>
         <div class="pad center">
@@ -496,6 +582,7 @@ td{padding:12px 13px;border-top:1px solid var(--line)}
         </div>
       </div>
 
+      <!-- DECODER -->
       <div class="view tabbed" id="v-decoder">
         <div class="appbar"><button class="back" onclick="go('home')">‹</button><span class="ttl">Decode mail</span><span style="width:24px"></span></div>
         <div class="pad">
@@ -520,4 +607,852 @@ td{padding:12px 13px;border-top:1px solid var(--line)}
               <div class="task" style="box-shadow:none;margin-bottom:0"><div style="font-size:15px">2️⃣</div><div class="td" style="margin:0">Keep the receipt for your records.</div></div>
             </div>
             <div class="alert warn"><div style="font-size:18px">⏰</div><div><div class="at">Due July 31, 2026</div><div class="ad">We've added this to your reminders.</div></div></div>
-            <div class="note center">Not sure we got it right? <span class="link">Ask a human ·
+            <div class="note center">Not sure we got it right? <span class="link">Ask a human · AskMe</span></div>
+            <button class="btn soft" onclick="go('home')">Got it</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- SHARE -->
+      <div class="view" id="v-share">
+        <div class="appbar"><button class="back" onclick="go('profile-app')">‹</button><span class="ttl">Sharing</span><span style="width:24px"></span></div>
+        <div class="pad">
+          <h1 class="big serif">Share your dashboard</h1>
+          <p class="lede">Like a Google Sheet — invite someone by name, choose exactly which sections they see, and revoke anytime. They can view but never edit, and your data stays yours.</p>
+          <div class="card">
+            <label class="field" style="margin-top:0">Invite by email</label>
+            <div style="display:flex;gap:8px"><input class="inp" value="office@tuj.temple.edu" style="flex:1"><button class="btn primary" style="width:auto;padding:14px 18px">Invite</button></div>
+            <div class="muted" style="margin-top:8px">🔒 Named-email invites only — no public links.</div>
+            <label class="field">Choose what they can see</label>
+            <div class="tog"><div class="n">City Hall paperwork</div><div class="sw on" onclick="this.classList.toggle('on')"></div></div>
+            <div class="tog"><div class="n">Work permit</div><div class="sw on" onclick="this.classList.toggle('on')"></div></div>
+            <div class="tog"><div class="n">Upcoming transitions</div><div class="sw on" onclick="this.classList.toggle('on')"></div></div>
+            <div class="tog"><div class="n">Housing &amp; bank</div><div class="sw" onclick="this.classList.toggle('on')"></div></div>
+          </div>
+          <div class="card">
+            <label class="field" style="margin-top:0">Shared with</label>
+            <div style="display:flex;align-items:center;justify-content:space-between">
+              <div><div style="font-weight:700;font-size:14px">🏫 Temple University Japan</div><div class="muted">3 sections + transitions · view-only</div></div>
+              <button class="btn ghost" style="width:auto;padding:11px 16px;color:var(--red);border-color:color-mix(in srgb,var(--red) 35%,transparent)" onclick="go('revoke')">Revoke</button>
+            </div>
+          </div>
+          <button class="btn soft" onclick="go('viewer')">👁 Preview exactly what they see</button>
+        </div>
+      </div>
+
+      <!-- REVOKE -->
+      <div class="view" id="v-revoke">
+        <div class="appbar"><button class="back" onclick="go('share')">‹</button><span class="ttl">Revoke</span><span style="width:24px"></span></div>
+        <div class="pad">
+          <div id="revC">
+            <h1 class="big serif">Stop sharing?</h1>
+            <p class="lede">You're about to remove access for <b>Temple University Japan</b>. They'll immediately lose sight of your dashboard and compliance score.</p>
+            <div class="note center">Don't worry — this isn't forever. You can invite them again whenever you like. 🙂</div>
+            <button class="btn danger" onclick="document.getElementById('revC').style.display='none';document.getElementById('revD').style.display='block';fireConfetti()">Yes, revoke access</button>
+            <button class="btn soft" onclick="go('share')">Keep sharing</button>
+          </div>
+          <div id="revD" style="display:none" class="center">
+            <div style="font-size:48px;margin:34px 0 6px">✅</div>
+            <h1 class="big serif">Done</h1>
+            <p class="lede">You're back in full control.</p>
+            <button class="btn primary" onclick="go('share')">Back</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- VIEWER -->
+      <div class="view" id="v-viewer">
+        <div class="vbanner">👁️ Viewing Jessie's dashboard · read-only</div>
+        <div class="appbar"><button class="back" onclick="go('share')">‹ Exit</button><span class="ttl">Viewer</span><span style="width:24px"></span></div>
+        <div class="pad">
+          <h1 class="big serif">Jessie Tan</h1>
+          <p class="lede">Student · visa expires Nov 16, 2026. This is the read-only view the university sees — only the sections Jessie chose to share.</p>
+          <div class="scoreCard"><div class="ring"><svg width="74" height="74" viewBox="0 0 74 74"><circle cx="37" cy="37" r="31" stroke="rgba(255,255,255,.16)" stroke-width="9" fill="none"/><circle cx="37" cy="37" r="31" stroke="#fff" stroke-width="9" fill="none" stroke-linecap="round" stroke-dasharray="195" stroke-dashoffset="57"/></svg><div class="lab"><b>71%</b><span>COMPLIANT</span></div></div><div><h3>Compliance</h3><p>Based on shared sections</p></div></div>
+          <div class="alert warn"><div style="font-size:18px">⏭️</div><div><div class="at">Coming up: graduating → status change</div><div class="ad">A shared transition — the university can offer help early.</div></div></div>
+          <div style="font-size:13px;font-weight:800;margin:6px 2px 10px">Shared sections</div>
+          <div class="task"><div class="chk on"><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg></div><div><div class="tt">City Hall paperwork</div><div class="td">4 / 6 complete · next: My Number card</div></div></div>
+          <div class="task"><div class="chk"><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg></div><div><div class="tt">Work permit</div><div class="td">0 / 1 complete</div></div></div>
+          <div class="note center">🔒 3 other sections are private and not shared with you.</div>
+        </div>
+      </div>
+
+      <!-- PROFILE (in-app) -->
+      <div class="view tabbed" id="v-profile-app">
+        <div class="appbar"><span class="ttl">Profile</span><span style="width:24px"></span></div>
+        <div class="pad">
+          <div style="display:flex;align-items:center;gap:14px;margin-bottom:8px">
+            <div class="avatar">JT</div>
+            <div><div style="font-weight:800;font-size:18px">Jessie Tan</div><div class="badge-ver" id="profVer" style="margin:5px 0 0">✓ Verified</div></div>
+          </div>
+          <div class="profrow" onclick="go('profile')"><div class="pi">👤</div><div><div style="font-weight:700;font-size:14px">My details</div></div></div>
+          <div class="profrow" onclick="go('share')"><div class="pi">🔗</div><div><div style="font-weight:700;font-size:14px">Sharing</div></div></div>
+          <div class="profrow" onclick="openSheet()"><div class="pi">🔄</div><div><div style="font-weight:700;font-size:14px">My situation</div></div></div>
+          <div class="profrow"><div class="pi">🔔</div><div style="flex:1"><div style="font-weight:700;font-size:14px">Reminders</div></div><div class="sw on" onclick="event.stopPropagation();this.classList.toggle('on')"></div></div>
+          <button class="btn soft" style="color:var(--red);margin-top:10px" onclick="go('signup')">Log out</button>
+        </div>
+      </div>
+
+    </div><!-- viewport -->
+
+    <!-- tab bar (single, fixed) -->
+    <div class="tabbar" id="tabbar"></div>
+
+    <!-- section prev/next nav (single, fixed — shown only on phase screens) -->
+    <div class="secnav" id="secnav"></div>
+
+    <!-- situation sheet -->
+    <div class="sheet-mask" id="sheetMask" onclick="closeSheet()"></div>
+    <div class="sheet" id="sheet">
+      <div class="grab"></div>
+      <h1 class="big serif" style="font-size:21px">What's changed?</h1>
+      <p class="lede">We'll reshape your dashboard.</p>
+      <div class="tile" onclick="pickMoment('settle')"><div class="ti">🛬</div><div><div class="tn">Settling in</div></div></div>
+      <div class="tile" onclick="pickMoment('renew')"><div class="ti">🛂</div><div><div class="tn">My visa is expiring</div></div></div>
+      <div class="tile" onclick="pickMoment('grad')"><div class="ti">🎓</div><div><div class="tn">Graduating with a job</div></div></div>
+    </div>
+
+    <!-- celebration pop-up (shown when a phase's mandatory milestone completes) -->
+    <div class="sg-celebrate-mask" id="sgCelebrateMask" onclick="closeCelebrate()"></div>
+    <div class="balloons" id="sgBalloons"></div>
+    <div class="sg-celebrate" id="sgCelebrate">
+      <div class="emoji" id="sgCelebrateEmoji">🎉</div>
+      <h2 id="sgCelebrateTitle">You're a local resident!</h2>
+      <p id="sgCelebrateText"></p>
+      <button class="btn primary" onclick="closeCelebrate()">Nice! ✨</button>
+    </div>
+  </div>
+</div>
+
+<!-- university desktop -->
+<div class="deskwrap" id="deskwrap">
+  <div class="desk">
+    <div class="dtop"><div style="font-weight:800">nyu<span style="color:var(--orange)">u</span>ly · University Admin</div><div style="font-size:13px;color:#9fb0d8">Temple University Japan · Global Office</div></div>
+    <div class="dbody">
+      <div class="dside"><div class="on">📊 Overview</div><div>👥 Students</div><div>🔔 Alerts</div><div>📑 Reports</div></div>
+      <div class="dmain">
+        <div style="font-size:18px;font-weight:800">Students who need attention</div>
+        <div class="muted" style="margin-bottom:14px">Sorted by risk · only students who shared with you.</div>
+        <div class="kpis">
+          <div class="kpi g"><div class="n">78</div><div class="l">On track</div></div>
+          <div class="kpi a"><div class="n">31</div><div class="l">At risk</div></div>
+          <div class="kpi r"><div class="n">11</div><div class="l">Critical</div></div>
+          <div class="kpi"><div class="n">120<span style="font-size:14px;color:var(--ink2)"> / 138</span></div><div class="l">Sharing</div></div>
+        </div>
+        <table>
+          <tr><th>Student</th><th>Score</th><th>Moment</th><th>Status</th><th></th></tr>
+          <tr><td>Chen Wei</td><td><b>34%</b></td><td>Settling in</td><td><span class="stat crit">Critical</span></td><td><button class="btn ghost" style="width:auto;padding:8px 13px">🔔 Nudge</button></td></tr>
+          <tr><td>Kim Minseo</td><td>61%</td><td>🎓 Graduating</td><td><span class="stat risk">At risk</span></td><td><button class="btn ghost" style="width:auto;padding:8px 13px">🔔 Nudge</button></td></tr>
+          <tr><td>Nguyen Anh Minh</td><td>92%</td><td>🛂 Renewing</td><td><span class="stat ok">On track</span></td><td><button class="btn ghost" style="width:auto;padding:8px 13px">🔔 Nudge</button></td></tr>
+          <tr><td>Rahman Aisha</td><td>88%</td><td>Settling in</td><td><span class="stat ok">On track</span></td><td><button class="btn ghost" style="width:auto;padding:8px 13px">🔔 Nudge</button></td></tr>
+        </table>
+        <div class="muted" style="margin-top:10px">You only see what students share. "Moment" shows each student's current life stage.</div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- demo menu -->
+<div class="menu-mask" id="menuMask" onclick="closeMenu()"></div>
+<div class="menu" id="menu">
+  <div style="display:flex;justify-content:space-between;align-items:center"><b>Jump to a screen</b><button class="iconbtn" onclick="closeMenu()">✕</button></div>
+  <h4>Onboarding</h4>
+  <button class="mi" onclick="jump('signup')">Sign up · OTP</button>
+  <button class="mi" onclick="jump('setup')">Setup · scan card</button>
+  <button class="mi" onclick="jump('profile')">Profile</button>
+  <button class="mi" onclick="jump('journey')">Where are you?</button>
+  <h4>Adaptive dashboard</h4>
+  <button class="mi" onclick="jump('home','settle')">Home · Settling in</button>
+  <button class="mi" onclick="jump('home','renew')">Home · Visa renewal</button>
+  <button class="mi" onclick="jump('home','grad')">Home · Graduating → work</button>
+  <button class="mi" onclick="jump('journeymap')">Journey map · Student (10 phases)</button>
+  <button class="mi" onclick="jump('sec-school')">Phase · School</button>
+  <button class="mi" onclick="jump('sec-cityhall')">Phase · City Hall</button>
+  <button class="mi" onclick="jump('sec-bank')">Phase · Bank Account</button>
+  <h4>Forms &amp; Decoder</h4>
+  <button class="mi" onclick="jump('fupload')">Fill a form</button>
+  <button class="mi" onclick="jump('freview')">Review</button>
+  <button class="mi" onclick="jump('foutput')">PDF output</button>
+  <button class="mi" onclick="jump('decoder')">Decoder</button>
+  <h4>Sharing</h4>
+  <button class="mi" onclick="jump('share')">Share</button>
+  <button class="mi" onclick="jump('revoke')">Revoke</button>
+  <button class="mi" onclick="jump('viewer')">Viewer</button>
+  <h4>Account</h4>
+  <button class="mi" onclick="jump('profile-app')">Profile / settings</button>
+  <h4>University (desktop)</h4>
+  <button class="mi" onclick="showDesk()">Master dashboard</button>
+</div>
+
+<script>
+var TABS=[
+  ['home','Home','<svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>'],
+  ['fupload','Forms','<svg viewBox="0 0 24 24"><path d="M14 3H6v18h12V8z"/><path d="M14 3v5h4"/><path d="M9 13h6M9 17h6"/></svg>'],
+  ['decoder','Decode','<svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>'],
+  ['profile-app','Profile','<svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M5 21c0-4 3.5-6 7-6s7 2 7 6"/></svg>']
+];
+var TABVIEWS=TABS.map(function(t){return t[0];});
+document.getElementById('tabbar').innerHTML=TABS.map(function(t){return '<div class="tab" data-go="'+t[0]+'">'+t[2]+'<span>'+t[1]+'</span></div>';}).join('');
+document.querySelectorAll('#tabbar .tab').forEach(function(tab){tab.onclick=function(){go(tab.getAttribute('data-go'));};});
+
+/* ============================================================
+   STUDENT JOURNEY — content sourced verbatim from Students.docx.
+   Part 1 (before arrival) + Part 2 (after arrival), 10 phases, 33
+   lettered steps. Untagged steps in the source default to
+   "rec" (tagInferred:true) per product decision — flagged with a
+   dagger in the UI so they can be spot-checked.
+============================================================ */
+function L(label,url){ return '<a href="'+url+'" target="_blank" rel="noopener">'+label+'</a>'; }
+function md(t){ return t.replace(/\[([^\]]+)\]\(([^)]+)\)/g,function(_,label,url){return L(label,url);}); }
+
+var STUDENT_PHASES=[
+{id:'school',part:1,number:1,title:'School Phase',duration:'~10 weeks',
+ intro:"Starting your study journey in Japan begins with thoughtful research and planning. Here's how to move forward smoothly.",
+ outro:"Well done! You've officially completed your school application and are ready for the next big step: your visa process.",
+ steps:[
+  {letter:'a',title:'Choose Your Study Program',tag:'rec',items:[
+    {icon:'🔹',text:'Decide whether you want to attend a university, language school, or vocational school.'}]},
+  {letter:'b',title:'Check That You Meet Both Academic And Financial Requirements',tag:'rec',items:[
+    {icon:'💡',text:'Language schools: Usually require about 150+ hours of Japanese study.'},
+    {icon:'💡',text:"Universities: Require a high school or undergraduate degree plus English or Japanese skills, depending on the program's language."},
+    {icon:'💡',text:'Vocational schools: Often need strong Japanese ability and are popular route for after language programs.'},
+    {icon:'note',text:'Not sure which path suits you best? [AskMe](https://nyuuly.com/compass/askme) for personal guidance.'}]},
+  {letter:'c',title:'Show You Can Cover Study And Living Costs In Japan',tag:'must',items:[
+    {icon:'🔹',text:'Estimate all expenses: tuition, visa fees, airfare, housing, and initial living costs.'},
+    {icon:'🔹',text:'Secure savings for around 1–2 million JPY.'},
+    {icon:'🔹',text:"Prepare proof of funds: required for both your school's screening and your Certificate of Eligibility (CoE), a document needed for your Japanese Visa."}]},
+  {letter:'d',title:'Apply to Your Chosen Schools And Pay Tuition',tag:'must',items:[
+    {icon:'🔹',text:'Subimt the application and transfer your tuition.'},
+    {icon:'🔹',text:'Apply for scholarship. Note that usually only universities, not language schools, offer scholarships.'}]}
+ ]},
+{id:'visa',part:1,number:2,title:'Visa Application Phase',duration:'10 ~ 12 weeks',
+ intro:"It's starting to feel real now. Just a few final steps before you're ready to fly.",
+ outro:"Congratulations, you're officially cleared to enter Japan!",
+ steps:[
+  {letter:'a',title:'Wait As Your School Submits The Application For CoE',tag:'must',items:[
+    {icon:'💡',text:'The Certificate of Eligibility (CoE) is an essential document for your Visa.'},
+    {icon:'💡',text:'Processing Time: Around 1–3 months, so patience is key.'},
+    {icon:'🔹',text:'Receive your CoE (original or digital copy) through your school.'}]},
+  {letter:'b',title:'Upon Receiving your CoE, Prepare Visa Documents Before Heading for Japanese Embassy',tag:'must',items:[
+    {icon:'🔹',text:'Original or printed CoE'},
+    {icon:'🔹',text:'Passport (valid for at least 6 months)'},
+    {icon:'🔹',text:'Visa application form + ID photos'},
+    {icon:'🔹',text:'Financial documents showing funds (bank statement, income proof)'},
+    {icon:'🔹',text:'Academic certificates and school acceptance letter'}]},
+  {letter:'c',title:'Submit Your Visa Application At The Japanese Embassy In Your Home-Country',tag:'must',items:[
+    {icon:'🔹',text:'Attend interview if requested'},
+    {icon:'🔹',text:'Wait for 5–10 business days until you get notified of your Visa approval.'},
+    {icon:'🔹',text:'Prepare the visa fee (approx. 3,000–6,000 JPY in local currency).'},
+    {icon:'🔹',text:'Pick up your passport with the Japanese Visa on it.'}]}
+ ]},
+{id:'travelprep',part:1,number:3,title:'Travel Preparation',
+ intro:"The countdown begins! Here's how to make your arrival smooth and stress-free.",
+ phaseNote:'We recommend you to buy a Prepaid Data Only SIM before coming to Japan. [Check NyuuLy Mobile](https://nyuuly.com/mobile)',
+ steps:[
+  {letter:'a',title:'Know Your Accommodation And School Details',tag:'must',items:[
+    {icon:'🔹',text:"Confirm your own Japanese address, school's address, and contact phone number — airport immigration will likely ask."}]},
+  {letter:'b',title:'Prepare Your Money (about 150,000 JPY in cash, for the first month expenses)',tag:'rec',items:[
+    {icon:'🔹',text:'Use online sites like [numbeo](https://www.numbeo.com/cost-of-living/comparison.jsp) to compare the costs of living with your home country.'},
+    {icon:'💡',text:"Cash transactions are still dominant in Japan. It is a safe country so your cash won't get stolen."},
+    {icon:'🔹',text:'Exchange currency at the airport, and bring an international debit/credit card too (if you have).'}]}
+ ]},
+{id:'airport',part:2,number:1,title:'Arrival at Airport',duration:'2~3 hours',
+ intro:"Here's what to expect at the airport to officially begin your life here.",
+ outro:['Collect baggage and head out.','Welcome to your new home in the Land of the Rising Sun! 🎉','Well done 🥳🥳🎉🎉🎉'],
+ steps:[
+  {letter:'a',title:'Get Your [Residence Card (Zairyū Kādo)](https://nyuuly.com/info-hub/articles/zairyu-card-residence-card) When You Arrive At The Airport.',tag:'must',items:[
+    {icon:'💡',text:'Residence Card is your most important ID proving legal residence in Japan.'},
+    {icon:'🔹',text:'Follow the signs for foreign residents, NOT re-entry (not residence card holders, as you do not have it yet).'},
+    {icon:'💡',text:'The immigration staff checks your CoE, passport and verifies your identify through biometrics and then issues your Residence Card.'}]},
+  {letter:'b',title:'Apply For Work Permit At Entry (Shikakugai Katsudō Kyoka)',tag:'rec',items:[
+    {icon:'🔹',text:'Apply for Work Permit at the airport, if you plan to work part-time. Doing it later takes extra steps and 1–2 weeks.'},
+    {icon:'🔹',text:'Make sure you get the Part-time Work Permit stamp on the back of your residence card.'}]},
+  {letter:'c',title:'Confirm Airport Transport & Luggage',tag:'rec',items:[
+    {icon:'🔹',text:'Take The Airport Bus, if you are flexible with time. Some foreigners prefer buses as you get a seat. [Learn More](https://tyo-nrt.com/en)'},
+    {icon:'💡',text:'Trains can be faster and more frequent, but especially during late evenings, they get very crowded.'},
+    {icon:'💡',text:'Narita Airport to Shinjuku Station costs about 1,500 JPY by cheap trains and [buses](https://www.narita-airport.jp/en/access/bus/lcb/), but around 30,000 JPY by taxi.'},
+    {icon:'💡',text:'Airports are usually far from center of cities.'},
+    {icon:'🔹',text:'Use a luggage delivery service like Yamato Transport (around 2,000–3,500 JPY) if you want to move around right after arrival. [Learn More](https://www.kuronekoyamato.co.jp/en/)'}]}
+ ]},
+{id:'housing',part:2,number:2,title:'Finding Your New Home',duration:'~14 days',
+ intro:"Finding a new place can feel overwhelming, but do not worry. Let's break it down to make it an exciting step towards settling in.",
+ outro:"And that's it! You've finished setting up the utility for your new life in Japan.",
+ steps:[
+  {letter:'a',title:'Search For A Room',tag:'rec',items:[
+    {icon:'🔹',text:'Search online (e.g., [SUUMO](https://suumo.jp/) for apartments, oakhouse for shared houses etc) or visit local agencies.'},
+    {icon:'🔹',text:'Make sure they accept foreigners as many landlords refuse lease to non-Japanese.'}]},
+  {letter:'b',title:'Prepare Initial Costs for Apartments/Mansions',tag:'rec',tagInferred:true,items:[
+    {icon:'💡',text:'Typical total: 300,000–600,000+ JPY'},
+    {icon:'💡',text:'Rent (first month): 70,000–120,000 JPY'},
+    {icon:'💡',text:'Deposit: ~1 month (refundable)'},
+    {icon:'💡',text:'Key Money: ~1 month (non-refundable)'},
+    {icon:'💡',text:'Agent Fee: ~1 month + tax'},
+    {icon:'💡',text:'Guarantor Fee: 0.5–1 month'}]},
+  {letter:'c',title:'Prepare Required Items',tag:'must',items:[
+    {icon:'🔹',text:'Residence card'},
+    {icon:'🔹',text:'Emergency contact in Japan'},
+    {icon:'🔹',text:"Read NyuuLy's [article about emergency in Japan](https://nyuuly.com/info-hub/articles/in-case-of-emergency)"}]},
+  {letter:'d',title:'Sign Contract',tag:'rec',tagInferred:true,items:[
+    {icon:'🔹',text:'Review term length and early-termination penalties.'},
+    {icon:'🔹',text:'Pay agreed fees and sign.'}]},
+  {letter:'e',title:'Set Up Utilities (start ~2 weeks before move-in)',tag:'rec',tagInferred:true,
+   note:'[Read our Guide](https://nyuuly.com/info-hub/articles/set-up-utilities-in-japan)',items:[
+    {icon:'🔹',text:'Prepare your Residence Card, and address.'},
+    {icon:'💡',text:'Water: usually on; change contract to your name (provider is set by area).'},
+    {icon:'💡',text:'Electricity: apply online/phone/in person; switch on the breaker if needed.'},
+    {icon:'💡',text:"Gas: book a visit; staff must turn it on while you're home. Bundled gas / electricity plans exist (e.g., Kanto: TEPCO, Tokyo Gas)."},
+    {icon:'💡',text:'Internet — Wired (Hikari): fastest; installation costs often 20,000–40,000 JPY. Monthly costs around 4,000 JPY.'},
+    {icon:'💡',text:'Internet — Mobile Wi-Fi or high-data SIM + phone hotspot: flexible and cheaper for short stays or light usage.'},
+    {icon:'🔹',text:"Consider NyuuLy Mobile's 50GB plan as a Mobile Wi-fi. [Learn More](https://nyuuly.com/mobile)"}]},
+  {letter:'f',title:'Move In & Furnish',tag:'rec',tagInferred:true,items:[
+    {icon:'🔹',text:'Buy new furniture: Nitori, IKEA, Yamada Denki.'},
+    {icon:'🔹',text:'Or buy second-hand furniture: Mercari, Second Street.'}]}
+ ]},
+{id:'cityhall',part:2,number:3,title:'City Hall Paperwork: Becoming a Local Resident',duration:'3~4 hours',
+ intro:"Now, let's help you officially become a local! This part consists of City Hall Procedure, and you have to complete them within 2 weeks of your living place decided.",
+ note:'[Read our guide](https://nyuuly.com/info-hub/articles/japan-city-hall-all-in-one-for-new-residents)',
+ outro:['That’s it! Congratulations on officially becoming a resident of your new city!',"You've checked off the biggest items on your first-week-in-Japan to-do list. 🎉"],
+ steps:[
+  {letter:'a',title:'Prepare',tag:'rec',items:[
+    {icon:'🔹',text:'Make sure you have your new address.'},
+    {icon:'🔹',text:'Bring your [Residence Card (Zairyū Kādo)](https://nyuuly.com/info-hub/articles/zairyu-card-residence-card) which you received at the airport, passport, and know your school address.'},
+    {icon:'💡',text:'You normally cannot book an appointment, and must visit in person. It will take a couple of hours.'},
+    {icon:'🔹',text:'Follow this order for a smoother visit:'}]},
+  {letter:'b',title:'Decide Katakana Name Spelling',tag:'rec',items:[
+    {icon:'🔹',text:'Decide your katakana name — it would be needed for pension application and later for bank account opening.'}]},
+  {letter:'c',title:'Register Your Residency (Jūmin Tōroku) At Your Local City Hall',tag:'must',items:[
+    {icon:'🔹',text:'Fill out a Move-in Notification (Tennyu-doke) to register your residency.'},
+    {icon:'💡',text:'The staff will update the address on the back of your Residence Card and hand you back the card the same day.'}]},
+  {letter:'d',title:'Request 1-2 Copies Of [Certificate Of Residence (Juminhyo)](https://nyuuly.com/info-hub/articles/juminhyo-certificate-of-residence)',tag:'rec',items:[
+    {icon:'💡',text:"Certificate of Residence (Juminhyo) is an official certificate that proves your registered address in Japan. You'll need it often — for opening a bank account etc."}]},
+  {letter:'e',title:'Confirm National Health Insurance And Pension (Kokumin Kenkō Hoken)',tag:'rec',tagInferred:true,items:[
+    {icon:'💡',text:'If your sponsor is enrolling you at corporate Social Insurance (Shakai Hoken), you do NOT need to enroll at National Health Insurance and Pension here. Confirm that.'},
+    {icon:'🔹',text:'[Read Easy Healthcare in Japan](https://nyuuly.com/info-hub/articles/easy-healthcare-in-japan)'}]},
+  {letter:'f',title:'Receive Your Individual Number Notice',tag:'must',items:[
+    {icon:'🔹',text:'Keep the 12-digit number that you receive 2-3 weeks later. [Learn More](https://www.kojinbango-card.go.jp/en-tsuchicard/)'},
+    {icon:'🔹',text:'Please read [this guide](https://www.kojinbango-card.go.jp/en-uketori/), and [our guide](https://nyuuly.com/info-hub/articles/my-number-card).'}]}
+ ]},
+{id:'bank',part:2,number:4,title:'Opening a Bank Account',duration:'setup 1~2 hours, cash card in 1~2 weeks',
+ intro:'Opening a bank account should be your priority after registering your address. We recommend opening a Japan Post Bank account first, since most other banks require phone number. [Please read our Guide](https://nyuuly.com/articles/open-a-bank-account-in-japan-first-step-of-your-financial-journey)\n\nThe following is about opening an account at Japan Post Bank.',
+ outro:"Give yourself a pat on the back! You've just completed some of the most crucial and often stressful steps, bringing you closer to making Japan your home.",
+ steps:[
+  {letter:'a',title:'Prepare',tag:'must',items:[
+    {icon:'🔹',text:'Residence Card (with registered address), your Katakana name.'}]},
+  {letter:'b',title:'Apply Online',tag:'rec',items:[
+    {icon:'🔹',text:'Follow their instructions. Or, visit their branch with someone who speaks Japanese if facing difficulty. [Watch Their Guide](https://youtu.be/7cBLnSO6J0c)'}]},
+  {letter:'c',title:'Receive Your Cash Card',tag:'rec',tagInferred:true,items:[
+    {icon:'💡',text:'Your cash card arrives by mail in about 1–2 weeks.'}]}
+ ]},
+{id:'phone',part:2,number:5,title:'Getting a Phone Number',
+ intro:'Having a Japanese phone number (voice plan) is a must. [Read our Guide](https://nyuuly.com/info-hub/articles/acquire-a-sim-card-in-japan-a-simple-guide-for-your-first-days)',
+ steps:[
+  {letter:'a',title:'Prepare Necessary Documents',tag:'must',items:[
+    {icon:'🔹',text:'Residence Card (with registered address), and your bank account or credit card information.'}]},
+  {letter:'b',title:'Purchase & Setup',tag:'rec',tagInferred:true,items:[
+    {icon:'🔹',text:'Buy online. Beware most carriers support only Japanese customer support.'},
+    {icon:'💡',text:'You can buy [NyuuLy Mobile SIM](https://nyuuly.com/mobile) online with full English customer support.'}]}
+ ]},
+{id:'permit',part:2,number:6,title:'Part-time Work Permit (Shikakugai Katsudō Kyoka)',duration:'~2 weeks to issue',
+ steps:[
+  {letter:'a',title:'Submit the form at your local immigration office. [Form](https://www.moj.go.jp/isa/content/930004124.pdf)',tag:'must',items:[
+    {icon:'🔹',text:"Didn't apply at the airport? Do it here before starting any job. [Learn More](https://www.moj.go.jp/isa/applications/procedures/16-8.html)"},
+    {icon:'💡',text:'Work limits: up to 28 hours/week.'},
+    {icon:'💡',text:'The immigration office will stamp on the back of your residence card.'},
+    {icon:'🔹',text:'Explore sites like [WORK JAPAN](https://www.workjapan.jp/) to learn about suitable part-time jobs and apply.'}]}
+ ]},
+{id:'daily',part:2,number:7,title:'Navigating Daily Life',
+ intro:"Now that you're settled, here are some important tips for a smoother daily life in Japan.",
+ outro:'Great Job! Onwards and upwards!',
+ steps:[
+  {letter:'a',title:'Follow The Garbage Sorting Rules',tag:'must',items:[
+    {icon:'💡',text:'Japan has very strict rules about garbage sorting.'},
+    {icon:'🔹',text:"Get the garbage guide from your city hall, or your city hall's website. E.g. [Shinjuku City's garbage guide](https://www.city.shinjuku.lg.jp/content/000259255.pdf)"},
+    {icon:'💡',text:'Burnable: kitchen waste (drained), paper scraps, soiled plastics, clothing.'},
+    {icon:'💡',text:'Recyclables: PET bottles, glass bottles, cans, paper/cardboard. Rinse items; remove PET caps/labels; bundle paper.'},
+    {icon:'💡',text:'Non-burnable: metals, ceramics, non-bottle glass, small appliances. Wrap and label sharp items.'},
+    {icon:'💡',text:'Oversize: usually items over 30 cm. For this, you need to buy garbage tickets from your local convenience store, book a pickup, and place items at the designated spot by the pickup time.'}]},
+  {letter:'b',title:'Know More About Getting Around',tag:'rec',items:[
+    {icon:'💡',text:'Suica/PASMO: Rechargeable cards for transit and small purchases; buy at major stations.'},
+    {icon:'💡',text:"Driver's License: Getting a driving license is very difficult. Attending driving camp is a good way to increase your chances. [Learn More](https://www.npa.go.jp/english/bureau/traffic/2_drivers_license_English_ver2.pdf)"},
+    {icon:'💡',text:'Bicycle: Register anti-theft (Bōhan Tōroku) at the shop. Consider bicycle liability insurance (often ~3,000 JPY/year, purchase online).'}]},
+  {letter:'c',title:'Figure out Japanese Toilets',tag:'opt',items:[
+    {icon:'🔹',text:'See the image for detailed toilet button functions.'}]}
+ ]}
+];
+var PART_META={1:{label:'Part 1',title:'Before Arrival — Preparation',
+   intro:["This stage is all about setting a strong foundation.","You're probably feeling a mix of excitement and uncertainty — that's completely normal.","These steps will help you prepare with confidence and clarity."],
+   outro:['Congratulations again on taking this incredible step toward building your career in Japan.','If you ever feel uncertain or need help, remember you can always [AskMe](https://nyuuly.com/compass/askme).']},
+ 2:{label:'Part 2',title:'After Arrival — On-boarding',
+   intro:['Welcome to Japan!','Those first days can be noisy with paperwork and emotions. Many of us at NyuuLy remember the same mix of joy and “where do I start?” moment. Here’s a clear roadmap so you stay in control.'],
+   outro:['Great Job! Onwards and upwards!','We at Nyuuly are here to support you every step of the way, so feel free to reach out and don’t forget to Enjoy Japan!','If you ever feel uncertain or need help, remember you can always [AskMe](https://nyuuly.com/compass/askme).']}};
+
+/* ---- persistence ---- */
+var SG_KEY='nyuuly.compass.studentJourney.v1';
+function sgLoad(){ try{ var raw=localStorage.getItem(SG_KEY); return raw?JSON.parse(raw):{}; }catch(e){ return {}; } }
+function sgSave(){ try{ localStorage.setItem(SG_KEY,JSON.stringify(sgChecked)); }catch(e){} }
+var sgChecked=sgLoad();
+function sgId(phaseId,letter){ return phaseId+'-'+letter; }
+
+/* ---- rendering ---- */
+function phaseStats(p){
+  var total=p.steps.length,done=0,mustTotal=0,mustDone=0;
+  p.steps.forEach(function(s){
+    var on=!!sgChecked[sgId(p.id,s.letter)];
+    if(on)done++;
+    if(s.tag==='must'){ mustTotal++; if(on)mustDone++; }
+  });
+  return {total:total,done:done,mustTotal:mustTotal,mustDone:mustDone};
+}
+function paraBlock(text,cls){
+  if(!text) return '';
+  var paras=(Array.isArray(text)?text:[text]);
+  var out='';
+  paras.forEach(function(t){
+    t.split('\n\n').forEach(function(p){ out+='<p class="'+cls+'">'+md(p)+'</p>'; });
+  });
+  return out;
+}
+function renderStep(p,s){
+  var id=sgId(p.id,s.letter), on=!!sgChecked[id];
+  var itemsHtml=s.items.map(function(it){
+    if(it.icon==='note'){ return '<div class="note" style="margin:8px 0">'+md(it.text)+'</div>'; }
+    return '<div class="td" style="margin-top:5px">'+it.icon+' '+md(it.text)+'</div>';
+  }).join('');
+  var noteHtml=s.note?('<div class="note" style="margin:8px 0">'+md(s.note)+'</div>'):'';
+  var tagHtml='<span class="tag '+s.tag+(s.tagInferred?' inferred':'')+'" '+(s.tagInferred?'title="Not explicitly tagged in the source document — defaulted to Recommended.">':'>')+
+    (s.tag==='must'?'Mandatory':s.tag==='rec'?'Recommended':'Optional')+(s.tagInferred?' †':'')+'</span>';
+  return '<div class="task" style="align-items:flex-start">'+
+    '<div class="chk'+(on?' on':'')+'" onclick="sgToggle(\''+p.id+'\',\''+s.letter+'\')"><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg></div>'+
+    '<div style="flex:1;min-width:0"><div class="tt">'+p.number+s.letter+'. '+md(s.title)+'</div>'+noteHtml+itemsHtml+tagHtml+'</div></div>';
+}
+function renderPhase(p){
+  var isFirst = p.number===1, isLast = (function(){
+    var siblings=STUDENT_PHASES.filter(function(x){return x.part===p.part;});
+    return siblings[siblings.length-1].id===p.id;
+  })();
+  var meta=PART_META[p.part];
+  var html='';
+  if(isFirst) html+='<div class="note" style="background:var(--blue-lighter);color:var(--navy);font-weight:700">'+meta.intro.map(function(l){return '<p style="margin:0 0 6px">'+l+'</p>';}).join('')+'</div>';
+  html+='<span class="tag rec" style="background:color-mix(in srgb,var(--purple) 13%,transparent);color:var(--purple)">'+meta.label+'</span>';
+  html+='<h1 class="big serif">'+p.number+'. '+p.title+(p.duration?' <span style="font-size:15px;color:var(--ink2);font-weight:700">('+p.duration+')</span>':'')+'</h1>';
+  html+=paraBlock(p.intro,'lede');
+  if(p.note) html+='<div class="note">'+md(p.note)+'</div>';
+  var st=phaseStats(p), pct=st.total?Math.round(st.done/st.total*100):0;
+  html+='<div class="jrow" style="cursor:default"><div style="flex:1"><div style="font-weight:700;font-size:13px">'+st.done+'/'+st.total+' steps done</div><div class="jbar"><i style="width:'+pct+'%"></i></div></div></div>';
+  p.steps.forEach(function(s){ html+=renderStep(p,s); });
+  if(p.phaseNote) html+='<div class="note">'+md(p.phaseNote)+'</div>';
+  // City Hall's completion message only appears once every task in this
+  // phase is checked off — everywhere else the outro shows as soon as the
+  // screen is opened (unchanged behaviour).
+  var showOutro = p.outro && (p.id!=='cityhall' || (st.total>0 && st.done===st.total));
+  if(showOutro) html+='<div class="note" style="background:var(--green-light);color:var(--ink);font-weight:700">'+paraBlock(p.outro,'').replace(/<p class="">/g,'<p style="margin:0 0 6px">')+'</div>';
+  if(isLast) html+='<div class="note" style="background:var(--green-light);color:var(--ink);font-weight:700">'+meta.outro.map(function(l){return '<p style="margin:0 0 6px">'+md(l)+'</p>';}).join('')+'</div>';
+  document.getElementById('pad-'+p.id).innerHTML=html;
+  var st2=phaseStats(p);
+  var cc=document.getElementById('cnt-'+p.id); if(cc) cc.textContent=st2.done+'/'+st2.total;
+}
+function secNavHtml(p){
+  var idx=STUDENT_PHASES.indexOf(p);
+  var prev=STUDENT_PHASES[idx-1], next=STUDENT_PHASES[idx+1];
+  var prevBtn = prev
+    ? '<div class="navarrow" onclick="go(\'sec-'+prev.id+'\')" title="Previous: '+prev.title+'">‹</div>'
+    : '<div class="navarrow disabled">‹</div>';
+  var nextBtn = next
+    ? '<div class="navarrow" onclick="go(\'sec-'+next.id+'\')" title="Next: '+next.title+'">›</div>'
+    : '<div class="navarrow disabled">›</div>';
+  return prevBtn+'<div class="navmap" onclick="go(\'journeymap\')">🗺️ Journey</div>'+nextBtn;
+}
+function renderAllPhases(){ STUDENT_PHASES.forEach(renderPhase); }
+
+function renderJourneyMap(){
+  [1,2].forEach(function(part){
+    var box=document.getElementById('gmapPart'+part); if(!box)return;
+    var list=STUDENT_PHASES.filter(function(p){return p.part===part;});
+    var html='';
+    var nextDone=true; // becomes false once we've passed the first not-fully-done phase
+    list.forEach(function(p,i){
+      var st=phaseStats(p);
+      var state = st.done===st.total ? 'done' : (nextDone ? 'now' : 'lock');
+      if(state!=='done') nextDone=false;
+      html+='<div class="gnode '+state+'" onclick="go(\'sec-'+p.id+'\')">'+
+        (i<list.length-1?'<div class="gconn" style="top:48px;height:44px"></div>':'')+
+        '<div class="bub">'+(state==='done'?'✅':String(p.number))+'</div>'+
+        '<div><div class="gl">'+p.title+'</div><div class="gm">'+st.done+'/'+st.total+' steps'+(p.duration?' · '+p.duration:'')+'</div></div>'+
+      '</div>';
+    });
+    box.innerHTML=html;
+  });
+  var all=STUDENT_PHASES.map(phaseStats);
+  var phasesDone=all.filter(function(s){return s.done===s.total;}).length;
+  var jc=document.getElementById('jmCount'); if(jc) jc.textContent=phasesDone+'/'+STUDENT_PHASES.length;
+}
+
+function sgToggle(phaseId,letter){
+  var p=STUDENT_PHASES.filter(function(x){return x.id===phaseId;})[0];
+  var before=phaseStats(p);
+  var wasComplete=before.total>0 && before.done===before.total;
+
+  var id=sgId(phaseId,letter);
+  sgChecked[id]=!sgChecked[id];
+  sgSave();
+  renderPhase(p);
+  renderJourneyMap();
+  updateCompliance();
+
+  var after=phaseStats(p);
+  var isComplete=after.total>0 && after.done===after.total;
+  if(phaseId==='cityhall' && !wasComplete && isComplete){
+    celebrate('🎉','That\'s it! Congratulations!',"You're officially a resident of your new city — you've checked off the biggest items on your first-week-in-Japan to-do list.");
+  }
+}
+
+/* ---- celebration pop-up: balloons + confetti + congrats card ---- */
+function celebrate(emoji,title,text){
+  document.getElementById('sgCelebrateEmoji').textContent=emoji;
+  document.getElementById('sgCelebrateTitle').textContent=title;
+  document.getElementById('sgCelebrateText').textContent=text;
+  document.getElementById('sgCelebrateMask').classList.add('show');
+  document.getElementById('sgCelebrate').classList.add('show');
+  spawnBalloons();
+  fireConfetti();
+}
+function closeCelebrate(){
+  document.getElementById('sgCelebrateMask').classList.remove('show');
+  document.getElementById('sgCelebrate').classList.remove('show');
+}
+function spawnBalloons(){
+  var box=document.getElementById('sgBalloons'); if(!box) return;
+  var emojis=['🎈','🎈','🎈','🎉','🥳','🎊'];
+  for(var i=0;i<16;i++){
+    var b=document.createElement('div'); b.className='bln';
+    b.textContent=emojis[i%emojis.length];
+    b.style.left=(Math.random()*90)+'%';
+    b.style.setProperty('--drift',(Math.random()*80-40)+'px');
+    b.style.setProperty('--rot',(Math.random()*50-25)+'deg');
+    b.style.fontSize=(22+Math.random()*18)+'px';
+    b.style.animationDuration=(2.6+Math.random()*1.8)+'s';
+    b.style.animationDelay=(Math.random()*.5)+'s';
+    box.appendChild(b);
+  }
+  setTimeout(function(){ box.innerHTML=''; },4800);
+}
+
+function updateCompliance(){
+  var mustTotal=0,mustDone=0,phasesDone=0;
+  STUDENT_PHASES.forEach(function(p){
+    var s=phaseStats(p);
+    mustTotal+=s.mustTotal; mustDone+=s.mustDone;
+    if(s.done===s.total) phasesDone++;
+  });
+  var pct=mustTotal?Math.round(mustDone/mustTotal*100):0;
+  setRing(pct);
+  var remaining=mustTotal-mustDone;
+  var note=remaining===0?'Every mandatory item is done. Nice work!':(remaining+' mandatory item'+(remaining===1?'':'s')+' left to reach 100%');
+  var sn=document.getElementById('scoreNote'); if(sn) sn.textContent=pct+'% — '+note;
+
+  var jt=document.getElementById('settleJrowText'); if(jt) jt.textContent='Your journey · '+phasesDone+' of '+STUDENT_PHASES.length+' phases done';
+  var jb=document.getElementById('settleJrowBar'); if(jb) jb.style.width=Math.round(phasesDone/STUDENT_PHASES.length*100)+'%';
+
+  // next incomplete step (mandatory first, else any)
+  var next=null;
+  STUDENT_PHASES.forEach(function(p){
+    p.steps.forEach(function(s){
+      if(next) return;
+      if(!sgChecked[sgId(p.id,s.letter)] && s.tag==='must') next={p:p,s:s};
+    });
+  });
+  if(!next){
+    STUDENT_PHASES.forEach(function(p){
+      p.steps.forEach(function(s){
+        if(next) return;
+        if(!sgChecked[sgId(p.id,s.letter)]) next={p:p,s:s};
+      });
+    });
+  }
+  var t=document.getElementById('settleNextTitle'), d=document.getElementById('settleNextDesc'),
+      due=document.getElementById('settleNextDue'), btn=document.getElementById('settleNextBtn');
+  if(next){
+    if(t) t.textContent=next.p.number+next.s.letter+'. '+next.s.title.replace(/\[([^\]]+)\]\([^)]+\)/g,'$1');
+    if(d) d.innerHTML=md(next.s.items[0]?next.s.items[0].text:next.p.title);
+    if(due) due.textContent=(next.s.tag==='must'?'⚠️ Mandatory':'💡 Recommended')+' · '+next.p.title;
+    if(btn) btn.setAttribute('onclick',"go('sec-"+next.p.id+"')");
+  } else if(t){
+    t.textContent='All done — nice work!';
+    if(d) d.textContent='Every step of your Student journey is complete.';
+    if(due) due.textContent='🎉 100% compliant';
+  }
+}
+
+var current='home', verified=false;
+function go(id){
+  hideDesk();
+  var cur=document.querySelector('.view.active'); var next=document.getElementById('v-'+id);
+  if(!next) return;
+  if(cur&&cur!==next) cur.classList.remove('active');
+  next.classList.add('active'); next.scrollTop=0; current=id;
+  // single fixed tab bar
+  var bar=document.getElementById('tabbar');
+  var show=TABVIEWS.indexOf(id)>=0;
+  bar.classList.toggle('show',show);
+  document.querySelectorAll('#tabbar .tab').forEach(function(t){t.classList.toggle('on',t.getAttribute('data-go')===id);});
+  // single fixed section prev/next nav — only for phase screens (sec-*)
+  var sbar=document.getElementById('secnav');
+  if(id.indexOf('sec-')===0){
+    var pid=id.slice(4);
+    var ph=STUDENT_PHASES.filter(function(x){return x.id===pid;})[0];
+    if(ph){ sbar.innerHTML=secNavHtml(ph); sbar.classList.add('show'); }
+    else sbar.classList.remove('show');
+  } else sbar.classList.remove('show');
+  // transient resets
+  if(id==='revoke'){document.getElementById('revC').style.display='block';document.getElementById('revD').style.display='none';}
+  if(id==='decoder'){document.getElementById('decRes').style.display='none';document.getElementById('decScan').style.display='block';}
+}
+function jump(id,m){closeMenu();if(m)setMoment(m);go(id);}
+
+/* setup: scan vs manual */
+function chooseSetup(scan){
+  verified=scan;
+  if(scan){ loadThen('Reading your My Number Card…','profile',applyVerify); }
+  else { applyVerify(); go('profile'); }
+}
+function applyVerify(){
+  document.getElementById('verBadge').style.display=verified?'inline-flex':'none';
+  document.getElementById('verNudge').style.display=verified?'none':'flex';
+  document.getElementById('profVer').style.display=verified?'inline-flex':'none';
+}
+
+/* journey setup */
+var chosenMoment='settle';
+function selJourney(el){
+  document.querySelectorAll('#v-journey .tile').forEach(function(t){t.classList.remove('sel');});
+  el.classList.add('sel'); chosenMoment=el.getAttribute('data-moment');
+  document.getElementById('doneBlock').style.display = chosenMoment==='settle' ? 'block':'none';
+}
+function finishJourney(){ setMoment(chosenMoment); go('home'); }
+
+/* moments */
+function setMoment(m){
+  document.querySelectorAll('.moment-panel').forEach(function(p){p.style.display=p.getAttribute('data-m')===m?'block':'none';});
+  if(m==='settle'){ updateCompliance(); return; } // real, data-driven compliance for the Student journey
+  var notes={renew:'Keep your score up while you renew',grad:'Finish before graduation'};
+  var sn=document.getElementById('scoreNote'); if(sn) sn.textContent=notes[m]||'';
+  setRing(m==='renew'?61:74);
+}
+function pickMoment(m){closeSheet();setMoment(m);go('home');}
+function openSheet(){document.getElementById('sheetMask').classList.add('show');document.getElementById('sheet').classList.add('show');}
+function closeSheet(){document.getElementById('sheetMask').classList.remove('show');document.getElementById('sheet').classList.remove('show');}
+
+/* ring + tasks */
+var R=31, CIRC=2*Math.PI*R;
+function setRing(pct){var a=document.getElementById('ringArc');if(a){a.setAttribute('stroke-dasharray',CIRC);a.setAttribute('stroke-dashoffset',CIRC*(1-pct/100));}var p=document.getElementById('ringPct');if(p)p.textContent=Math.round(pct)+'%';}
+function toggleTask(el){ el.classList.toggle('on'); recompute(); }
+function recompute(){
+  var list=document.getElementById('taskList'); if(!list)return;
+  var all=list.querySelectorAll('.chk'),d=0; all.forEach(function(c){if(c.classList.contains('on'))d++;});
+  var cc=document.getElementById('chCount'); if(cc)cc.textContent=d+'/'+all.length;
+  setRing(Math.round(45+(d/all.length)*55));
+}
+/* loading + confetti */
+function loadThen(txt,view,cb){var l=document.getElementById('loading');document.getElementById('loadingTxt').textContent=txt;l.classList.add('show');
+  setTimeout(function(){l.classList.remove('show');if(view)go(view);if(cb)cb();},1050);}
+function fireConfetti(){var c=document.getElementById('confetti'),cols=['#2A3CCA','#366CFF','#FFA555','#02B93C','#7c5cff'];
+  for(var i=0;i<60;i++){var d=document.createElement('div');d.className='cf';d.style.left=Math.random()*100+'%';d.style.background=cols[i%cols.length];
+  d.style.animationDuration=(2+Math.random()*1.5)+'s';d.style.animationDelay=(Math.random()*.4)+'s';c.appendChild(d);}
+  setTimeout(function(){c.innerHTML='';},3500);}
+
+/* menu + desktop */
+function openMenu(){document.getElementById('menuMask').classList.add('show');document.getElementById('menu').classList.add('show');}
+function closeMenu(){document.getElementById('menuMask').classList.remove('show');document.getElementById('menu').classList.remove('show');}
+function showDesk(){closeMenu();document.getElementById('deskwrap').classList.add('show');document.querySelector('.device').style.display='none';}
+function hideDesk(){var d=document.getElementById('deskwrap');if(d.classList.contains('show')){d.classList.remove('show');document.querySelector('.device').style.display='';}}
+
+/* guided demo */
+var demoSteps=[
+  function(){go('signup');},
+  function(){document.querySelector('#v-signup .btn.primary').click();},
+  function(){go('setup');},
+  function(){chooseSetup(true);},
+  function(){go('journey');},
+  function(){finishJourney();},
+  function(){go('journeymap');},
+  function(){go('fupload');},
+  function(){loadThen('Loading template…','freview');},
+  function(){loadThen('Generating your PDF…','foutput',fireConfetti);},
+  function(){setMoment('renew');go('home');},
+  function(){setMoment('grad');go('home');},
+  function(){go('share');},
+  function(){go('viewer');}
+];
+var demoOn=false,demoT=null;
+function playDemo(){
+  if(demoOn){demoOn=false;clearTimeout(demoT);document.querySelector('.tbtn.play').textContent='▶ Play demo';return;}
+  demoOn=true;document.querySelector('.tbtn.play').textContent='⏸ Stop';var i=0;
+  (function step(){if(!demoOn||i>=demoSteps.length){demoOn=false;document.querySelector('.tbtn.play').textContent='▶ Play demo';return;}
+   demoSteps[i]();i++;demoT=setTimeout(step,1850);})();
+}
+
+/* init */
+renderAllPhases(); renderJourneyMap(); updateCompliance(); setMoment('settle'); applyVerify(); go('home');
+</script>
+<!-- ============================================================
+     REAL MINATO MOVE-IN FORM FILLER (integrated)
+     Opens over the app when the user taps "Moving-in Notification".
+     Config paths (adjust if your repo names differ):
+============================================================ -->
+<div id="ff-overlay" style="position:fixed;inset:0;background:#0c1020;color:#eef1f8;z-index:9999;display:none;flex-direction:column;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif">
+  <div style="display:flex;align-items:center;gap:10px;padding:11px 16px;background:#111731;border-bottom:1px solid #26304b;flex-wrap:wrap">
+    <b style="font-size:14px">🗾 Minato Moving-in form · auto-filled</b>
+    <span style="flex:1"></span>
+    <span style="font-size:12px;color:#9fb0d8">Student</span>
+    <select id="ff-student" style="background:#1b2340;color:#fff;border:1px solid #33406a;border-radius:9px;padding:7px 9px;font-size:13px"></select>
+    <span style="font-size:12px;color:#9fb0d8">pt</span>
+    <input type="number" id="ff-fsize" value="10" min="6" max="20" step="0.5" style="width:58px;background:#1b2340;color:#fff;border:1px solid #33406a;border-radius:9px;padding:7px 8px;font-size:13px">
+    <button id="ff-reset" style="background:#232c4d;color:#fff;border:0;border-radius:9px;padding:8px 12px;font-size:13px;font-weight:700;cursor:pointer">Reset</button>
+    <button id="ff-copy" style="background:#232c4d;color:#fff;border:0;border-radius:9px;padding:8px 12px;font-size:13px;font-weight:700;cursor:pointer">Copy layout</button>
+    <button id="ff-dl" disabled style="background:#2A3CCA;color:#fff;border:0;border-radius:9px;padding:8px 14px;font-size:13px;font-weight:700;cursor:pointer">⬇ Download PDF</button>
+    <button onclick="closeFiller()" style="background:#232c4d;color:#fff;border:0;border-radius:9px;padding:8px 12px;font-size:13px;font-weight:700;cursor:pointer">✕ Close</button>
+  </div>
+  <div id="ff-status" style="padding:7px 16px;font-size:12.5px;color:#9fb0d8;background:#0e1430">Loading…</div>
+  <div id="ff-pdfpick" style="display:none;padding:8px 16px;background:#0e1430;color:#ffd27a;font-size:12px;gap:8px;align-items:center">Couldn't auto-load the PDF — choose <b>&nbsp;jyuminidotodokejapanese.pdf&nbsp;</b>: <input type="file" id="ff-pdffile" accept="application/pdf"></div>
+  <div id="ff-fontpick" style="display:none;padding:8px 16px;background:#0e1430;color:#ffd27a;font-size:12px;gap:8px;align-items:center">Couldn't auto-load the font — choose a <b>&nbsp;NotoSansJP .ttf&nbsp;</b> (static Regular is safest): <input type="file" id="ff-fontfile" accept=".ttf,.otf"></div>
+  <div style="flex:1;display:flex;gap:12px;padding:12px;overflow:auto;align-items:flex-start">
+    <div style="width:250px;flex-shrink:0;background:#111731;border:1px solid #26304b;border-radius:12px;padding:11px;max-height:100%;overflow:auto">
+      <div style="font-size:11px;letter-spacing:.5px;color:#8ea0cf;text-transform:uppercase;margin-bottom:8px">Fields — tick, edit, drag onto the form</div>
+      <div id="ff-fieldlist"></div>
+    </div>
+    <div style="flex:1;background:#1b2340;border-radius:12px;padding:10px;overflow:auto">
+      <div id="ff-canvasbox" style="position:relative;display:inline-block;background:#fff">
+        <canvas id="ff-canvas"></canvas>
+        <div id="ff-ov" style="position:absolute;inset:0"></div>
+      </div>
+    </div>
+  </div>
+  <a id="ff-a" style="display:none"></a>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@pdf-lib/fontkit@1.1.1/dist/fontkit.umd.min.js"></script>
+<script>
+/* ==== paths in your repo (change if names differ) ==== */
+var FF_PDF  = "jyuminidotodokejapanese.pdf";
+var FF_FONT = "NotoSansJP-VariableFont_wght.ttf";  // a static NotoSansJP-Regular.ttf is safest
+
+var FF_STUDENTS=[
+ { name:"Smith John (USA)", f:{
+   notifDate:"2026年7月1日", moveDate:"2026年6月26日", arrival:"2026年6月25日",
+   furigana:"スミス ジョン", nameRoman:"Smith John", dob:"2002年5月15日", gender:"男",
+   nationality:"アメリカ", newAddr:"東京都港区芝公園4-2-8", oldAddr:"123 Main Street, New York, NY, USA",
+   householder:"スミス ジョン", applicant:"世帯主", relation:"世帯主", school:"Temple University, Japan Campus" } },
+ { name:"Kim Min-ji (South Korea)", f:{
+   notifDate:"2026年7月1日", moveDate:"2026年6月24日", arrival:"2026年6月22日",
+   furigana:"キム ミンジ", nameRoman:"Kim Min-ji", dob:"2003年11月20日", gender:"女",
+   nationality:"韓国", newAddr:"東京都港区六本木6-10-1", oldAddr:"456 Sejong-daero, Jongno-gu, Seoul, South Korea",
+   householder:"キム ミンジ", applicant:"世帯主", relation:"世帯主", school:"Temple University, Japan Campus" } }
+];
+var FF_FIELDS=[
+ ["notifDate","届出日"],["moveDate","異動日"],["arrival","入国日"],["furigana","フリガナ"],
+ ["nameRoman","氏名"],["dob","生年月日"],["gender","性別"],["nationality","国籍"],
+ ["newAddr","新住所"],["oldAddr","旧住所"],["householder","世帯主"],["applicant","届出人区分"],
+ ["relation","続柄"],["school","学校名"]
+];
+var FF_DEF={}; FF_FIELDS.forEach(function(fd,i){ FF_DEF[fd[0]]={x:130,y:80+i*28}; });
+
+var ffBooted=false, ffPdf=null, ffFont=null, ffScale=1, ffPtW=0, ffPtH=0;
+var ffPOS=JSON.parse(JSON.stringify(FF_DEF));
+var ffEnabled={}; FF_FIELDS.forEach(function(fd){ffEnabled[fd[0]]=true;});
+var ffVals={};
+function ffStat(t,e){var s=document.getElementById('ff-status');s.textContent=t;s.style.color=e?'#ffb4b4':'#9fb0d8';}
+
+function openFiller(){
+  document.getElementById('ff-overlay').style.display='flex';
+  if(!ffBooted){ ffBooted=true; ffBoot(); }
+}
+function closeFiller(){ document.getElementById('ff-overlay').style.display='none'; }
+
+async function ffTry(p){ try{var r=await fetch(p); if(!r.ok)throw 0; return await r.arrayBuffer();}catch(e){return null;} }
+async function ffBoot(){
+  if(typeof pdfjsLib!=="undefined") pdfjsLib.GlobalWorkerOptions.workerSrc="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+  ffStat("Loading the Minato form…");
+  ffPdf=await ffTry(FF_PDF);
+  if(!ffPdf){ document.getElementById('ff-pdfpick').style.display='flex'; ffStat("Please choose the PDF file.",true); }
+  ffFont=await ffTry(FF_FONT);
+  if(!ffFont){ document.getElementById('ff-fontpick').style.display='flex'; }
+  ffLoadStudent();
+  if(ffPdf) await ffRender();
+  ffDlState();
+}
+document.getElementById('ff-pdffile').onchange=async function(e){ ffPdf=await e.target.files[0].arrayBuffer(); document.getElementById('ff-pdfpick').style.display='none'; await ffRender(); ffDlState(); };
+document.getElementById('ff-fontfile').onchange=async function(e){ ffFont=await e.target.files[0].arrayBuffer(); document.getElementById('ff-fontpick').style.display='none'; ffDlState(); };
+
+async function ffRender(){
+  ffStat("Rendering form…");
+  var doc=await pdfjsLib.getDocument({data:ffPdf.slice(0)}).promise;
+  var page=await doc.getPage(1);
+  var base=page.getViewport({scale:1}); ffPtW=base.width; ffPtH=base.height;
+  ffScale=Math.min(1.4, 1000/base.width);
+  var vp=page.getViewport({scale:ffScale});
+  var cv=document.getElementById('ff-canvas'); cv.width=vp.width; cv.height=vp.height;
+  var ov=document.getElementById('ff-ov'); ov.style.width=vp.width+'px'; ov.style.height=vp.height+'px';
+  await page.render({canvasContext:cv.getContext('2d'),viewport:vp}).promise;
+  ffStat("Ready. Drag the yellow chips onto the form, then Download PDF.");
+  ffChips();
+}
+function ffDlState(){ document.getElementById('ff-dl').disabled=!(ffPdf&&ffFont); }
+
+var ffSel=document.getElementById('ff-student');
+FF_STUDENTS.forEach(function(s,i){var o=document.createElement('option');o.value=i;o.textContent=s.name;ffSel.appendChild(o);});
+ffSel.onchange=ffLoadStudent;
+function ffLoadStudent(){ ffVals=Object.assign({},FF_STUDENTS[ffSel.value].f); ffList(); ffChips(); }
+function ffList(){
+  var box=document.getElementById('ff-fieldlist'); box.innerHTML='';
+  FF_FIELDS.forEach(function(fd){var k=fd[0];
+    var row=document.createElement('div'); row.style.cssText='display:flex;align-items:center;gap:7px;margin-bottom:6px';
+    row.innerHTML='<input type="checkbox" '+(ffEnabled[k]?'checked':'')+' style="width:15px;height:15px"><span style="width:64px;font-size:11px;color:#9fb0d8">'+fd[1]+'</span><input value="'+(ffVals[k]||'').replace(/"/g,'&quot;')+'" style="flex:1;min-width:0;background:#1b2340;color:#fff;border:1px solid #33406a;border-radius:7px;padding:5px 7px;font-size:12px">';
+    row.querySelector('input[type=checkbox]').onchange=function(e){ffEnabled[k]=e.target.checked;ffChips();};
+    row.querySelector('input:not([type=checkbox])').oninput=function(e){ffVals[k]=e.target.value;var c=document.querySelector('#ff-ov .ffchip[data-k="'+k+'"]');if(c)c.firstChild.textContent=e.target.value;};
+    box.appendChild(row);
+  });
+}
+function ffChips(){
+  var ov=document.getElementById('ff-ov'); if(!ov)return; ov.innerHTML='';
+  var fs=parseFloat(document.getElementById('ff-fsize').value)*ffScale;
+  FF_FIELDS.forEach(function(fd){var k=fd[0]; if(!ffEnabled[k])return;
+    var c=document.createElement('div'); c.className='ffchip'; c.dataset.k=k;
+    c.style.cssText='position:absolute;color:#000;white-space:nowrap;cursor:grab;user-select:none;line-height:1;background:rgba(255,235,120,.35);border:1px dashed rgba(180,140,0,.55);padding:1px 2px;border-radius:3px;font-family:sans-serif';
+    c.style.left=(ffPOS[k]?ffPOS[k].x:130)+'px'; c.style.top=(ffPOS[k]?ffPOS[k].y:90)+'px'; c.style.fontSize=fs+'px';
+    c.appendChild(document.createTextNode(ffVals[k]||''));
+    ov.appendChild(c); ffDrag(c,k);
+  });
+}
+document.getElementById('ff-fsize').oninput=ffChips;
+function ffDrag(c,k){var sx,sy,ox,oy,d=false;
+  c.addEventListener('mousedown',function(e){d=true;c.style.background='rgba(120,190,255,.45)';sx=e.clientX;sy=e.clientY;ox=parseFloat(c.style.left);oy=parseFloat(c.style.top);e.preventDefault();});
+  window.addEventListener('mousemove',function(e){if(!d)return;var nx=ox+(e.clientX-sx),ny=oy+(e.clientY-sy);c.style.left=nx+'px';c.style.top=ny+'px';ffPOS[k]={x:nx,y:ny};});
+  window.addEventListener('mouseup',function(){if(d){d=false;c.style.background='rgba(255,235,120,.35)';}});
+}
+document.getElementById('ff-reset').onclick=function(){ffPOS=JSON.parse(JSON.stringify(FF_DEF));ffChips();};
+document.getElementById('ff-copy').onclick=function(){navigator.clipboard.writeText(JSON.stringify(ffPOS));ffStat("Layout copied — paste it back to lock these positions.");};
+
+document.getElementById('ff-dl').onclick=async function(){
+  try{
+    ffStat("Building filled PDF…");
+    var doc=await PDFLib.PDFDocument.load(ffPdf.slice(0));
+    doc.registerFontkit(fontkit);
+    var font; try{font=await doc.embedFont(ffFont.slice(0),{subset:true});}catch(e){font=await doc.embedFont(ffFont.slice(0),{subset:false});}
+    var page=doc.getPages()[0];
+    var fs=parseFloat(document.getElementById('ff-fsize').value);
+    FF_FIELDS.forEach(function(fd){var k=fd[0]; if(!ffEnabled[k])return; var v=ffVals[k]; if(!v)return;
+      var p=ffPOS[k]||FF_DEF[k];
+      page.drawText(v,{x:p.x/ffScale,y:ffPtH-(p.y/ffScale)-fs*0.82,size:fs,font:font,color:PDFLib.rgb(0,0,0)});
+    });
+    var bytes=await doc.save();
+    var a=document.getElementById('ff-a'); a.href=URL.createObjectURL(new Blob([bytes],{type:'application/pdf'}));
+    a.download='minato_movein_'+FF_STUDENTS[ffSel.value].name.split(' ')[0]+'.pdf'; a.click();
+    ffStat("Done ✓ Filled PDF downloaded.");
+  }catch(err){ ffStat("Error: "+err.message+" — if it mentions the font, use a static NotoSansJP-Regular.ttf.",true); }
+};
+</script>
+
+</body>
+</html>
