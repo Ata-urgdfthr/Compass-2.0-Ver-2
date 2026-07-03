@@ -239,6 +239,70 @@ svg.ic{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:2;strok
 .profrow .pi{width:40px;height:40px;border-radius:12px;background:var(--surface2);display:flex;align-items:center;justify-content:center;font-size:18px}
 .avatar{width:62px;height:62px;border-radius:20px;background:linear-gradient(135deg,var(--blue),var(--blue2));color:#fff;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:800}
 
+/* in-app settings drawer (hamburger) — scoped to the phone frame, unlike the dev "☰ Screens" panel */
+.setmenu-mask{position:absolute;inset:0;background:rgba(10,18,44,.46);opacity:0;pointer-events:none;transition:.3s;z-index:92}
+.setmenu-mask.show{opacity:1;pointer-events:auto}
+.setmenu{position:absolute;top:0;left:0;bottom:0;width:78%;max-width:290px;background:var(--surface);
+  transform:translateX(-104%);transition:.32s cubic-bezier(.4,0,.2,1);z-index:93;padding:22px 14px 16px;overflow-y:auto;box-shadow:10px 0 40px rgba(0,0,0,.22)}
+.setmenu.show{transform:none}
+.setmenu .sm-head{display:flex;align-items:center;gap:12px;margin-bottom:10px;padding:0 6px}
+.setmenu .sm-head .avatar{width:44px;height:44px;border-radius:14px;font-size:17px}
+.setmenu h4{margin:16px 8px 6px;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--ink2)}
+.setmenu .smi{display:flex;align-items:center;gap:12px;width:100%;text-align:left;border:0;background:none;padding:11px 8px;border-radius:12px;font-size:14px;color:var(--ink);cursor:pointer;font-family:inherit;font-weight:700;text-decoration:none;box-sizing:border-box}
+.setmenu .smi:hover{background:var(--surface2)}
+.setmenu .smi .smi-ic{width:30px;height:30px;border-radius:10px;background:var(--surface2);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
+.setmenu .smi.danger{color:var(--red)}
+
+/* profile v2 — detail fields (First/Last name, DOB, gender, nationality, visa type,
+   residence card expiry, arrival date, school, graduation date, old/new address) */
+.pfHint{font-size:12px;color:var(--ink2);margin:6px 2px 0;line-height:1.45}
+.kanaRow{margin-top:8px}
+
+/* nationality / school autosuggest */
+.ac-wrap{position:relative}
+.ac-list{position:absolute;left:0;right:0;top:calc(100% + 4px);background:var(--surface);border:1px solid var(--line);
+  border-radius:13px;box-shadow:var(--shadow);max-height:190px;overflow-y:auto;z-index:15;display:none}
+.ac-list.show{display:block}
+.ac-item{padding:11px 14px;font-size:14px;cursor:pointer}
+.ac-item:hover{background:var(--surface2)}
+
+/* scroll-wheel date picker (year / month / day) */
+.wheelpicker{display:flex;gap:2px;position:relative;height:140px;background:var(--surface);border:1.5px solid var(--line);
+  border-radius:15px;padding:0 4px;overflow:hidden;margin-top:2px}
+.wheelcol{flex:1;height:100%;overflow-y:scroll;scroll-snap-type:y mandatory;-webkit-overflow-scrolling:touch;
+  scrollbar-width:none;-ms-overflow-style:none;padding:56px 0}
+.wheelcol::-webkit-scrollbar{display:none}
+.wheelcol .wi{height:28px;line-height:28px;text-align:center;font-size:14.5px;color:var(--ink2);scroll-snap-align:center;
+  font-weight:600;cursor:pointer;transition:.15s}
+.wheelcol .wi.sel{color:var(--ink);font-weight:800;font-size:16.5px}
+.wheelhi{position:absolute;left:6px;right:6px;top:56px;height:28px;border-top:1.5px solid var(--line);
+  border-bottom:1.5px solid var(--line);pointer-events:none;background:color-mix(in srgb,var(--blue) 5%,transparent);border-radius:8px}
+
+/* zip-assisted address lookup */
+.zipRow{display:flex;gap:8px}
+.zipRow .inp{flex:1}
+
+/* cards auto-filled from a Residence Card photo (OCR) */
+.card.ocr{border-color:color-mix(in srgb,var(--blue) 32%,var(--line));background:color-mix(in srgb,var(--blue) 4%,var(--surface));position:relative;margin-top:26px}
+.card.ocr::before{content:"📷 Auto-filled from Residence Card";position:absolute;top:-13px;left:14px;background:var(--blue);color:#fff;
+  font-size:10px;font-weight:800;padding:5px 10px;border-radius:20px;white-space:nowrap}
+/* editing "My details" from the hub (post-setup) drops the OCR provenance styling — it's not a fresh scan */
+#v-profile.is-edit .card.ocr{border-color:var(--line);background:var(--surface);margin-top:14px}
+#v-profile.is-edit .card.ocr::before{display:none}
+
+/* sticky Save bar for the "My details" edit mode */
+.pfsavebar{position:absolute;left:10px;right:10px;bottom:10px;z-index:30;display:none;align-items:center;gap:10px;
+  background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:12px 14px;box-shadow:0 14px 30px rgba(12,26,68,.18)}
+.pfsavebar.show{display:flex}
+.pfsavebar .pf-savemsg{flex:1;font-size:12.5px;color:var(--ink2)}
+.pfsavebar button{width:auto;padding:11px 20px}
+.pfsavebar button:disabled{opacity:.45;cursor:not-allowed}
+
+/* toast */
+.pftoast{position:absolute;left:50%;bottom:88px;transform:translateX(-50%) translateY(10px);background:#0c1020;color:#fff;
+  font-size:13px;font-weight:700;padding:10px 18px;border-radius:30px;z-index:97;opacity:0;pointer-events:none;transition:.25s}
+.pftoast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
 /* university desktop */
 .deskwrap{display:none;width:100%;justify-content:center}
 .deskwrap.show{display:flex}
@@ -327,40 +391,151 @@ td{padding:12px 13px;border-top:1px solid var(--line)}
         <div class="appbar"><button class="back" onclick="go('signup')">‹</button><span class="muted" style="font-weight:700">Set up · 1 of 3</span><span style="width:24px"></span></div>
         <div class="pad">
           <h1 class="big serif">Set up your profile</h1>
-          <p class="lede">Two ways to start. Scanning your My Number Card is fastest — we read your details so there's almost nothing to type.</p>
-          <div class="tile reco" onclick="chooseSetup(true)">
-            <div class="ti">🪪</div>
-            <div><div class="tn">Scan My Number Card</div><div class="tm">Auto-fills your profile and verifies your account</div></div>
+          <p class="lede">Take a photo of your Residence Card and we'll read your details for you — almost nothing left to type.</p>
+
+          <div class="tile reco" onclick="chooseSetup('ocr')">
+            <div class="ti">📷</div>
+            <div><div class="tn">Photo of Residence Card</div><div class="tm">Auto-fills your name, DOB, gender, nationality, visa type and card expiry</div></div>
             <span class="recoBadge">Recommended</span>
           </div>
-          <div class="tile" onclick="chooseSetup(false)">
-            <div class="ti">✏️</div>
-            <div><div class="tn">Enter manually</div><div class="tm">Type your details in yourself — you can verify later</div></div>
+          <div class="tile" style="opacity:.55;cursor:default">
+            <div class="ti">🪪</div>
+            <div><div class="tn">Scan My Number Card</div><div class="tm">Auto-fills your profile and verifies your account</div></div>
+            <span class="recoBadge" style="background:var(--ink2)">Coming soon</span>
           </div>
-          <p class="note" style="margin-top:16px">A scanned card gives you a <b style="color:var(--green)">Verified</b> badge. Universities and other viewers trust verified profiles more, so it's worth doing now.</p>
+          <div class="tile" onclick="chooseSetup('manual')">
+            <div class="ti">✏️</div>
+            <div><div class="tn">Enter manually</div><div class="tm">Type your details in yourself</div></div>
+          </div>
+
+          <p class="note" style="margin-top:16px">🔜 My Number Card scanning and account <b>Verification</b> are coming soon. For now, the Residence Card photo is the fastest way to fill in your profile.</p>
         </div>
       </div>
 
       <!-- PROFILE -->
       <div class="view" id="v-profile">
-        <div class="appbar"><button class="back" onclick="go('setup')">‹</button><span class="muted" style="font-weight:700">Set up · 2 of 3</span><span style="width:24px"></span></div>
+        <div class="appbar"><button class="back" id="pfBack" onclick="go('setup')">‹</button><span class="muted" id="pfStepLabel" style="font-weight:700">Set up · 2 of 3</span><span style="width:24px"></span></div>
         <div class="pad">
           <div id="verBadge" class="badge-ver" style="display:none">✓ Verified via My Number Card</div>
           <div id="verNudge" class="nudge" style="display:none">
             <div style="font-size:20px">🪪</div>
-            <div style="flex:1"><div style="font-weight:700;font-size:13px">Verify your account</div><div class="muted">Scan your My Number Card anytime.</div></div>
-            <span class="link" onclick="chooseSetup(true)">Scan</span>
+            <div style="flex:1"><div style="font-weight:700;font-size:13px">Account verification</div><div class="muted">Verify via My Number Card — coming soon.</div></div>
+            <span class="recoBadge" style="background:var(--ink2);margin-left:0">Coming soon</span>
           </div>
-          <h1 class="big serif">Your details</h1>
-          <p class="lede">These power your whole experience: your <b>visa type</b> sets your journey, and these fields auto-fill your Japanese forms so you never type them twice.</p>
+          <h1 class="big serif" id="pfHeading">Your details</h1>
+          <p class="lede" id="pfLede">These power your whole experience: your <b>visa type</b> sets your journey, and these fields auto-fill your Japanese forms so you never type them twice.</p>
+
+          <div class="card" id="cardName">
+            <label class="field" style="margin-top:0">First name</label>
+            <input class="inp" id="pfFirst" value="Jessie" oninput="onNameInput('first')">
+            <div class="kanaRow"><input class="inp" id="pfFirstKana" value="ジェシー" oninput="pfKanaTouched.first=true"></div>
+            <div class="pfHint">Auto-converted to katakana — it's a best guess, so please check and edit it if it's off.</div>
+
+            <label class="field">Last name</label>
+            <input class="inp" id="pfLast" value="Tan" oninput="onNameInput('last')">
+            <div class="kanaRow"><input class="inp" id="pfLastKana" value="タン" oninput="pfKanaTouched.last=true"></div>
+            <div class="pfHint">Same here — auto-converted, edit if it's off.</div>
+          </div>
+
+          <div class="card" id="cardDob">
+            <label class="field" style="margin-top:0">Date of birth</label>
+            <div class="wheelpicker">
+              <div class="wheelcol" id="wp-dob-y"></div>
+              <div class="wheelcol" id="wp-dob-m"></div>
+              <div class="wheelcol" id="wp-dob-d"></div>
+              <div class="wheelhi"></div>
+            </div>
+            <div class="pfHint" id="eraDob"></div>
+          </div>
+
+          <div class="card" id="cardGenderNatVisa">
+            <label class="field" style="margin-top:0">Gender</label>
+            <select class="inp" id="pfGender"><option value="">Select</option><option>Male</option><option>Female</option><option>Other</option></select>
+
+            <label class="field">Nationality</label>
+            <div class="ac-wrap">
+              <input class="inp" id="pfNationality" placeholder="Start typing…" autocomplete="off" value="Singaporean">
+              <div class="ac-list" id="pfNationalityList"></div>
+            </div>
+
+            <label class="field">Visa type</label>
+            <select class="inp" id="pfVisaType">
+              <option>Students</option>
+              <option>Working Professional (Engineer/Specialist in Humanities/International Services)</option>
+              <option>Spouse</option>
+              <option>Startup Founder</option>
+              <option>Others</option>
+            </select>
+          </div>
+
+          <div class="card" id="cardRce">
+            <label class="field" style="margin-top:0">Residence card expiry date</label>
+            <div class="wheelpicker">
+              <div class="wheelcol" id="wp-rce-y"></div>
+              <div class="wheelcol" id="wp-rce-m"></div>
+              <div class="wheelcol" id="wp-rce-d"></div>
+              <div class="wheelhi"></div>
+            </div>
+          </div>
+
           <div class="card">
-            <label class="field" style="margin-top:0">Visa type</label>
-            <select class="inp"><option>Student</option><option>Engineer / Specialist</option><option>Dependent / Spouse</option><option>Working Holiday</option><option>Highly Skilled Professional</option></select>
-            <label class="field">Full name</label><input class="inp" value="Jessie Tan">
-            <label class="field">Visa expiry</label><input class="inp" value="2026 / 11 / 16">
-            <label class="field">Address</label><input class="inp" value="東京都新宿区西早稲田 2-1-1">
-            <button class="btn primary" style="margin-top:16px" onclick="go('journey')">Continue</button>
+            <label class="field" style="margin-top:0">Arrival date to Japan</label>
+            <div class="wheelpicker">
+              <div class="wheelcol" id="wp-arr-y"></div>
+              <div class="wheelcol" id="wp-arr-m"></div>
+              <div class="wheelcol" id="wp-arr-d"></div>
+              <div class="wheelhi"></div>
+            </div>
           </div>
+
+          <div class="card">
+            <label class="field" style="margin-top:0">School name</label>
+            <div class="ac-wrap">
+              <input class="inp" id="pfSchool" placeholder="Start typing your school…" autocomplete="off" value="Temple University Japan">
+              <div class="ac-list" id="pfSchoolList"></div>
+            </div>
+
+            <label class="field">Expected graduation date</label>
+            <div class="wheelpicker">
+              <div class="wheelcol" id="wp-grad-y"></div>
+              <div class="wheelcol" id="wp-grad-m"></div>
+              <div class="wheelcol" id="wp-grad-d"></div>
+              <div class="wheelhi"></div>
+            </div>
+          </div>
+
+          <div class="card">
+            <label class="field" style="margin-top:0">Old address</label>
+            <div class="ac-wrap">
+              <input class="inp" id="oldCountry" placeholder="Start typing your country…" autocomplete="off">
+              <div class="ac-list" id="oldCountryList"></div>
+            </div>
+            <div class="pfHint" id="oldZipHint" style="display:none">Enter your postcode first — we'll suggest the rest.</div>
+            <div class="zipRow" id="oldZipRow" style="display:none;margin-top:10px">
+              <input class="inp" id="oldZip" placeholder="Postcode">
+              <button class="btn ghost" style="width:auto;padding:14px 16px" onclick="lookupZip('old')">Look up</button>
+            </div>
+            <div class="pfHint" id="oldZipMsg"></div>
+            <input class="inp" id="oldLine1" placeholder="Address line 1" style="margin-top:10px">
+            <input class="inp" id="oldLine2" placeholder="Address line 2 (optional)" style="margin-top:10px">
+          </div>
+
+          <div class="card">
+            <label class="field" style="margin-top:0">New address in Japan</label>
+            <div class="pfHint">Country: Japan. Enter your postcode first — we'll suggest the rest.</div>
+            <div class="zipRow" style="margin-top:10px">
+              <input class="inp" id="newZip" placeholder="e.g. 160-0023" value="160-0023">
+              <button class="btn ghost" style="width:auto;padding:14px 16px" onclick="lookupZip('new')">Look up</button>
+            </div>
+            <div class="pfHint" id="newZipMsg"></div>
+            <input class="inp" id="newPref" placeholder="Prefecture" style="margin-top:10px" value="東京都">
+            <input class="inp" id="newCity" placeholder="City / ward" style="margin-top:10px" value="新宿区西早稲田">
+            <input class="inp" id="newRest" placeholder="Block / building name" style="margin-top:10px" value="2-1-1">
+            <input class="inp" id="newRoom" placeholder="Room number" style="margin-top:10px">
+          </div>
+
+          <div id="pfContinueWrap"><button class="btn primary" style="margin:4px 0 6px" onclick="go('journey')">Continue</button></div>
+          <div id="pfEditSpacer" style="display:none;height:76px"></div>
         </div>
       </div>
 
@@ -390,7 +565,7 @@ td{padding:12px 13px;border-top:1px solid var(--line)}
       <div class="view tabbed" id="v-home">
         <div class="appbar">
           <div><div class="muted" style="font-weight:700">Tue, 23 June</div><div class="ttl" style="font-size:18px">Hi Jessie 👋</div></div>
-          <button class="iconbtn" onclick="go('profile-app')"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M5 21c0-4 3.5-6 7-6s7 2 7 6"/></svg></button>
+          <button class="iconbtn" onclick="openSettingsMenu()"><svg class="ic" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
         </div>
         <div class="pad" style="padding-top:4px">
           <div class="scoreCard">
@@ -440,7 +615,7 @@ td{padding:12px 13px;border-top:1px solid var(--line)}
       </div>
 
       <!-- JOURNEY MAP — full Student journey (Students.docx, Part 1 + Part 2) -->
-      <div class="view" id="v-journeymap">
+      <div class="view tabbed" id="v-journeymap">
         <div class="appbar"><button class="back" onclick="go('home')">‹</button><span class="ttl">Your journey</span><span class="muted" style="font-weight:700" id="jmCount">0/10</span></div>
         <div class="pad">
           <h1 class="big serif">nyu<span style="color:var(--orange)">u</span>ly Compass, for Students</h1>
@@ -529,7 +704,7 @@ td{padding:12px 13px;border-top:1px solid var(--line)}
 
       <!-- FORM: pick -->
       <div class="view tabbed" id="v-fupload">
-        <div class="appbar"><button class="back" onclick="go('home')">‹</button><span class="ttl">Fill a form</span><span style="width:24px"></span></div>
+        <div class="appbar"><button class="back" onclick="go('home')">‹</button><span class="ttl">Fill a form</span><button class="iconbtn" onclick="openSettingsMenu()"><svg class="ic" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button></div>
         <div class="pad">
           <h1 class="big serif">Which form do you need?</h1>
           <p class="lede">Pick from our library of supported forms — we keep a clean, up-to-date copy of each and fill it from your profile. Or snap a photo and we'll find the match.</p>
@@ -584,7 +759,7 @@ td{padding:12px 13px;border-top:1px solid var(--line)}
 
       <!-- DECODER -->
       <div class="view tabbed" id="v-decoder">
-        <div class="appbar"><button class="back" onclick="go('home')">‹</button><span class="ttl">Decode mail</span><span style="width:24px"></span></div>
+        <div class="appbar"><button class="back" onclick="go('home')">‹</button><span class="ttl">Decode mail</span><button class="iconbtn" onclick="openSettingsMenu()"><svg class="ic" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button></div>
         <div class="pad">
           <h1 class="big serif">What's this letter?</h1>
           <p class="lede">Got official mail you can't read? Snap a photo. We'll tell you what it is and exactly what to do — in plain English. Most letters are Japanese, but any language works.</p>
@@ -677,17 +852,19 @@ td{padding:12px 13px;border-top:1px solid var(--line)}
       </div>
 
       <!-- PROFILE (in-app) -->
-      <div class="view tabbed" id="v-profile-app">
-        <div class="appbar"><span class="ttl">Profile</span><span style="width:24px"></span></div>
+      <div class="view" id="v-profile-app">
+        <div class="appbar"><button class="back" onclick="go('home')">‹</button><span class="ttl">Profile</span><button class="iconbtn" onclick="openSettingsMenu()"><svg class="ic" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button></div>
         <div class="pad">
           <div style="display:flex;align-items:center;gap:14px;margin-bottom:8px">
             <div class="avatar">JT</div>
-            <div><div style="font-weight:800;font-size:18px">Jessie Tan</div><div class="badge-ver" id="profVer" style="margin:5px 0 0">✓ Verified</div></div>
+            <div><div style="font-weight:800;font-size:18px">Jessie Tan</div><div class="badge-ver" id="profVer" style="margin:5px 0 0;display:none">✓ Verified</div><div class="muted" id="profVerSoon" style="margin-top:4px">🔜 Account verification — coming soon</div></div>
           </div>
-          <div class="profrow" onclick="go('profile')"><div class="pi">👤</div><div><div style="font-weight:700;font-size:14px">My details</div></div></div>
+
+          <div class="muted" style="font-weight:800;font-size:11px;letter-spacing:.6px;margin:16px 2px 6px">PROFILE</div>
+          <div class="profrow" onclick="openMyDetails()"><div class="pi">👤</div><div><div style="font-weight:700;font-size:14px">My details</div></div></div>
           <div class="profrow" onclick="go('share')"><div class="pi">🔗</div><div><div style="font-weight:700;font-size:14px">Sharing</div></div></div>
           <div class="profrow" onclick="openSheet()"><div class="pi">🔄</div><div><div style="font-weight:700;font-size:14px">My situation</div></div></div>
-          <div class="profrow"><div class="pi">🔔</div><div style="flex:1"><div style="font-weight:700;font-size:14px">Reminders</div></div><div class="sw on" onclick="event.stopPropagation();this.classList.toggle('on')"></div></div>
+
           <button class="btn soft" style="color:var(--red);margin-top:10px" onclick="go('signup')">Log out</button>
         </div>
       </div>
@@ -699,6 +876,29 @@ td{padding:12px 13px;border-top:1px solid var(--line)}
 
     <!-- section prev/next nav (single, fixed — shown only on phase screens) -->
     <div class="secnav" id="secnav"></div>
+
+    <!-- in-app settings drawer (hamburger) -->
+    <div class="setmenu-mask" id="setmenuMask" onclick="closeSettingsMenu()"></div>
+    <div class="setmenu" id="setmenu">
+      <div class="sm-head">
+        <div class="avatar">JT</div>
+        <div><div style="font-weight:800;font-size:15px">Jessie Tan</div><div class="muted">Temple University Japan</div></div>
+      </div>
+      <h4>Profile</h4>
+      <button class="smi" onclick="jumpMenu('profile-app')"><span class="smi-ic">👤</span>Profile setting</button>
+      <h4>Support</h4>
+      <a class="smi" href="https://nyuuly.com/mobile/sim/support/contact" target="_blank" rel="noopener"><span class="smi-ic">💬</span>Contact us</a>
+      <a class="smi" href="https://nyuuly.com/info-hub" target="_blank" rel="noopener"><span class="smi-ic">📚</span>Info-Hub</a>
+      <h4>Account</h4>
+      <button class="smi danger" onclick="jumpMenu('signup')"><span class="smi-ic">🚪</span>Log out</button>
+    </div>
+
+    <!-- sticky Save bar for "My details" edit mode (reached via the hamburger menu / Profile hub, not initial setup) -->
+    <div class="pfsavebar" id="pfSaveBar">
+      <span class="pf-savemsg" id="pfSaveMsg">No changes yet</span>
+      <button class="btn primary" id="pfSaveBtn" disabled onclick="saveProfileDetails()">Save</button>
+    </div>
+    <div class="pftoast" id="pfToast">✓ Saved</div>
 
     <!-- situation sheet -->
     <div class="sheet-mask" id="sheetMask" onclick="closeSheet()"></div>
@@ -789,7 +989,7 @@ var TABS=[
   ['home','Home','<svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>'],
   ['fupload','Forms','<svg viewBox="0 0 24 24"><path d="M14 3H6v18h12V8z"/><path d="M14 3v5h4"/><path d="M9 13h6M9 17h6"/></svg>'],
   ['decoder','Decode','<svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>'],
-  ['profile-app','Profile','<svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M5 21c0-4 3.5-6 7-6s7 2 7 6"/></svg>']
+  ['journeymap','Journey','<svg viewBox="0 0 24 24"><path d="M9 18l-6 3V6l6-3 6 3 6-3v15l-6 3-6-3z"/><path d="M9 3v15M15 6v15"/></svg>']
 ];
 var TABVIEWS=TABS.map(function(t){return t[0];});
 document.getElementById('tabbar').innerHTML=TABS.map(function(t){return '<div class="tab" data-go="'+t[0]+'">'+t[2]+'<span>'+t[1]+'</span></div>';}).join('');
@@ -1206,19 +1406,99 @@ function go(id){
   // transient resets
   if(id==='revoke'){document.getElementById('revC').style.display='block';document.getElementById('revD').style.display='none';}
   if(id==='decoder'){document.getElementById('decRes').style.display='none';document.getElementById('decScan').style.display='block';}
+  // "My details" edit mode (reached via hamburger/Profile hub) — sticky Save bar + dirty-change watch
+  if(id==='profile' && profileMode==='edit'){ document.getElementById('pfSaveBar').classList.add('show'); startProfileDirtyWatch(); }
+  else { document.getElementById('pfSaveBar').classList.remove('show'); stopProfileDirtyWatch(); }
 }
 function jump(id,m){closeMenu();if(m)setMoment(m);go(id);}
 
-/* setup: scan vs manual */
-function chooseSetup(scan){
-  verified=scan;
-  if(scan){ loadThen('Reading your My Number Card…','profile',applyVerify); }
+/* setup: Residence Card photo (OCR) vs manual.
+   My Number Card scanning and account Verification are coming-soon features —
+   neither path in this prototype can ever set verified=true right now. */
+function chooseSetup(mode){
+  setProfileMode('setup');
+  if(mode==='ocr'){ loadThen('Reading your Residence Card…','profile',applyResidenceOCR); }
   else { applyVerify(); go('profile'); }
+}
+
+/* "My details" — editing the same fields post-setup, from the Profile hub.
+   Different from the setup wizard: no step label/OCR badges/Continue button,
+   just a sticky Save bar enabled once something actually changes. */
+var profileMode='setup'; // 'setup' | 'edit'
+var profileSnapshot='';
+function setProfileMode(mode){
+  profileMode=mode;
+  var view=document.getElementById('v-profile');
+  var isEdit=mode==='edit';
+  view.classList.toggle('is-edit',isEdit);
+  document.getElementById('pfBack').onclick=function(){ go(isEdit?'profile-app':'setup'); };
+  document.getElementById('pfStepLabel').textContent=isEdit?'My details':'Set up · 2 of 3';
+  document.getElementById('pfHeading').textContent=isEdit?'My details':'Your details';
+  document.getElementById('pfLede').innerHTML=isEdit
+    ? 'Update your details any time — changes are used the next time we auto-fill your Japanese forms.'
+    : 'These power your whole experience: your <b>visa type</b> sets your journey, and these fields auto-fill your Japanese forms so you never type them twice.';
+  document.getElementById('pfContinueWrap').style.display=isEdit?'none':'block';
+  document.getElementById('pfEditSpacer').style.display=isEdit?'block':'none';
+}
+function openMyDetails(){
+  setProfileMode('edit');
+  profileSnapshot=snapshotProfileForm();
+  document.getElementById('pfSaveBtn').disabled=true;
+  document.getElementById('pfSaveMsg').textContent='No changes yet';
+  go('profile');
+}
+function snapshotProfileForm(){
+  var vals=[];
+  document.querySelectorAll('#v-profile .pad input, #v-profile .pad select').forEach(function(el){ vals.push(el.value); });
+  document.querySelectorAll('#v-profile .pad .wheelcol').forEach(function(w){ var sel=w.querySelector('.sel'); vals.push(sel?sel.textContent:''); });
+  return vals.join('|');
+}
+var profileDirtyTimer=null;
+function startProfileDirtyWatch(){ stopProfileDirtyWatch(); profileDirtyTimer=setInterval(checkProfileDirty,400); }
+function stopProfileDirtyWatch(){ if(profileDirtyTimer){ clearInterval(profileDirtyTimer); profileDirtyTimer=null; } }
+function checkProfileDirty(){
+  if(profileMode!=='edit') return;
+  var dirty=snapshotProfileForm()!==profileSnapshot;
+  var btn=document.getElementById('pfSaveBtn');
+  btn.disabled=!dirty;
+  document.getElementById('pfSaveMsg').textContent=dirty?'You have unsaved changes':'No changes yet';
+}
+function saveProfileDetails(){
+  profileSnapshot=snapshotProfileForm();
+  document.getElementById('pfSaveBtn').disabled=true;
+  document.getElementById('pfSaveMsg').textContent='No changes yet';
+  showProfileToast('✓ Saved');
+}
+var pfToastTimer=null;
+function showProfileToast(msg){
+  var t=document.getElementById('pfToast');
+  t.textContent=msg; t.classList.add('show');
+  clearTimeout(pfToastTimer);
+  pfToastTimer=setTimeout(function(){ t.classList.remove('show'); },1800);
 }
 function applyVerify(){
   document.getElementById('verBadge').style.display=verified?'inline-flex':'none';
   document.getElementById('verNudge').style.display=verified?'none':'flex';
   document.getElementById('profVer').style.display=verified?'inline-flex':'none';
+}
+/* Residence Card OCR demo-fill — only touches the fields a residence card
+   can actually supply (per the field spec): first/last name (+ katakana),
+   DOB, gender, nationality, visa type, residence card expiry date.
+   Arrival date, school, graduation date and address are NOT on the card. */
+function applyResidenceOCR(){
+  applyVerify();
+  document.getElementById('pfFirst').value='Jessie';
+  document.getElementById('pfFirstKana').value='ジェシー'; pfKanaTouched.first=true;
+  document.getElementById('pfLast').value='Tan';
+  document.getElementById('pfLastKana').value='タン'; pfKanaTouched.last=true;
+  initDatePicker('wp-dob', 1950, 2015, 2002, 5, 14, function(y,m,d){ updateEra(y,m,d); });
+  document.getElementById('pfGender').value='Female';
+  document.getElementById('pfNationality').value='Singaporean';
+  document.getElementById('pfVisaType').value='Students';
+  initDatePicker('wp-rce', 2023, 2036, 2026, 11, 16, function(){});
+  ['cardName','cardDob','cardGenderNatVisa','cardRce'].forEach(function(id){
+    var el=document.getElementById(id); if(el) el.classList.add('ocr');
+  });
 }
 
 /* journey setup */
@@ -1241,6 +1521,11 @@ function setMoment(m){
 function pickMoment(m){closeSheet();setMoment(m);go('home');}
 function openSheet(){document.getElementById('sheetMask').classList.add('show');document.getElementById('sheet').classList.add('show');}
 function closeSheet(){document.getElementById('sheetMask').classList.remove('show');document.getElementById('sheet').classList.remove('show');}
+
+/* in-app settings drawer (hamburger) — jumps to Profile/Settings pages from anywhere in the app */
+function openSettingsMenu(){document.getElementById('setmenuMask').classList.add('show');document.getElementById('setmenu').classList.add('show');}
+function closeSettingsMenu(){document.getElementById('setmenuMask').classList.remove('show');document.getElementById('setmenu').classList.remove('show');}
+function jumpMenu(id){closeSettingsMenu();go(id);}
 
 /* ring + tasks */
 var R=31, CIRC=2*Math.PI*R;
@@ -1271,7 +1556,7 @@ var demoSteps=[
   function(){go('signup');},
   function(){document.querySelector('#v-signup .btn.primary').click();},
   function(){go('setup');},
-  function(){chooseSetup(true);},
+  function(){chooseSetup('ocr');},
   function(){go('journey');},
   function(){finishJourney();},
   function(){go('journeymap');},
@@ -1291,8 +1576,264 @@ function playDemo(){
    demoSteps[i]();i++;demoT=setTimeout(step,1850);})();
 }
 
+/* ============================================================
+   PROFILE FIELDS — First/Last name + katakana, DOB/expiry/arrival/
+   graduation scroll-wheel pickers, era conversion, nationality/school
+   autosuggest, and zip-assisted address lookup.
+   All data below (kana table, nationality/school lists, zip lookup) is
+   local demo data for this static prototype — no real OCR/API calls.
+============================================================ */
+
+/* ---- best-effort romaji -> katakana (edit fields if it looks off) ---- */
+var ROMAJI_KANA={
+  kya:'キャ',kyu:'キュ',kyo:'キョ',sha:'シャ',shu:'シュ',sho:'ショ',
+  cha:'チャ',chu:'チュ',cho:'チョ',nya:'ニャ',nyu:'ニュ',nyo:'ニョ',
+  hya:'ヒャ',hyu:'ヒュ',hyo:'ヒョ',mya:'ミャ',myu:'ミュ',myo:'ミョ',
+  rya:'リャ',ryu:'リュ',ryo:'リョ',gya:'ギャ',gyu:'ギュ',gyo:'ギョ',
+  bya:'ビャ',byu:'ビュ',byo:'ビョ',pya:'ピャ',pyu:'ピュ',pyo:'ピョ',
+  chi:'チ',shi:'シ',tsu:'ツ',
+  she:'シェ',che:'チェ',je:'ジェ',ye:'イェ',we:'ウェ',wi:'ウィ',th:'ス',
+  ka:'カ',ki:'キ',ku:'ク',ke:'ケ',ko:'コ',
+  sa:'サ',su:'ス',se:'セ',so:'ソ',si:'シ',
+  ta:'タ',te:'テ',to:'ト',
+  na:'ナ',ni:'ニ',nu:'ヌ',ne:'ネ',no:'ノ',
+  ha:'ハ',hi:'ヒ',fu:'フ',he:'ヘ',ho:'ホ',
+  ma:'マ',mi:'ミ',mu:'ム',me:'メ',mo:'モ',
+  ya:'ヤ',yu:'ユ',yo:'ヨ',
+  ra:'ラ',ri:'リ',ru:'ル',re:'レ',ro:'ロ',
+  wa:'ワ',wo:'ヲ',
+  ga:'ガ',gi:'ギ',gu:'グ',ge:'ゲ',go:'ゴ',
+  za:'ザ',ji:'ジ',zu:'ズ',ze:'ゼ',zo:'ゾ',
+  da:'ダ',di:'ヂ',du:'ヅ',de:'デ',do:'ド',
+  ba:'バ',bi:'ビ',bu:'ブ',be:'ベ',bo:'ボ',
+  pa:'パ',pi:'ピ',pu:'プ',pe:'ペ',po:'ポ',
+  ja:'ジャ',ju:'ジュ',jo:'ジョ',
+  fa:'ファ',fi:'フィ',fe:'フェ',fo:'フォ',
+  va:'ヴァ',vi:'ヴィ',vu:'ヴ',ve:'ヴェ',vo:'ヴォ',
+  ti:'ティ',tu:'トゥ',
+  a:'ア',i:'イ',u:'ウ',e:'エ',o:'オ',n:'ン'
+};
+function romajiToKatakana(str){
+  if(!str) return '';
+  var s=str.toLowerCase().replace(/[^a-z]/g,''), out='', i=0;
+  while(i<s.length){
+    if(i+1<s.length && s[i]===s[i+1] && 'bcdfghjkmpqrstvwxyz'.indexOf(s[i])>=0 && s[i]!=='n'){
+      out+='ッ'; i++; continue;
+    }
+    var matched=false;
+    for(var len=3; len>=1; len--){
+      var chunk=s.substr(i,len);
+      if(ROMAJI_KANA[chunk]){ out+=ROMAJI_KANA[chunk]; i+=len; matched=true; break; }
+    }
+    if(!matched){
+      if(s[i]==='n'){ out+='ン'; i++; } else { i++; }
+    }
+  }
+  return out;
+}
+var pfKanaTouched={first:false,last:false};
+function onNameInput(which){
+  var srcId = which==='first' ? 'pfFirst' : 'pfLast';
+  var kanaId = which==='first' ? 'pfFirstKana' : 'pfLastKana';
+  if(pfKanaTouched[which]) return;
+  document.getElementById(kanaId).value = romajiToKatakana(document.getElementById(srcId).value);
+}
+
+/* ---- scroll-wheel date picker (year / month / day) ---- */
+function daysInMonth(y,m){ return new Date(y,m,0).getDate(); }
+function yearItems(min,max){ var a=[]; for(var y=min;y<=max;y++) a.push({label:String(y),value:y}); return a; }
+var MONTH_NAMES=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+function monthItems(){ return MONTH_NAMES.map(function(n,i){ return {label:n,value:i+1}; }); }
+function dayItems(n){ var a=[]; for(var d=1; d<=n; d++) a.push({label:String(d),value:d}); return a; }
+function syncWheelSel(col){
+  var itemH=28, idx=Math.round(col.scrollTop/itemH);
+  idx=Math.max(0, Math.min(col._items.length-1, idx));
+  col._idx=idx;
+  Array.prototype.forEach.call(col.children, function(el,i){ el.classList.toggle('sel', i===idx); });
+}
+function makeWheel(id, items, selIndex, cb){
+  var col=document.getElementById(id);
+  if(!col) return;
+  col.innerHTML = items.map(function(it){ return '<div class="wi">'+it.label+'</div>'; }).join('');
+  col._items=items; col._cb=cb;
+  var itemH=28;
+  selIndex = Math.max(0, Math.min(items.length-1, selIndex));
+  col.scrollTop = selIndex*itemH;
+  syncWheelSel(col);
+  col.onclick=function(e){
+    var el=e.target.closest ? e.target.closest('.wi') : null;
+    if(!el) return;
+    var idx=Array.prototype.indexOf.call(col.children, el);
+    col.scrollTop=idx*itemH;
+    syncWheelSel(col);
+    if(col._cb) col._cb(col._items[col._idx].value);
+  };
+  col.onscroll=function(){
+    clearTimeout(col._t);
+    col._t=setTimeout(function(){
+      syncWheelSel(col);
+      if(col._cb) col._cb(col._items[col._idx].value);
+    }, 120);
+  };
+}
+function initDatePicker(prefix, minY, maxY, defY, defM, defD, onChange){
+  var years=yearItems(minY,maxY), months=monthItems();
+  var curY=defY, curM=defM, curD=defD;
+  function rebuildDays(keepD){
+    var nd=daysInMonth(curY,curM);
+    var d=Math.min(keepD||curD, nd);
+    makeWheel(prefix+'-d', dayItems(nd), d-1, function(v){ curD=v; if(onChange) onChange(curY,curM,curD); });
+    curD=d;
+  }
+  makeWheel(prefix+'-y', years, curY-minY, function(v){ curY=v; rebuildDays(); if(onChange) onChange(curY,curM,curD); });
+  makeWheel(prefix+'-m', months, curM-1, function(v){ curM=v; rebuildDays(); if(onChange) onChange(curY,curM,curD); });
+  rebuildDays(defD);
+  if(onChange) onChange(curY,curM,curD);
+}
+
+/* ---- Japanese era conversion (Meiji/Taisho/Showa/Heisei/Reiwa) ---- */
+function eraLabel(y,m,d){
+  var val=y*10000+m*100+d;
+  var eras=[
+    {name:'Reiwa',kanji:'令和',start:20190501,startY:2019},
+    {name:'Heisei',kanji:'平成',start:19890108,startY:1989},
+    {name:'Showa',kanji:'昭和',start:19261225,startY:1926},
+    {name:'Taisho',kanji:'大正',start:19120730,startY:1912},
+    {name:'Meiji',kanji:'明治',start:18680908,startY:1868}
+  ];
+  for(var i=0;i<eras.length;i++){
+    if(val>=eras[i].start){
+      var e=eras[i], ey=y-e.startY+1;
+      return e.kanji+(ey===1?'元':ey)+'年'+m+'月'+d+'日 ('+e.name+' '+ey+')';
+    }
+  }
+  return y+'/'+m+'/'+d;
+}
+function updateEra(y,m,d){
+  var el=document.getElementById('eraDob');
+  if(el) el.innerHTML='🇯🇵 Japanese era: <b>'+eraLabel(y,m,d)+'</b>';
+}
+
+/* ---- nationality / school autosuggest (local demo lists) ---- */
+var NATIONALITIES=['Afghan','Australian','Bangladeshi','Bhutanese','Brazilian','British','Bruneian','Cambodian','Canadian',
+  'Chinese','Egyptian','Filipino','Finnish','French','German','Ghanaian','Hong Konger','Indian','Indonesian','Iranian',
+  'Italian','Japanese','Kazakh','Kenyan','Korean','Laotian','Malaysian','Mexican','Mongolian','Myanmar (Burmese)',
+  'Nepalese','New Zealander','Nigerian','Pakistani','Peruvian','Polish','Russian','Singaporean','South African',
+  'Spanish','Sri Lankan','Swedish','Taiwanese','Thai','Turkish','Ukrainian','American','Uzbek','Vietnamese'];
+var SCHOOLS=['Temple University Japan','University of Tokyo','Waseda University','Keio University','Sophia University',
+  'International Christian University (ICU)','Kyoto University','Osaka University','Tokyo Institute of Technology',
+  'Hitotsubashi University','Ritsumeikan Asia Pacific University (APU)','Ritsumeikan University','Doshisha University',
+  'Kansai University','Meiji University','Rikkyo University','Hosei University','Chuo University',
+  'Aoyama Gakuin University','University of Tsukuba','Nagoya University','Tohoku University','Hokkaido University',
+  'Kyushu University','Kobe University','Yokohama National University','Akita International University',
+  'J.F. Oberlin University','Musashino University','GLOBIS University'];
+/* all UN member states + a handful of commonly-listed territories (Taiwan, Hong Kong, Macau, Vatican City, Kosovo, Palestine) */
+var COUNTRIES=['Afghanistan','Albania','Algeria','Andorra','Angola','Antigua and Barbuda','Argentina','Armenia',
+  'Australia','Austria','Azerbaijan','Bahamas','Bahrain','Bangladesh','Barbados','Belarus','Belgium','Belize',
+  'Benin','Bhutan','Bolivia','Bosnia and Herzegovina','Botswana','Brazil','Brunei','Bulgaria','Burkina Faso',
+  'Burundi','Cabo Verde','Cambodia','Cameroon','Canada','Central African Republic','Chad','Chile','China',
+  'Colombia','Comoros','Congo (Republic of the)','Congo (Democratic Republic of the)','Costa Rica','Croatia',
+  'Cuba','Cyprus','Czechia','Denmark','Djibouti','Dominica','Dominican Republic','Ecuador','Egypt',
+  'El Salvador','Equatorial Guinea','Eritrea','Estonia','Eswatini','Ethiopia','Fiji','Finland','France',
+  'Gabon','Gambia','Georgia','Germany','Ghana','Greece','Grenada','Guatemala','Guinea','Guinea-Bissau',
+  'Guyana','Haiti','Honduras','Hong Kong','Hungary','Iceland','India','Indonesia','Iran','Iraq','Ireland',
+  'Israel','Italy','Jamaica','Japan','Jordan','Kazakhstan','Kenya','Kiribati','Kosovo','Kuwait','Kyrgyzstan',
+  'Laos','Latvia','Lebanon','Lesotho','Liberia','Libya','Liechtenstein','Lithuania','Luxembourg','Macau',
+  'Madagascar','Malawi','Malaysia','Maldives','Mali','Malta','Marshall Islands','Mauritania','Mauritius',
+  'Mexico','Micronesia','Moldova','Monaco','Mongolia','Montenegro','Morocco','Mozambique','Myanmar','Namibia',
+  'Nauru','Nepal','Netherlands','New Zealand','Nicaragua','Niger','Nigeria','North Korea','North Macedonia',
+  'Norway','Oman','Pakistan','Palau','Palestine','Panama','Papua New Guinea','Paraguay','Peru','Philippines',
+  'Poland','Portugal','Qatar','Romania','Russia','Rwanda','Saint Kitts and Nevis','Saint Lucia',
+  'Saint Vincent and the Grenadines','Samoa','San Marino','Sao Tome and Principe','Saudi Arabia','Senegal',
+  'Serbia','Seychelles','Sierra Leone','Singapore','Slovakia','Slovenia','Solomon Islands','Somalia',
+  'South Africa','South Korea','South Sudan','Spain','Sri Lanka','Sudan','Suriname','Sweden','Switzerland',
+  'Syria','Taiwan','Tajikistan','Tanzania','Thailand','Timor-Leste','Togo','Tonga','Trinidad and Tobago',
+  'Tunisia','Turkey','Turkmenistan','Tuvalu','Uganda','Ukraine','United Arab Emirates','United Kingdom',
+  'United States','Uruguay','Uzbekistan','Vanuatu','Vatican City','Venezuela','Vietnam','Yemen','Zambia','Zimbabwe'];
+function initAutosuggest(inputId, listId, data, onSelect){
+  var inp=document.getElementById(inputId), list=document.getElementById(listId);
+  if(!inp||!list) return;
+  inp.addEventListener('input', function(){
+    var v=inp.value.trim().toLowerCase();
+    if(onSelect) onSelect(inp.value);
+    if(!v){ list.classList.remove('show'); list.innerHTML=''; return; }
+    var matches=data.filter(function(x){ return x.toLowerCase().indexOf(v)>=0; }).slice(0,6);
+    if(!matches.length){ list.classList.remove('show'); list.innerHTML=''; return; }
+    list.innerHTML=matches.map(function(m){ return '<div class="ac-item">'+m+'</div>'; }).join('');
+    list.classList.add('show');
+    Array.prototype.forEach.call(list.children, function(el,i){
+      el.onclick=function(){ inp.value=matches[i]; list.classList.remove('show'); list.innerHTML=''; if(onSelect) onSelect(inp.value); };
+    });
+  });
+  inp.addEventListener('blur', function(){ setTimeout(function(){ list.classList.remove('show'); },150); });
+}
+
+/* ---- zip-assisted address lookup ----
+   Tries the free zipcloud.ibsnet.co.jp Japan postcode API (real, all JP postcodes)
+   and falls back to a small local table if there's no network access (e.g. offline
+   preview) or the postcode isn't Japanese. */
+var ZIP_DB={
+  '160-0023':{pref:'東京都',city:'新宿区西早稲田'},
+  '150-0001':{pref:'東京都',city:'渋谷区神宮前'},
+  '530-0001':{pref:'大阪府',city:'大阪市北区梅田'},
+  '060-0001':{pref:'北海道',city:'札幌市中央区北一条西'},
+  '810-0001':{pref:'福岡県',city:'福岡市中央区天神'}
+};
+function lookupZip(which){
+  var zipEl=document.getElementById(which==='new' ? 'newZip' : 'oldZip');
+  var msgEl=document.getElementById(which+'ZipMsg');
+  var raw=zipEl.value.trim();
+  var digits=raw.replace(/[^0-9]/g,'');
+  if(!digits){ msgEl.textContent='Enter a postcode first.'; msgEl.style.color='var(--ink2)'; return; }
+  var localHit=ZIP_DB[raw];
+  function apply(pref,city){
+    if(which==='new'){ document.getElementById('newPref').value=pref; document.getElementById('newCity').value=city; }
+    else { document.getElementById('oldLine1').value=pref+city; }
+    msgEl.textContent='✓ Address suggested from postcode. Please confirm the rest.'; msgEl.style.color='var(--green)';
+  }
+  function fail(reason){
+    if(localHit){ apply(localHit.pref, localHit.city); return; }
+    msgEl.textContent=reason||'Postcode not recognized — please enter the address manually.'; msgEl.style.color='var(--ink2)';
+  }
+  msgEl.textContent='Looking up…'; msgEl.style.color='var(--ink2)';
+  if(typeof fetch !== 'function'){ fail(); return; }
+  try{
+    fetch('https://zipcloud.ibsnet.co.jp/api/search?zipcode='+digits)
+      .then(function(r){ return r.json(); })
+      .then(function(data){
+        if(data && data.results && data.results.length){
+          var r0=data.results[0];
+          apply(r0.address1, r0.address2+r0.address3);
+        } else { fail(); }
+      })
+      .catch(function(){ fail('Could not reach the lookup service — please enter the address manually.'); });
+  }catch(e){ fail(); }
+}
+function onOldCountryChange(v){
+  var isJP=(v||document.getElementById('oldCountry').value).trim().toLowerCase()==='japan';
+  document.getElementById('oldZipRow').style.display=isJP?'flex':'none';
+  document.getElementById('oldZipHint').style.display=isJP?'block':'none';
+  document.getElementById('oldZipMsg').textContent='';
+}
+
+/* ---- wire it all up ---- */
+function initProfileFields(){
+  initAutosuggest('pfNationality','pfNationalityList',NATIONALITIES);
+  initAutosuggest('pfSchool','pfSchoolList',SCHOOLS);
+  initAutosuggest('oldCountry','oldCountryList',COUNTRIES,onOldCountryChange);
+  initDatePicker('wp-dob', 1950, 2015, 2002, 5, 14, function(y,m,d){ updateEra(y,m,d); });
+  initDatePicker('wp-rce', 2023, 2036, 2026, 11, 16, function(){});
+  initDatePicker('wp-arr', 2005, 2027, 2024, 4, 2, function(){});
+  initDatePicker('wp-grad', 2024, 2032, 2028, 3, 25, function(){});
+  // once the user edits a field by hand, its "auto-filled from Residence Card" badge no longer applies
+  ['cardName','cardGenderNatVisa'].forEach(function(id){
+    var card=document.getElementById(id);
+    if(card) card.addEventListener('input', function(){ card.classList.remove('ocr'); }, true);
+  });
+}
+
 /* init */
-renderAllPhases(); renderJourneyMap(); updateCompliance(); setMoment('settle'); applyVerify(); go('home');
+renderAllPhases(); renderJourneyMap(); updateCompliance(); setMoment('settle'); applyVerify(); go('home'); initProfileFields();
 </script>
 <!-- ============================================================
      REAL MINATO MOVE-IN FORM FILLER (integrated)
