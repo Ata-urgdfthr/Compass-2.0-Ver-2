@@ -113,6 +113,10 @@ svg.ic{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:2;strok
 .hero.settle{background:linear-gradient(130deg,var(--green),#029130)}
 .hero.renew{background:linear-gradient(130deg,var(--red),#7a0000)}
 .hero.grad{background:linear-gradient(130deg,var(--purple),#5a37e0)}
+.hero.arrive{background:linear-gradient(130deg,var(--blue2),var(--blue))}
+.hero.move{background:linear-gradient(130deg,var(--orange),#e07b2a)}
+.hero.gradhunt{background:linear-gradient(130deg,#0aa5a5,#046a6a)}
+.hero.leave{background:linear-gradient(130deg,var(--navy),#0a2f7a)}
 .hero .nowtag{font-size:11px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;opacity:.92}
 .hero h2{font-size:21px;margin:7px 0 5px;font-weight:800;letter-spacing:-.3px}
 .hero .hd{font-size:13px;opacity:.95;line-height:1.45;margin:0 0 12px}
@@ -135,6 +139,8 @@ svg.ic{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:2;strok
 .gnode.done .bub{background:linear-gradient(135deg,var(--green),#029130);border-color:transparent}
 .gnode.now .bub{background:linear-gradient(135deg,var(--blue),var(--blue2));border-color:transparent;box-shadow:0 0 0 5px color-mix(in srgb,var(--blue) 20%,transparent)}
 .gnode.lock .bub{opacity:.55}
+.gnode.soon .bub{background:var(--blue-lighter);border-color:transparent}
+.soonpill{display:inline-block;font-size:9.5px;font-weight:800;letter-spacing:.5px;color:var(--blue);background:var(--blue-lighter);border-radius:999px;padding:2px 7px;margin-left:7px;vertical-align:middle}
 .gnode .gl{font-size:14.5px;font-weight:700}
 .gnode .gm{font-size:11.5px;color:var(--ink2)}
 .gnode .av{position:absolute;left:32px;top:-12px;font-size:20px;z-index:3;animation:bob 1.6s ease-in-out infinite}
@@ -199,14 +205,14 @@ svg.ic{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:2;strok
 .view.hasnav{padding-bottom:88px}
 .secnav{position:absolute;left:10px;right:10px;bottom:10px;z-index:30;display:none;align-items:center;gap:8px}
 .secnav.show{display:flex}
-.secnav .navarrow{width:52px;height:52px;border-radius:50%;background:var(--surface);border:1px solid var(--line);
-  box-shadow:var(--shadow);display:flex;align-items:center;justify-content:center;font-size:21px;font-weight:800;
-  color:var(--blue);cursor:pointer;flex-shrink:0;transition:.15s}
-.secnav .navarrow:active{transform:scale(.92)}
-.secnav .navarrow.disabled{opacity:.32;pointer-events:none;color:var(--ink2)}
-.secnav .navmap{flex:1;height:46px;border-radius:23px;background:color-mix(in srgb,var(--surface) 94%,transparent);
-  backdrop-filter:blur(16px);border:1px solid var(--line);box-shadow:var(--shadow-sm);display:flex;align-items:center;
-  justify-content:center;gap:6px;font-size:12.5px;font-weight:800;color:var(--navy);cursor:pointer;white-space:nowrap}
+.secnav .navarrow{width:52px;height:50px;border-radius:16px;background:color-mix(in srgb,var(--surface) 92%,transparent);
+  border:1px solid color-mix(in srgb,var(--line) 65%,transparent);box-shadow:var(--shadow-sm);display:flex;align-items:center;
+  justify-content:center;font-size:19px;font-weight:600;color:var(--ink2);cursor:pointer;flex-shrink:0;transition:.15s}
+.secnav .navarrow:active{transform:scale(.94)}
+.secnav .navarrow.disabled{opacity:.28;pointer-events:none}
+.secnav .navmap{flex:1;height:50px;border-radius:18px;background:color-mix(in srgb,var(--surface) 90%,transparent);
+  backdrop-filter:blur(16px);border:1px solid color-mix(in srgb,var(--line) 65%,transparent);box-shadow:var(--shadow-sm);
+  display:flex;align-items:center;justify-content:center;gap:6px;font-size:12.5px;font-weight:700;color:var(--ink2);cursor:pointer;white-space:nowrap}
 
 /* celebration pop-up (balloons + confetti) */
 .sg-celebrate-mask{position:absolute;inset:0;background:rgba(10,18,44,.5);opacity:0;pointer-events:none;transition:.25s;z-index:90}
@@ -545,10 +551,13 @@ td{padding:12px 13px;border-top:1px solid var(--line)}
         <div class="pad">
           <h1 class="big serif">Where are you right now?</h1>
           <p class="lede">Compass adapts to your moment in Japan. Tell us what's happening and we'll open your dashboard on the right tasks — not a generic checklist.</p>
-          <div class="tile sel" data-moment="settle" onclick="selJourney(this)"><div class="ti">🛬</div><div><div class="tn">Just arrived / settling in</div><div class="tm">First-weeks essentials</div></div><div class="rad"></div></div>
-          <div class="tile" data-moment="renew" onclick="selJourney(this)"><div class="ti">🛂</div><div><div class="tn">My visa is expiring soon</div><div class="tm">Time to renew</div></div><div class="rad"></div></div>
-          <div class="tile" data-moment="grad" onclick="selJourney(this)"><div class="ti">🎓</div><div><div class="tn">Graduating with a job</div><div class="tm">Switching to a work visa</div></div><div class="rad"></div></div>
-          <div class="tile" data-moment="settle" onclick="selJourney(this)"><div class="ti">✈️</div><div><div class="tn">Leaving Japan</div><div class="tm">Wrapping things up</div></div><div class="rad"></div></div>
+          <div class="tile" data-moment="arrive" onclick="selJourney(this)"><div class="ti">🧳</div><div><div class="tn">Before arrival</div><div class="tm">Prep before you land</div></div><div class="rad"></div></div>
+          <div class="tile sel" data-moment="settle" onclick="selJourney(this)"><div class="ti">🛬</div><div><div class="tn">Just arrived — settling in</div><div class="tm">First-weeks essentials</div></div><div class="rad"></div></div>
+          <div class="tile" data-moment="move" onclick="selJourney(this)"><div class="ti">📦</div><div><div class="tn">Moving home (change of address)</div><div class="tm">Update your address</div></div><div class="rad"></div></div>
+          <div class="tile" data-moment="renew" onclick="selJourney(this)"><div class="ti">🛂</div><div><div class="tn">Renewing my student visa</div><div class="tm">Time to renew</div></div><div class="rad"></div></div>
+          <div class="tile" data-moment="gradjob" onclick="selJourney(this)"><div class="ti">🎓</div><div><div class="tn">Graduating with a job offer</div><div class="tm">Switch to a work visa</div></div><div class="rad"></div></div>
+          <div class="tile" data-moment="gradhunt" onclick="selJourney(this)"><div class="ti">🧭</div><div><div class="tn">Graduating, still job-hunting</div><div class="tm">Keep your status while you search</div></div><div class="rad"></div></div>
+          <div class="tile" data-moment="leave" onclick="selJourney(this)"><div class="ti">✈️</div><div><div class="tn">Leaving Japan</div><div class="tm">Wrapping things up</div></div><div class="rad"></div></div>
 
           <div id="doneBlock">
             <p class="muted" style="margin:20px 2px 10px;font-weight:700">Already done some of these?</p>
@@ -599,7 +608,29 @@ td{padding:12px 13px;border-top:1px solid var(--line)}
             <div class="jrow" onclick="go('section-renew')"><div class="ji">🗺️</div><div style="flex:1"><div style="font-weight:700;font-size:14px">Renewal · step 2 of 4</div><div class="jbar"><i style="width:40%"></i></div></div><span style="color:var(--blue);font-weight:800">›</span></div>
           </div>
 
-          <div class="moment-panel" data-m="grad" style="display:none">
+          <div class="moment-panel" data-m="arrive" style="display:none">
+            <div class="hero arrive">
+              <div class="nowtag">⚡ Your next step</div>
+              <h2>Get ready before you land</h2>
+              <p class="hd">Sort your Certificate of Eligibility, visa stamp and first accommodation now — so your first week in Japan is calm, not chaos.</p>
+              <div class="due">🧳 Student journey · Before arrival</div>
+              <button class="heroBtn" onclick="go('journeymap')">See the pre-arrival checklist →</button>
+            </div>
+            <div class="jrow" onclick="go('journeymap')"><div class="ji">🗺️</div><div style="flex:1"><div style="font-weight:700;font-size:14px">Before arrival · getting started</div><div class="jbar"><i style="width:10%"></i></div></div><span style="color:var(--blue);font-weight:800">›</span></div>
+          </div>
+
+          <div class="moment-panel" data-m="move" style="display:none">
+            <div class="hero move">
+              <div class="nowtag">⚡ Your next step</div>
+              <h2>Report your change of address</h2>
+              <p class="hd">Moved to a new place? File a moving-out and moving-in notice at City Hall within <b>14 days</b> so your residence card stays valid.</p>
+              <div class="due">📦 Within 14 days of moving · City Hall</div>
+              <button class="heroBtn" onclick="openMyDetails()">Update my address →</button>
+            </div>
+            <div class="jrow" onclick="openMyDetails()"><div class="ji">🏠</div><div style="flex:1"><div style="font-weight:700;font-size:14px">Change of address · step 1 of 2</div><div class="jbar"><i style="width:20%"></i></div></div><span style="color:var(--blue);font-weight:800">›</span></div>
+          </div>
+
+          <div class="moment-panel" data-m="gradjob" style="display:none">
             <div class="hero grad">
               <div class="nowtag">⚡ Your next step</div>
               <h2>Change your status to work</h2>
@@ -608,6 +639,28 @@ td{padding:12px 13px;border-top:1px solid var(--line)}
               <button class="heroBtn" onclick="go('section-grad')">Start change of status →</button>
             </div>
             <div class="jrow" onclick="go('section-grad')"><div class="ji">🗺️</div><div style="flex:1"><div style="font-weight:700;font-size:14px">Change of status · step 2 of 4</div><div class="jbar"><i style="width:40%"></i></div></div><span style="color:var(--blue);font-weight:800">›</span></div>
+          </div>
+
+          <div class="moment-panel" data-m="gradhunt" style="display:none">
+            <div class="hero gradhunt">
+              <div class="nowtag">⚡ Your next step</div>
+              <h2>Switch to a job-hunting status</h2>
+              <p class="hd">Graduating without an offer yet? Stay and keep looking by changing to a <b>Designated Activities</b> job-seeker status — apply before your student status ends.</p>
+              <div class="due">🧭 Apply before graduation · Immigration</div>
+              <button class="heroBtn" onclick="go('journeymap')">See what to prepare →</button>
+            </div>
+            <div class="jrow" onclick="go('journeymap')"><div class="ji">🗺️</div><div style="flex:1"><div style="font-weight:700;font-size:14px">Job-seeker status · step 1 of 3</div><div class="jbar"><i style="width:15%"></i></div></div><span style="color:var(--blue);font-weight:800">›</span></div>
+          </div>
+
+          <div class="moment-panel" data-m="leave" style="display:none">
+            <div class="hero leave">
+              <div class="nowtag">⚡ Your next step</div>
+              <h2>Wrap things up before you go</h2>
+              <p class="hd">Leaving Japan? Cancel your residence, settle pension and tax, close your bank account and hand back your residence card at the airport.</p>
+              <div class="due">✈️ Start ~1 month before departure</div>
+              <button class="heroBtn" onclick="go('journeymap')">See your leaving checklist →</button>
+            </div>
+            <div class="jrow" onclick="go('journeymap')"><div class="ji">🗺️</div><div style="flex:1"><div style="font-weight:700;font-size:14px">Leaving Japan · step 1 of 5</div><div class="jbar"><i style="width:12%"></i></div></div><span style="color:var(--blue);font-weight:800">›</span></div>
           </div>
 
           <button class="btn soft" style="margin-top:8px" onclick="openSheet()">🔄 Something changed? Update your situation</button>
@@ -619,12 +672,32 @@ td{padding:12px 13px;border-top:1px solid var(--line)}
         <div class="appbar"><button class="back" onclick="go('home')">‹</button><span class="ttl">Your journey</span><span class="muted" style="font-weight:700" id="jmCount">0/10</span></div>
         <div class="pad">
           <h1 class="big serif">nyu<span style="color:var(--orange)">u</span>ly Compass, for Students</h1>
-          <p class="lede">A warm, simple guide for starting your new life in Japan. Tap any stage to see its steps — only <b>Mandatory</b> items count toward your compliance score.</p>
-          <div style="font-size:12px;font-weight:800;color:var(--ink2);letter-spacing:.4px;margin:4px 2px 6px">PART 1 — BEFORE ARRIVAL</div>
+          <p class="lede">Your journey in Japan, one life moment at a time. The first two chapters — <b>arriving</b> and <b>settling in</b> — are what everyone needs, so we start there. More moments open up as your life changes.</p>
+          <div style="font-size:12px;font-weight:800;color:var(--ink2);letter-spacing:.4px;margin:4px 2px 6px">🧳 CHAPTER 1 · BEFORE ARRIVAL</div>
           <div class="gmap" id="gmapPart1"></div>
-          <div style="font-size:12px;font-weight:800;color:var(--ink2);letter-spacing:.4px;margin:18px 2px 6px">PART 2 — AFTER ARRIVAL</div>
+          <div style="font-size:12px;font-weight:800;color:var(--ink2);letter-spacing:.4px;margin:18px 2px 6px">🛬 CHAPTER 2 · JUST ARRIVED — SETTLING IN</div>
           <div class="gmap" id="gmapPart2"></div>
+          <div style="font-size:12px;font-weight:800;color:var(--ink2);letter-spacing:.4px;margin:22px 2px 4px">MORE LIFE MOMENTS</div>
+          <p class="pfHint" style="margin:0 2px 6px">These chapters open up when your situation changes. They're optional and don't affect your compliance score.</p>
+          <div class="gmap" id="gmapMore"></div>
           <button class="btn soft" onclick="go('home')">Back to home</button>
+        </div>
+      </div>
+
+      <!-- MOMENT PLACEHOLDER — "coming soon" chapter screen -->
+      <div class="view" id="v-moment-soon">
+        <div class="appbar"><button class="back" onclick="go('journeymap')">‹</button><span class="ttl">Your journey</span><span style="width:24px"></span></div>
+        <div class="pad">
+          <div style="text-align:center;padding:22px 0 4px">
+            <div id="msIcon" style="font-size:58px;line-height:1">📦</div>
+            <h1 class="big serif" id="msTitle" style="margin-top:10px">Moving home</h1>
+            <p class="lede" id="msSub" style="margin-top:2px">Update your address</p>
+          </div>
+          <div class="card" style="text-align:center">
+            <div style="font-size:12px;font-weight:800;color:var(--blue);letter-spacing:.6px">COMING SOON</div>
+            <p class="pfHint" style="margin-top:8px;line-height:1.55">We're still building this chapter. When it's ready it'll guide you through this life moment step by step — just like your <b>Before arrival</b> and <b>Settling in</b> chapters. It's optional and won't affect your compliance score.</p>
+          </div>
+          <button class="btn soft" onclick="go('journeymap')">Back to your journey</button>
         </div>
       </div>
 
@@ -905,10 +978,8 @@ td{padding:12px 13px;border-top:1px solid var(--line)}
     <div class="sheet" id="sheet">
       <div class="grab"></div>
       <h1 class="big serif" style="font-size:21px">What's changed?</h1>
-      <p class="lede">We'll reshape your dashboard.</p>
-      <div class="tile" onclick="pickMoment('settle')"><div class="ti">🛬</div><div><div class="tn">Settling in</div></div></div>
-      <div class="tile" onclick="pickMoment('renew')"><div class="ti">🛂</div><div><div class="tn">My visa is expiring</div></div></div>
-      <div class="tile" onclick="pickMoment('grad')"><div class="ti">🎓</div><div><div class="tn">Graduating with a job</div></div></div>
+      <p class="lede">We'll reshape your dashboard around your new moment.</p>
+      <div id="sheetTiles"></div>
     </div>
 
     <!-- celebration pop-up (shown when a phase's mandatory milestone completes) -->
@@ -1241,12 +1312,12 @@ function renderPhase(p){
   html+='<div class="jrow" style="cursor:default"><div style="flex:1"><div style="font-weight:700;font-size:13px">'+st.done+'/'+st.total+' steps done</div><div class="jbar"><i style="width:'+pct+'%"></i></div></div></div>';
   p.steps.forEach(function(s){ html+=renderStep(p,s); });
   if(p.phaseNote) html+='<div class="note">'+md(p.phaseNote)+'</div>';
-  // City Hall's completion message only appears once every task in this
-  // phase is checked off — everywhere else the outro shows as soon as the
-  // screen is opened (unchanged behaviour).
-  var showOutro = p.outro && (p.id!=='cityhall' || (st.total>0 && st.done===st.total));
-  if(showOutro) html+='<div class="note" style="background:var(--green-light);color:var(--ink);font-weight:700">'+paraBlock(p.outro,'').replace(/<p class="">/g,'<p style="margin:0 0 6px">')+'</div>';
-  if(isLast) html+='<div class="note" style="background:var(--green-light);color:var(--ink);font-weight:700">'+meta.outro.map(function(l){return '<p style="margin:0 0 6px">'+md(l)+'</p>';}).join('')+'</div>';
+  // Every phase now behaves like City Hall: the green encouragement/outro
+  // message stays hidden until all steps in the phase are checked off, then
+  // appears as a congrats (paired with the celebration pop-up in sgToggle).
+  var phaseComplete = st.total>0 && st.done===st.total;
+  if(p.outro && phaseComplete) html+='<div class="note" style="background:var(--green-light);color:var(--ink);font-weight:700">'+paraBlock(p.outro,'').replace(/<p class="">/g,'<p style="margin:0 0 6px">')+'</div>';
+  if(isLast && phaseComplete) html+='<div class="note" style="background:var(--green-light);color:var(--ink);font-weight:700">'+meta.outro.map(function(l){return '<p style="margin:0 0 6px">'+md(l)+'</p>';}).join('')+'</div>';
   document.getElementById('pad-'+p.id).innerHTML=html;
   var st2=phaseStats(p);
   var cc=document.getElementById('cnt-'+p.id); if(cc) cc.textContent=st2.done+'/'+st2.total;
@@ -1282,9 +1353,30 @@ function renderJourneyMap(){
     });
     box.innerHTML=html;
   });
+  // placeholder "life moment" chapters — visual only, never counted toward progress/compliance
+  var more=document.getElementById('gmapMore');
+  if(more){
+    var PLACE=['move','renew','gradjob','gradhunt','leave'];
+    more.innerHTML=PLACE.map(function(id,i){
+      var m=MOMENTS[momentIndex(id)]; if(!m) return '';
+      return '<div class="gnode soon" onclick="openMomentSoon(\''+id+'\')">'+
+        (i<PLACE.length-1?'<div class="gconn" style="top:48px;height:44px"></div>':'')+
+        '<div class="bub">'+m.icon+'</div>'+
+        '<div><div class="gl">'+m.name+'<span class="soonpill">SOON</span></div><div class="gm">'+m.sub+'</div></div>'+
+      '</div>';
+    }).join('');
+  }
+  // progress count reflects only the two real chapters (Student journey phases)
   var all=STUDENT_PHASES.map(phaseStats);
   var phasesDone=all.filter(function(s){return s.done===s.total;}).length;
   var jc=document.getElementById('jmCount'); if(jc) jc.textContent=phasesDone+'/'+STUDENT_PHASES.length;
+}
+function openMomentSoon(id){
+  var m=MOMENTS[momentIndex(id)]; if(!m) return;
+  var i=document.getElementById('msIcon'); if(i) i.textContent=m.icon;
+  var t=document.getElementById('msTitle'); if(t) t.textContent=m.name;
+  var s=document.getElementById('msSub'); if(s) s.textContent=m.sub;
+  go('moment-soon');
 }
 
 function sgToggle(phaseId,letter){
@@ -1301,9 +1393,23 @@ function sgToggle(phaseId,letter){
 
   var after=phaseStats(p);
   var isComplete=after.total>0 && after.done===after.total;
-  if(phaseId==='cityhall' && !wasComplete && isComplete){
-    celebrate('🎉','That\'s it! Congratulations!',"You're officially a resident of your new city — you've checked off the biggest items on your first-week-in-Japan to-do list.");
+  // Every phase celebrates on completion, just like City Hall.
+  if(!wasComplete && isComplete){
+    var who=userFirstName();
+    if(phaseId==='cityhall'){
+      celebrate('🎉','That\'s it, '+who+'. Congratulations!',"You're officially a resident of your new city — you've checked off the biggest items on your first-week-in-Japan to-do list.");
+    } else {
+      var raw = p.outro ? (Array.isArray(p.outro)?p.outro.join(' '):p.outro) : 'You\'ve checked off every step in this chapter.';
+      var body = raw.replace(/\*\*(.*?)\*\*/g,'$1').replace(/\[(.*?)\]\((.*?)\)/g,'$1'); // strip markdown-lite for the plain-text card
+      celebrate('🎉','Nice work, '+who+' — '+p.title+' done!', body);
+    }
   }
+}
+// live first name from the profile form (falls back gracefully if empty)
+function userFirstName(){
+  var el=document.getElementById('pfFirst');
+  var n=el&&el.value?el.value.trim():'';
+  return n||'friend';
 }
 
 /* ---- celebration pop-up: balloons + confetti + congrats card ---- */
@@ -1501,8 +1607,29 @@ function applyResidenceOCR(){
   });
 }
 
+/* life moments — one ordered lifecycle, shared by setup + "what's changed" sheet */
+var MOMENTS=[
+  {id:'arrive',   icon:'🧳', name:'Before arrival',                    sub:'Prep before you land'},
+  {id:'settle',   icon:'🛬', name:'Just arrived — settling in',        sub:'First-weeks essentials'},
+  {id:'move',     icon:'📦', name:'Moving home (change of address)',   sub:'Update your address'},
+  {id:'renew',    icon:'🛂', name:'Renewing my student visa',          sub:'Time to renew'},
+  {id:'gradjob',  icon:'🎓', name:'Graduating with a job offer',       sub:'Switch to a work visa'},
+  {id:'gradhunt', icon:'🧭', name:'Graduating, still job-hunting',     sub:'Keep your status while you search'},
+  {id:'leave',    icon:'✈️', name:'Leaving Japan',                     sub:'Wrapping things up'}
+];
+var MOMENT_META={
+  arrive:  {note:'Get ready before you land',            ring:18},
+  move:    {note:'Report your move within 14 days',      ring:68},
+  renew:   {note:'Keep your score up while you renew',   ring:61},
+  gradjob: {note:'Finish before graduation',             ring:74},
+  gradhunt:{note:'Keep a valid status while you search', ring:66},
+  leave:   {note:'Close things out before you go',       ring:80}
+};
+function momentIndex(id){ for(var i=0;i<MOMENTS.length;i++){ if(MOMENTS[i].id===id) return i; } return -1; }
+
 /* journey setup */
 var chosenMoment='settle';
+var currentMoment='settle';
 function selJourney(el){
   document.querySelectorAll('#v-journey .tile').forEach(function(t){t.classList.remove('sel');});
   el.classList.add('sel'); chosenMoment=el.getAttribute('data-moment');
@@ -1512,14 +1639,24 @@ function finishJourney(){ setMoment(chosenMoment); go('home'); }
 
 /* moments */
 function setMoment(m){
+  currentMoment=m;
   document.querySelectorAll('.moment-panel').forEach(function(p){p.style.display=p.getAttribute('data-m')===m?'block':'none';});
   if(m==='settle'){ updateCompliance(); return; } // real, data-driven compliance for the Student journey
-  var notes={renew:'Keep your score up while you renew',grad:'Finish before graduation'};
-  var sn=document.getElementById('scoreNote'); if(sn) sn.textContent=notes[m]||'';
-  setRing(m==='renew'?61:74);
+  var meta=MOMENT_META[m]||{note:'',ring:74};
+  var sn=document.getElementById('scoreNote'); if(sn) sn.textContent=meta.note;
+  setRing(meta.ring);
+}
+function renderSituationTiles(){
+  var box=document.getElementById('sheetTiles'); if(!box) return;
+  var idx=momentIndex(currentMoment);
+  var rest=MOMENTS.filter(function(x,i){ return i>idx; }); // past chapters are done — only show what's ahead
+  if(!rest.length){ box.innerHTML='<p class="muted" style="margin:8px 2px;font-weight:700">You\'re at the final stage of your journey in Japan. 🎌</p>'; return; }
+  box.innerHTML=rest.map(function(x){
+    return '<div class="tile" onclick="pickMoment(\''+x.id+'\')"><div class="ti">'+x.icon+'</div><div><div class="tn">'+x.name+'</div><div class="tm">'+x.sub+'</div></div></div>';
+  }).join('');
 }
 function pickMoment(m){closeSheet();setMoment(m);go('home');}
-function openSheet(){document.getElementById('sheetMask').classList.add('show');document.getElementById('sheet').classList.add('show');}
+function openSheet(){renderSituationTiles();document.getElementById('sheetMask').classList.add('show');document.getElementById('sheet').classList.add('show');}
 function closeSheet(){document.getElementById('sheetMask').classList.remove('show');document.getElementById('sheet').classList.remove('show');}
 
 /* in-app settings drawer (hamburger) — jumps to Profile/Settings pages from anywhere in the app */
