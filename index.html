@@ -464,14 +464,16 @@ td{padding:12px 13px;border-top:1px solid var(--line)}
               <div class="ac-list" id="pfNationalityList"></div>
             </div>
 
-            <label class="field">Visa type</label>
-            <select class="inp" id="pfVisaType">
+            <label class="field">Visa type <span style="color:var(--red)">*</span></label>
+            <select class="inp" id="pfVisaType" onchange="applyVisaFromField()">
+              <option value="">Select your visa type…</option>
               <option>Students</option>
               <option>Working Professional (Engineer/Specialist in Humanities/International Services)</option>
               <option>Spouse</option>
               <option>Startup Founder</option>
               <option>Others</option>
             </select>
+            <div class="pfHint" id="pfVisaHint">Required — this sets your whole journey.</div>
           </div>
 
           <div class="card" id="cardRce">
@@ -494,7 +496,7 @@ td{padding:12px 13px;border-top:1px solid var(--line)}
             </div>
           </div>
 
-          <div class="card">
+          <div class="card" id="cardSchool">
             <label class="field" style="margin-top:0">School name</label>
             <div class="ac-wrap">
               <input class="inp" id="pfSchool" placeholder="Start typing your school…" autocomplete="off" value="Temple University Japan">
@@ -540,7 +542,7 @@ td{padding:12px 13px;border-top:1px solid var(--line)}
             <input class="inp" id="newRoom" placeholder="Room number" style="margin-top:10px">
           </div>
 
-          <div id="pfContinueWrap"><button class="btn primary" style="margin:4px 0 6px" onclick="go('journey')">Continue</button></div>
+          <div id="pfContinueWrap"><button class="btn primary" style="margin:4px 0 6px" onclick="continueSetup()">Continue</button></div>
           <div id="pfEditSpacer" style="display:none;height:76px"></div>
         </div>
       </div>
@@ -671,7 +673,7 @@ td{padding:12px 13px;border-top:1px solid var(--line)}
       <div class="view tabbed" id="v-journeymap">
         <div class="appbar"><button class="back" onclick="go('home')">‹</button><span class="ttl">Your journey</span><span class="muted" style="font-weight:700" id="jmCount">0/10</span></div>
         <div class="pad">
-          <h1 class="big serif">nyu<span style="color:var(--orange)">u</span>ly Compass, for Students</h1>
+          <h1 class="big serif">nyu<span style="color:var(--orange)">u</span>ly Compass, <span id="jmVisaLabel">for Students</span></h1>
           <p class="lede">Your journey in Japan, one life moment at a time. The first two chapters — <b>arriving</b> and <b>settling in</b> — are what everyone needs, so we start there. More moments open up as your life changes.</p>
           <div style="font-size:12px;font-weight:800;color:var(--ink2);letter-spacing:.4px;margin:4px 2px 6px">🧳 CHAPTER 1 · BEFORE ARRIVAL</div>
           <div class="gmap" id="gmapPart1"></div>
@@ -744,6 +746,9 @@ td{padding:12px 13px;border-top:1px solid var(--line)}
         <div class="appbar"><button class="back" onclick="go('journeymap')">‹</button><span class="ttl">Daily Life</span><span class="muted" style="font-weight:700" id="cnt-daily">0/3</span></div>
         <div class="pad" id="pad-daily"></div>
       </div>
+
+      <!-- Dynamic phase screens for non-student visas (built by buildSectionScreens) -->
+      <div id="secScreens"></div>
 
       <!-- SECTION (renewal) -->
       <div class="view" id="v-section-renew">
@@ -1040,6 +1045,12 @@ td{padding:12px 13px;border-top:1px solid var(--line)}
   <button class="mi" onclick="jump('sec-school')">Phase · School</button>
   <button class="mi" onclick="jump('sec-cityhall')">Phase · City Hall</button>
   <button class="mi" onclick="jump('sec-bank')">Phase · Bank Account</button>
+  <h4>Journey by visa</h4>
+  <button class="mi" onclick="jumpVisa('student')">🎓 Student journey</button>
+  <button class="mi" onclick="jumpVisa('company')">💼 Company-Sponsored journey</button>
+  <button class="mi" onclick="jumpVisa('founder')">🚀 Startup Founder journey</button>
+  <button class="mi" onclick="jumpVisa('family')">👪 Spouse / Family journey</button>
+  <button class="mi" onclick="jumpVisa('general')">🗾 General / Other journey</button>
   <h4>Forms &amp; Decoder</h4>
   <button class="mi" onclick="jump('fupload')">Fill a form</button>
   <button class="mi" onclick="jump('freview')">Review</button>
@@ -1298,10 +1309,10 @@ function renderStep(p,s){
 }
 function renderPhase(p){
   var isFirst = p.number===1, isLast = (function(){
-    var siblings=STUDENT_PHASES.filter(function(x){return x.part===p.part;});
+    var siblings=activePhases().filter(function(x){return x.part===p.part;});
     return siblings[siblings.length-1].id===p.id;
   })();
-  var meta=PART_META[p.part];
+  var meta=activePartMeta()[p.part];
   var html='';
   if(isFirst) html+='<div class="note" style="background:var(--blue-lighter);color:var(--navy);font-weight:700">'+meta.intro.map(function(l){return '<p style="margin:0 0 6px">'+l+'</p>';}).join('')+'</div>';
   html+='<span class="tag rec" style="background:color-mix(in srgb,var(--purple) 13%,transparent);color:var(--purple)">'+meta.label+'</span>';
@@ -1323,8 +1334,9 @@ function renderPhase(p){
   var cc=document.getElementById('cnt-'+p.id); if(cc) cc.textContent=st2.done+'/'+st2.total;
 }
 function secNavHtml(p){
-  var idx=STUDENT_PHASES.indexOf(p);
-  var prev=STUDENT_PHASES[idx-1], next=STUDENT_PHASES[idx+1];
+  var PHS=activePhases();
+  var idx=PHS.indexOf(p);
+  var prev=PHS[idx-1], next=PHS[idx+1];
   var prevBtn = prev
     ? '<div class="navarrow" onclick="go(\'sec-'+prev.id+'\')" title="Previous: '+prev.title+'">‹</div>'
     : '<div class="navarrow disabled">‹</div>';
@@ -1333,12 +1345,13 @@ function secNavHtml(p){
     : '<div class="navarrow disabled">›</div>';
   return prevBtn+'<div class="navmap" onclick="go(\'journeymap\')">🗺️ Journey</div>'+nextBtn;
 }
-function renderAllPhases(){ STUDENT_PHASES.forEach(renderPhase); }
+function renderAllPhases(){ activePhases().forEach(renderPhase); }
 
 function renderJourneyMap(){
+  var vl=document.getElementById('jmVisaLabel'); if(vl) vl.textContent = currentVisa==='student' ? 'for Students' : 'for '+visaMeta(currentVisa).label+'s';
   [1,2].forEach(function(part){
     var box=document.getElementById('gmapPart'+part); if(!box)return;
-    var list=STUDENT_PHASES.filter(function(p){return p.part===part;});
+    var list=activePhases().filter(function(p){return p.part===part;});
     var html='';
     var nextDone=true; // becomes false once we've passed the first not-fully-done phase
     list.forEach(function(p,i){
@@ -1353,26 +1366,28 @@ function renderJourneyMap(){
     });
     box.innerHTML=html;
   });
-  // placeholder "life moment" chapters — visual only, never counted toward progress/compliance
+  // "more life moments" — visual only, never counted; non-student visas swap graduation for change-of-job
   var more=document.getElementById('gmapMore');
   if(more){
-    var PLACE=['move','renew','gradjob','gradhunt','leave'];
-    more.innerHTML=PLACE.map(function(id,i){
-      var m=MOMENTS[momentIndex(id)]; if(!m) return '';
-      return '<div class="gnode soon" onclick="openMomentSoon(\''+id+'\')">'+
-        (i<PLACE.length-1?'<div class="gconn" style="top:48px;height:44px"></div>':'')+
+    var mlist=momentsForVisa(currentVisa).filter(function(m){ return m.id!=='arrive' && m.id!=='settle'; });
+    more.innerHTML=mlist.map(function(m,i){
+      return '<div class="gnode soon" onclick="openMomentSoon(\''+m.id+'\')">'+
+        (i<mlist.length-1?'<div class="gconn" style="top:48px;height:44px"></div>':'')+
         '<div class="bub">'+m.icon+'</div>'+
         '<div><div class="gl">'+m.name+'<span class="soonpill">SOON</span></div><div class="gm">'+m.sub+'</div></div>'+
       '</div>';
     }).join('');
   }
-  // progress count reflects only the two real chapters (Student journey phases)
-  var all=STUDENT_PHASES.map(phaseStats);
+  // progress count reflects the active visa's real chapters
+  var all=activePhases().map(phaseStats);
   var phasesDone=all.filter(function(s){return s.done===s.total;}).length;
-  var jc=document.getElementById('jmCount'); if(jc) jc.textContent=phasesDone+'/'+STUDENT_PHASES.length;
+  var jc=document.getElementById('jmCount'); if(jc) jc.textContent=phasesDone+'/'+activePhases().length;
 }
 function openMomentSoon(id){
-  var m=MOMENTS[momentIndex(id)]; if(!m) return;
+  var pool=momentsForVisa(currentVisa); var m=null;
+  for(var k=0;k<pool.length;k++){ if(pool[k].id===id){ m=pool[k]; break; } }
+  if(!m) m=MOMENTS[momentIndex(id)];
+  if(!m) return;
   var i=document.getElementById('msIcon'); if(i) i.textContent=m.icon;
   var t=document.getElementById('msTitle'); if(t) t.textContent=m.name;
   var s=document.getElementById('msSub'); if(s) s.textContent=m.sub;
@@ -1380,7 +1395,7 @@ function openMomentSoon(id){
 }
 
 function sgToggle(phaseId,letter){
-  var p=STUDENT_PHASES.filter(function(x){return x.id===phaseId;})[0];
+  var p=activePhases().filter(function(x){return x.id===phaseId;})[0];
   var before=phaseStats(p);
   var wasComplete=before.total>0 && before.done===before.total;
 
@@ -1444,8 +1459,9 @@ function spawnBalloons(){
 }
 
 function updateCompliance(){
+  var PHS=activePhases();
   var mustTotal=0,mustDone=0,phasesDone=0;
-  STUDENT_PHASES.forEach(function(p){
+  PHS.forEach(function(p){
     var s=phaseStats(p);
     mustTotal+=s.mustTotal; mustDone+=s.mustDone;
     if(s.done===s.total) phasesDone++;
@@ -1456,19 +1472,19 @@ function updateCompliance(){
   var note=remaining===0?'Every mandatory item is done. Nice work!':(remaining+' mandatory item'+(remaining===1?'':'s')+' left to reach 100%');
   var sn=document.getElementById('scoreNote'); if(sn) sn.textContent=pct+'% — '+note;
 
-  var jt=document.getElementById('settleJrowText'); if(jt) jt.textContent='Your journey · '+phasesDone+' of '+STUDENT_PHASES.length+' phases done';
-  var jb=document.getElementById('settleJrowBar'); if(jb) jb.style.width=Math.round(phasesDone/STUDENT_PHASES.length*100)+'%';
+  var jt=document.getElementById('settleJrowText'); if(jt) jt.textContent='Your journey · '+phasesDone+' of '+PHS.length+' phases done';
+  var jb=document.getElementById('settleJrowBar'); if(jb) jb.style.width=Math.round(phasesDone/PHS.length*100)+'%';
 
   // next incomplete step (mandatory first, else any)
   var next=null;
-  STUDENT_PHASES.forEach(function(p){
+  PHS.forEach(function(p){
     p.steps.forEach(function(s){
       if(next) return;
       if(!sgChecked[sgId(p.id,s.letter)] && s.tag==='must') next={p:p,s:s};
     });
   });
   if(!next){
-    STUDENT_PHASES.forEach(function(p){
+    PHS.forEach(function(p){
       p.steps.forEach(function(s){
         if(next) return;
         if(!sgChecked[sgId(p.id,s.letter)]) next={p:p,s:s};
@@ -1505,7 +1521,7 @@ function go(id){
   var sbar=document.getElementById('secnav');
   if(id.indexOf('sec-')===0){
     var pid=id.slice(4);
-    var ph=STUDENT_PHASES.filter(function(x){return x.id===pid;})[0];
+    var ph=activePhases().filter(function(x){return x.id===pid;})[0];
     if(ph){ sbar.innerHTML=secNavHtml(ph); sbar.classList.add('show'); }
     else sbar.classList.remove('show');
   } else sbar.classList.remove('show');
@@ -1517,6 +1533,7 @@ function go(id){
   else { document.getElementById('pfSaveBar').classList.remove('show'); stopProfileDirtyWatch(); }
 }
 function jump(id,m){closeMenu();if(m)setMoment(m);go(id);}
+function jumpVisa(id){closeMenu();setVisa(id);setMoment('settle');go('journeymap');}
 
 /* setup: Residence Card photo (OCR) vs manual.
    My Number Card scanning and account Verification are coming-soon features —
@@ -1648,8 +1665,9 @@ function setMoment(m){
 }
 function renderSituationTiles(){
   var box=document.getElementById('sheetTiles'); if(!box) return;
-  var idx=momentIndex(currentMoment);
-  var rest=MOMENTS.filter(function(x,i){ return i>idx; }); // past chapters are done — only show what's ahead
+  var list=(typeof momentsForVisa==='function')?momentsForVisa(currentVisa):MOMENTS; // non-student visas swap grad→change-of-job
+  var idx=-1; for(var k=0;k<list.length;k++){ if(list[k].id===currentMoment){ idx=k; break; } }
+  var rest=list.filter(function(x,i){ return i>idx; }); // past chapters are done — only show what's ahead
   if(!rest.length){ box.innerHTML='<p class="muted" style="margin:8px 2px;font-weight:700">You\'re at the final stage of your journey in Japan. 🎌</p>'; return; }
   box.innerHTML=rest.map(function(x){
     return '<div class="tile" onclick="pickMoment(\''+x.id+'\')"><div class="ti">'+x.icon+'</div><div><div class="tn">'+x.name+'</div><div class="tm">'+x.sub+'</div></div></div>';
@@ -1970,7 +1988,360 @@ function initProfileFields(){
 }
 
 /* init */
-renderAllPhases(); renderJourneyMap(); updateCompliance(); setMoment('settle'); applyVerify(); go('home'); initProfileFields();
+/* ===== Multi-visa journeys — SCAFFOLD ONLY (section headers + tags; bodies are placeholders) =====
+   Student keeps its full, real journey (STUDENT_PHASES). The 4 visa types below are transcribed
+   from the source Google Docs as headers only, to keep the file light until real content is added. */
+var VISA_META=[
+  {id:'student', icon:'🎓', label:'Student',                        blurb:'Language school or university'},
+  {id:'company', icon:'💼', label:'Company-Sponsored Professional', blurb:'Your employer sponsors your visa'},
+  {id:'founder', icon:'🚀', label:'Startup Founder',                blurb:'Startup or Business Manager visa'},
+  {id:'family',  icon:'👪', label:'Spouse / Family',                blurb:'Joining a resident in Japan'},
+  {id:'general', icon:'🗾', label:'General / Other Resident',       blurb:'Working Holiday, Cultural Activities & more'}
+];
+function visaMeta(id){ for(var i=0;i<VISA_META.length;i++){ if(VISA_META[i].id===id) return VISA_META[i]; } return VISA_META[0]; }
+
+/* ---------- shared Part-2 step blocks (NyuuLy boilerplate, reused across visas; state is keyed by phase id so sharing objects is safe) ---------- */
+function mkP(o){
+  o.steps=o.stepDefs.map(function(d,i){
+    var s={letter:String.fromCharCode(97+i),title:d.t,tag:d.g,items:d.items||[]};
+    if(d.note) s.note=d.note;
+    if(d.inf) s.tagInferred=true;
+    return s;
+  });
+  delete o.stepDefs; return o;
+}
+var DA_RC={t:'Get Your [Residence Card (Zairyū Kādo)](https://nyuuly.com/info-hub/articles/zairyu-card-residence-card) When You Arrive At The Airport.',g:'must',items:[
+  {icon:'💡',text:'Residence Card is your most important ID proving legal residence in Japan.'},
+  {icon:'🔹',text:'Follow the signs for foreign residents, NOT re-entry (as you do not have your card yet).'},
+  {icon:'💡',text:'Immigration checks your CoE and passport, verifies your identity via biometrics, then issues your Residence Card.'}]};
+var DA_WP={t:'Apply For Work Permit At Entry (Shikakugai Katsudō Kyoka)',g:'rec',items:[
+  {icon:'🔹',text:'Apply for the Work Permit at the airport if you plan to work part-time — doing it later takes 1–2 extra weeks.'},
+  {icon:'🔹',text:'Make sure you get the Part-time Work Permit stamp on the back of your residence card.'}]};
+var DA_TRANSPORT={t:'Confirm Airport Transport & Luggage',g:'rec',items:[
+  {icon:'🔹',text:'Take the airport bus if you are flexible with time — some prefer buses as you get a seat. [Learn More](https://tyo-nrt.com/en)'},
+  {icon:'💡',text:'Trains can be faster and more frequent, but get very crowded late evening.'},
+  {icon:'💡',text:'Narita to Shinjuku is about 1,500 JPY by train/[bus](https://www.narita-airport.jp/en/access/bus/lcb/), but ~30,000 JPY by taxi.'},
+  {icon:'🔹',text:'Use a luggage service like Yamato Transport (~2,000–3,500 JPY) to move around right after arrival. [Learn More](https://www.kuronekoyamato.co.jp/en/)'}]};
+var DH=[
+  {t:'Search For A Room',g:'rec',items:[
+    {icon:'🔹',text:'Search online (e.g., [SUUMO](https://suumo.jp/) for apartments, oakhouse for shared houses) or visit local agencies.'},
+    {icon:'🔹',text:'Make sure they accept foreigners, as many landlords refuse to lease to non-Japanese.'}]},
+  {t:'Prepare Initial Costs for Apartments/Mansions',g:'rec',inf:true,items:[
+    {icon:'💡',text:'Typical total: 300,000–600,000+ JPY.'},
+    {icon:'💡',text:'Rent (first month) 70,000–120,000 JPY; Deposit ~1 month (refundable); Key Money ~1 month (non-refundable).'},
+    {icon:'💡',text:'Agent Fee ~1 month + tax; Guarantor Fee 0.5–1 month.'}]},
+  {t:'Prepare Required Items',g:'must',items:[
+    {icon:'🔹',text:'Residence card and an emergency contact in Japan.'},
+    {icon:'🔹',text:"Read NyuuLy's [article about emergency in Japan](https://nyuuly.com/info-hub/articles/in-case-of-emergency)."}]},
+  {t:'Sign Contract',g:'rec',inf:true,items:[
+    {icon:'🔹',text:'Review term length and early-termination penalties, then pay the agreed fees and sign.'}]},
+  {t:'Set Up Utilities (start ~2 weeks before move-in)',g:'rec',inf:true,items:[
+    {icon:'🔹',text:'Prepare your Residence Card and address. [Read our Guide](https://nyuuly.com/info-hub/articles/set-up-utilities-in-japan)'},
+    {icon:'💡',text:'Water is usually on (change to your name). Electricity: apply online/phone/in person. Gas: book a visit (staff must turn it on while you are home).'},
+    {icon:'💡',text:'Internet: wired Hikari is fastest (~4,000 JPY/month, install 20,000–40,000 JPY), or a mobile Wi-Fi / high-data SIM. Consider [NyuuLy Mobile](https://nyuuly.com/mobile).'}]},
+  {t:'Move In & Furnish',g:'rec',inf:true,items:[
+    {icon:'🔹',text:'Buy new furniture (Nitori, IKEA, Yamada Denki) or second-hand (Mercari, Second Street).'}]}
+];
+var DCH_PREP={t:'Prepare',g:'rec',items:[
+  {icon:'🔹',text:'Make sure you have your new address, and bring your [Residence Card](https://nyuuly.com/info-hub/articles/zairyu-card-residence-card) and passport.'},
+  {icon:'💡',text:'You normally cannot book an appointment and must visit in person — it takes a couple of hours.'}]};
+var DCH_KATAKANA={t:'Decide Katakana Name Spelling',g:'rec',items:[
+  {icon:'🔹',text:'Decide your katakana name — needed for pension and later for opening a bank account.'}]};
+var DCH_REGISTER={t:'Register Your Residency (Jūmin Tōroku) At Your Local City Hall',g:'must',items:[
+  {icon:'🔹',text:'Fill out a Move-in Notification (Tennyū-todoke) to register your residency.'},
+  {icon:'💡',text:'Staff update the address on the back of your Residence Card and hand it back the same day.'}]};
+var DCH_JUMINHYO={t:'Request Copies Of [Certificate Of Residence (Jūminhyō)](https://nyuuly.com/info-hub/articles/juminhyo-certificate-of-residence)',g:'rec',items:[
+  {icon:'💡',text:'Proves your registered address — needed often, e.g. for opening a bank account.'}]};
+function dchNHI(text,tag){ return {t:'Confirm National Health Insurance And Pension (Kokumin Kenkō Hoken)',g:tag||'rec',items:[
+  {icon:'💡',text:text},
+  {icon:'🔹',text:'[Read Easy Healthcare in Japan](https://nyuuly.com/info-hub/articles/easy-healthcare-in-japan)'}]}; }
+var DCH_MYNUMBER={t:'Receive Your Individual Number Notice',g:'must',items:[
+  {icon:'🔹',text:'Keep the 12-digit number that arrives 2–3 weeks later. [Learn More](https://www.kojinbango-card.go.jp/en-tsuchicard/)'},
+  {icon:'🔹',text:'Read [this guide](https://www.kojinbango-card.go.jp/en-uketori/) and [our guide](https://nyuuly.com/info-hub/articles/my-number-card).'}]};
+var DCH_HANKO={t:'Apply For Hanko Registration',g:'rec',items:[
+  {icon:'🔹',text:'Buy your seal in advance and register it — you may need it for contracts or business.'}]};
+var DBANK=[
+  {t:'Prepare',g:'must',items:[{icon:'🔹',text:'Residence Card (with registered address) and your katakana name.'}]},
+  {t:'Apply Online',g:'rec',items:[{icon:'🔹',text:'Follow their instructions, or visit a branch with a Japanese speaker if needed. [Watch Their Guide](https://youtu.be/7cBLnSO6J0c)'}]},
+  {t:'Receive Your Cash Card',g:'rec',inf:true,items:[{icon:'💡',text:'Your cash card arrives by mail in about 1–2 weeks.'}]}
+];
+var DPHONE=[
+  {t:'Prepare Necessary Documents',g:'must',items:[{icon:'🔹',text:'Residence Card (with registered address) and your bank account or credit card information.'}]},
+  {t:'Purchase & Setup',g:'rec',inf:true,items:[
+    {icon:'🔹',text:'Buy online. Beware most carriers offer only Japanese support.'},
+    {icon:'💡',text:'You can buy a [NyuuLy Mobile SIM](https://nyuuly.com/mobile) online with full English support.'}]}
+];
+var DDAILY=[
+  {t:'Follow The Garbage Sorting Rules',g:'must',items:[
+    {icon:'💡',text:'Japan has very strict garbage-sorting rules. Get the guide from your city hall or its website.'},
+    {icon:'💡',text:'Burnable, recyclables (rinse PET/cans), non-burnable, and oversize (buy a ticket, book a pickup) are collected separately.'}]},
+  {t:'Know More About Getting Around',g:'rec',items:[
+    {icon:'💡',text:'Suica/PASMO: rechargeable cards for transit and small purchases.'},
+    {icon:'💡',text:"Driver's license is hard to get; a driving camp helps. Register a bicycle for anti-theft (Bōhan Tōroku)."}]},
+  {t:'Figure Out Japanese Toilets',g:'opt',items:[{icon:'🔹',text:'See the image for detailed toilet button functions.'}]}
+];
+
+/* partMeta shared by the 4 non-student visas (same shape and feel as the Student journey) */
+var GEN_PART_META={
+  1:{label:'Part 1',title:'Before Arrival — Preparation',
+     intro:['This stage is all about setting a strong foundation.',"You're probably feeling a mix of excitement and uncertainty — that's completely normal.",'These steps will help you prepare with confidence and clarity.'],
+     outro:['Congratulations again on taking this incredible step toward your new life in Japan.','If you ever feel uncertain or need help, remember you can always [AskMe](https://nyuuly.com/compass/askme).']},
+  2:{label:'Part 2',title:'After Arrival — On-boarding',
+     intro:['Welcome to Japan!','Those first days can be a blur of paperwork and emotion. Here’s a clear roadmap so you stay in control.'],
+     outro:['Great Job! Onwards and upwards!','We at NyuuLy are here to support you every step of the way — and don’t forget to enjoy Japan!','If you ever feel uncertain or need help, remember you can always [AskMe](https://nyuuly.com/compass/askme).']}
+};
+
+/* shared Part-2 "settling in" phases builder — takes a visa prefix + City Hall step list, returns the common tail */
+function commonPart2(pre, cityhallSteps, opts){
+  opts=opts||{};
+  var airport=[DA_RC]; if(opts.workPermitAtEntry) airport.push(DA_WP); airport.push(DA_TRANSPORT);
+  var out=[];
+  var n=0;
+  out.push(mkP({id:pre+'_airport',part:2,number:++n,title:'Arrival at Airport',nav:'Arrival at Airport',duration:'2~3 hours',
+    intro:'Here’s what to expect at the airport to officially begin your life here.',
+    outro:['Collect baggage and head out.','Welcome to your new home in the Land of the Rising Sun! 🎉','Well done 🥳🎉'],
+    stepDefs:airport}));
+  if(!opts.noHousing){
+    out.push(mkP({id:pre+'_housing',part:2,number:++n,title:'Finding Your New Home',nav:'Finding Your New Home',duration:'~14 days',
+      intro:'Finding a place can feel overwhelming — let’s break it into an exciting step toward settling in.',
+      outro:'And that’s it! You’ve set up the essentials of your new home in Japan.',
+      stepDefs:DH}));
+  }
+  out.push(mkP({id:pre+'_cityhall',part:2,number:++n,title:'City Hall Paperwork: Becoming a Local Resident',nav:'City Hall',duration:'3~4 hours',
+    intro:'Now let’s make you an official local! Complete these within 2 weeks of moving to your Japanese address. [Read our guide](https://nyuuly.com/info-hub/articles/japan-city-hall-all-in-one-for-new-residents)',
+    outro:['That’s it! Congratulations on officially becoming a resident of your new city!','You’ve checked off the biggest items on your first-week-in-Japan to-do list. 🎉'],
+    stepDefs:cityhallSteps}));
+  out.push(mkP({id:pre+'_bank',part:2,number:++n,title:'Opening a Bank Account',nav:'Bank Account',duration:'setup 1~2 hours, card in 1~2 weeks',
+    intro:'Opening a bank account should be a priority after registering your address. We recommend Japan Post Bank first. [Guide](https://nyuuly.com/articles/open-a-bank-account-in-japan-first-step-of-your-financial-journey)',
+    outro:'Give yourself a pat on the back — you’ve cleared some of the most crucial steps.',
+    stepDefs:DBANK}));
+  out.push(mkP({id:pre+'_phone',part:2,number:++n,title:'Getting a Phone Number',nav:'Phone Number',
+    intro:'A Japanese phone number (voice plan) is a must. [Read our Guide](https://nyuuly.com/info-hub/articles/acquire-a-sim-card-in-japan-a-simple-guide-for-your-first-days)',
+    stepDefs:DPHONE}));
+  if(opts.permitPhase){
+    out.push(mkP({id:pre+'_permit',part:2,number:++n,title:'Part-time Work Permit (Shikakugai Katsudō Kyoka)',nav:'Work Permit',duration:'~2 weeks to issue',
+      intro:'If you plan to work part-time, get your work permit before starting any job.',
+      stepDefs:[{t:'Submit The Form At Your Local Immigration Office',g:'must',items:[
+        {icon:'🔹',text:'Didn’t apply at the airport? Do it here before starting work. [Form](https://www.moj.go.jp/isa/content/930004124.pdf) · [Learn More](https://www.moj.go.jp/isa/applications/procedures/16-8.html)'},
+        {icon:'💡',text:'Work limit: up to 28 hours/week. Immigration stamps the back of your residence card.'}]}]}));
+  }
+  out.push(mkP({id:pre+'_daily',part:2,number:++n,title:'Navigating Daily Life',nav:'Daily Life',
+    intro:'Now that you’re settled, here are tips for smoother daily life in Japan.',
+    stepDefs:DDAILY}));
+  if(opts.businessPhase){
+    out.push(mkP({id:pre+'_biz',part:2,number:++n,title:'Setting Up Your Business in Japan',nav:'Business Setup',
+      intro:'Now that you’ve onboarded, prepare to legally establish your company and transition to the Business Manager Visa.',
+      outro:'Well done — your business foundation is taking shape!',
+      stepDefs:[
+        {t:'Communicate With the Foreign Entrepreneurship Promotion Organization',g:'must',items:[
+          {icon:'🔹',text:'Visit the [organization](https://www.meti.go.jp/english/policy/economy/startup_nbp/startup_visa.html) that issued your eligibility certificate. They interview you ~monthly to track progress.'}]},
+        {t:'Prepare the 30 Million JPY Capital And Hire A Japan-Resident Employee',g:'must',items:[
+          {icon:'🔹',text:'Prepare ≥30,000,000 JPY in company capital during your 1–2 year Startup Visa.'},
+          {icon:'🔹',text:'Hire at least one full-time Japanese or long-term resident; you or they must be fluent (JLPT N2/N1).'}]},
+        {t:'Prepare Your Business Plan & Incorporation Documents',g:'must',items:[
+          {icon:'🔹',text:'Draft a full business plan with financials and prepare Articles of Incorporation.'},
+          {icon:'🔹',text:'Deposit capital, verify the plan with a professional, and submit to the Legal Affairs Bureau. Registration tax ~60,000–150,000 JPY.'}]},
+        {t:'Secure A Physical Office',g:'must',items:[
+          {icon:'🔹',text:'Rent a private, lockable office under your corporate name.'}]}
+      ]}));
+  }
+  return out;
+}
+
+var COMPANY_PHASES=[
+  mkP({id:'cmp_offer',part:1,number:1,title:'Your New Job Offer',
+    intro:'Congrats on securing a job in Japan! Getting clarity on your role now makes your transition smoother. (We assume you already have a job offer.)',
+    outro:'Offer sorted — now on to your visa.',
+    stepDefs:[{t:'Review & Accept Your Offer',g:'rec',items:[
+      {icon:'🔹',text:'Confirm role, start date, working hours, salary structure, and overtime expectations.'},
+      {icon:'🔹',text:'Check employment benefits, especially Social Insurance (Shakai Hoken).'},
+      {icon:'note',text:'We want your excitement to last — understand what you are signing up for.'}]}]}),
+  mkP({id:'cmp_visa',part:1,number:2,title:'Your Visa Application Journey',
+    intro:'Your company takes the lead, but staying proactive keeps everything moving smoothly.',
+    outro:"Congratulations, you're officially cleared to enter Japan!",
+    stepDefs:[
+      {t:'Wait As Your Employer Submits The Application For CoE',g:'must',items:[
+        {icon:'💡',text:'The Certificate of Eligibility (CoE) is essential for your visa. Processing takes ~1–3 months.'},
+        {icon:'🔹',text:'Receive your CoE (original or digital) through your employer.'}]},
+      {t:'Prepare Visa Documents Before Heading For The Japanese Embassy',g:'must',items:[
+        {icon:'🔹',text:'Original/printed CoE, passport (6+ months valid), visa form + ID photos, and a copy of your employment contract.'}]},
+      {t:'Submit Your Visa Application At The Japanese Embassy In Your Home Country',g:'must',items:[
+        {icon:'🔹',text:'Attend an interview if requested; wait 5–10 business days for approval.'},
+        {icon:'🔹',text:'Pick up your passport with the visa; prepare the fee (~3,000–6,000 JPY in local currency).'}]}
+    ]}),
+  mkP({id:'cmp_travel',part:1,number:3,title:'Travel Preparation',
+    intro:'The countdown begins! Here’s how to make your arrival smooth and stress-free.',
+    phaseNote:'We recommend buying a Prepaid Data-Only SIM before coming to Japan. [Check NyuuLy Mobile](https://nyuuly.com/mobile)',
+    stepDefs:[
+      {t:'Know Your Accommodation And Employer Details',g:'must',items:[
+        {icon:'🔹',text:'Confirm your Japanese address, employer’s address, and a contact phone number — airport immigration will likely ask.'}]},
+      {t:'Prepare Your Money (about 250,000 JPY in cash)',g:'rec',items:[
+        {icon:'💡',text:'Salaries are usually paid on the 25th. Japan is cash-dominant but safe.'},
+        {icon:'🔹',text:'Exchange currency at the airport and bring an international card. Compare costs on [numbeo](https://www.numbeo.com/cost-of-living/comparison.jsp).'}]}
+    ]})
+].concat(commonPart2('cmp',[DCH_PREP,DCH_KATAKANA,DCH_REGISTER,DCH_JUMINHYO,DCH_MYNUMBER]));
+
+var GENERAL_PHASES=[
+  mkP({id:'gen_visa',part:1,number:1,title:'Securing Your Visa',
+    intro:'Whether you’re on a Working Holiday, Cultural Activities, or another status, clarity is key.',
+    outro:"Congratulations, you're officially cleared to enter Japan!",
+    stepDefs:[
+      {t:'Wait As Your Sponsor Submits The Application For CoE',g:'must',items:[
+        {icon:'💡',text:'Your sponsor is whoever invites you (employer or family). The CoE is essential; processing ~1–3 months.'},
+        {icon:'🔹',text:'Receive your CoE (original or digital) through your sponsor.'}]},
+      {t:'Prepare Visa Documents Before Heading For The Japanese Embassy',g:'must',items:[
+        {icon:'🔹',text:'CoE, passport (6+ months), visa form + ID photos, and documents proving your activity (activity plan, proof of funds).'}]},
+      {t:'Submit Your Visa Application At The Japanese Embassy In Your Home Country',g:'must',items:[
+        {icon:'🔹',text:'Attend an interview if requested; wait 5–10 business days; pick up your passport with the visa. Fee ~3,000–6,000 JPY.'}]}
+    ]}),
+  mkP({id:'gen_travel',part:1,number:2,title:'Travel Preparation',
+    intro:'The countdown begins! Here’s how to make your arrival smooth and stress-free.',
+    phaseNote:'We recommend buying a Prepaid Data-Only SIM before coming to Japan. [Check NyuuLy Mobile](https://nyuuly.com/mobile)',
+    stepDefs:[
+      {t:"Know Your Accommodation And Sponsor's Details",g:'must',items:[
+        {icon:'🔹',text:'Confirm your Japanese address — airport immigration will likely ask.'}]},
+      {t:'Prepare Your Money (about 150,000 JPY in cash)',g:'rec',items:[
+        {icon:'💡',text:'Japan is cash-dominant but safe.'},
+        {icon:'🔹',text:'Exchange currency at the airport and bring an international card. Compare costs on [numbeo](https://www.numbeo.com/cost-of-living/comparison.jsp).'}]}
+    ]})
+].concat(commonPart2('gen',[DCH_PREP,DCH_KATAKANA,DCH_REGISTER,DCH_JUMINHYO,dchNHI('If your sponsor enrolls you in company Social Insurance (Shakai Hoken), you don’t need to enroll here — confirm that.','rec'),DCH_MYNUMBER]));
+
+var FAMILY_PHASES=[
+  mkP({id:'fam_docs',part:1,number:1,title:'Preparing Your Dependent Visa Documents',
+    intro:'Joining your family in Japan is a big step. Your inviter (spouse/partner already in Japan) does most of the heavy lifting here.',
+    stepDefs:[
+      {t:'Ask Your Inviter To Prepare Their Documents (In Japan)',g:'must',items:[
+        {icon:'🔹',text:'Proof of relationship (marriage/relative certificate), copy of inviter’s Residence Card, proof of income (e.g. 1-year bank statement), and proof of accommodation (lease copy).'},
+        {icon:'🔹',text:'Employment Certificate (if on a work visa) or School Enrollment Certificate (if on a student visa).'}]},
+      {t:'Prepare, On Your Side (In Your Home Country)',g:'must',items:[
+        {icon:'🔹',text:'Passport.'}]}
+    ]}),
+  mkP({id:'fam_visa',part:1,number:2,title:'Your Visa Application Journey',
+    intro:'Your inviter applies for your CoE in Japan; you finish at the embassy.',
+    outro:"Congratulations, you're officially cleared to enter Japan!",
+    stepDefs:[
+      {t:'Wait As Your Inviter Submits The Application For CoE',g:'must',items:[
+        {icon:'💡',text:'The CoE is essential; processing takes 2–3 months. Your inviter handles this at their local immigration office.'},
+        {icon:'🔹',text:'Receive your CoE (original or digital) through your inviter.'}]},
+      {t:'Prepare Visa Documents Before Heading For The Japanese Embassy',g:'must',items:[
+        {icon:'🔹',text:'CoE, passport (6+ months), visa form + ID photos, copy of proof of relationship, and copy of inviter’s Residence Card.'},
+        {icon:'🔹',text:'Translate non-Japanese documents (e.g. marriage certificate) into Japanese (passport excepted).'}]},
+      {t:'Submit Your Visa Application At The Japanese Embassy In Your Home Country',g:'must',items:[
+        {icon:'🔹',text:'Attend an interview if requested; wait 5–10 business days; pick up your passport with the visa. Fee ~3,000–6,000 JPY.'}]}
+    ]}),
+  mkP({id:'fam_travel',part:1,number:3,title:'Travel Preparation',
+    intro:'You’re almost there — here’s how to prepare for a smooth arrival.',
+    phaseNote:'We recommend buying a Prepaid Data-Only SIM before coming to Japan. [Check NyuuLy Mobile](https://nyuuly.com/mobile)',
+    stepDefs:[
+      {t:"Know Your Accommodation And Inviter's Details",g:'must',items:[
+        {icon:'🔹',text:'Confirm your inviter’s full address, name, and phone number — airport immigration will likely ask.'}]},
+      {t:'Prepare Your Money (about 100,000 JPY in cash)',g:'rec',items:[
+        {icon:'💡',text:'Japan is cash-dominant but safe.'},
+        {icon:'🔹',text:'Exchange currency at the airport and bring an international card.'}]}
+    ]})
+].concat(commonPart2('fam',[DCH_PREP,DCH_KATAKANA,DCH_REGISTER,DCH_JUMINHYO,dchNHI('You’ll enroll in the same Health Insurance and Pension as your inviter.','must'),DCH_MYNUMBER],{workPermitAtEntry:true,noHousing:true,permitPhase:true}));
+
+var FOUNDER_PHASES=[
+  mkP({id:'fdr_visa',part:1,number:1,title:'Apply for a Startup Visa (Before Business Manager Visa)',
+    intro:'Congrats on deciding to start your business in Japan! We recommend a Startup Visa first, then switching to a Business Manager Visa after 1–2 years.',
+    outro:"Congratulations, you're officially cleared to enter Japan!",
+    stepDefs:[
+      {t:'Apply For Startup Visa Eligibility Confirmation',g:'must',items:[
+        {icon:'🔹',text:'Apply at the Foreign Entrepreneurship Promotion Organization in your business’s prefecture. [List](https://www.meti.go.jp/english/policy/economy/startup_nbp/startup_visa.html)'},
+        {icon:'💡',text:'Key criteria: a plan to raise 30M JPY, hire one long-term resident/Japanese, and JLPT N2 (you or employee).'}]},
+      {t:'Find A Proxy In Japan To Submit The CoE Application',g:'must',items:[
+        {icon:'🔹',text:'With your “Startup Preparation Activity Plan Confirmation Certificate”, have a proxy (scrivener or friend) apply for your CoE. Processing ~1–3 months. [Guide](https://www.investtokyo.metro.tokyo.lg.jp/en/oursupports/bdc-tokyo/startupvisa.html)'}]},
+      {t:'Submit Visa Application At The Japanese Embassy (Home Country)',g:'must',items:[
+        {icon:'🔹',text:'CoE, passport (6+ months), visa form + ID photos, and your Plan Confirmation Certificate. Wait 5–10 business days; fee ~3,000–6,000 JPY.'}]}
+    ]}),
+  mkP({id:'fdr_travel',part:1,number:2,title:'Travel Preparation',
+    intro:'The countdown begins! Here’s how to make your arrival smooth and stress-free.',
+    phaseNote:'We recommend buying a Prepaid Data-Only SIM before coming to Japan. [Check NyuuLy Mobile](https://nyuuly.com/mobile)',
+    stepDefs:[
+      {t:'Know Your Accommodation',g:'must',items:[
+        {icon:'🔹',text:'Confirm your Japanese address — airport immigration will likely ask.'}]},
+      {t:'Prepare Your Money (about 350,000 JPY in cash)',g:'rec',items:[
+        {icon:'💡',text:'Japan is cash-dominant but safe.'},
+        {icon:'🔹',text:'Exchange currency at the airport and bring an international card.'}]}
+    ]})
+].concat(commonPart2('fdr',[DCH_PREP,DCH_KATAKANA,DCH_REGISTER,DCH_JUMINHYO,dchNHI('Since your company isn’t set up yet, enroll at National Health Insurance and Pension here.','must'),DCH_MYNUMBER,DCH_HANKO],{businessPhase:true}));
+
+var VISAS={
+  student:{phases:STUDENT_PHASES, partMeta:PART_META},
+  company:{phases:COMPANY_PHASES, partMeta:GEN_PART_META},
+  general:{phases:GENERAL_PHASES, partMeta:GEN_PART_META},
+  family:{phases:FAMILY_PHASES,  partMeta:GEN_PART_META},
+  founder:{phases:FOUNDER_PHASES, partMeta:GEN_PART_META}
+};
+function activePhases(){ return (VISAS[currentVisa]||VISAS.student).phases; }
+function activePartMeta(){ return (VISAS[currentVisa]||VISAS.student).partMeta; }
+function buildSectionScreens(){
+  var host=document.getElementById('secScreens'); if(!host) return;
+  if(currentVisa==='student'){ host.innerHTML=''; return; } // student uses its own static screens
+  host.innerHTML=activePhases().map(function(p){
+    return '<div class="view hasnav" id="v-sec-'+p.id+'"><div class="appbar"><button class="back" onclick="go(\'journeymap\')">‹</button><span class="ttl">'+(p.nav||p.title)+'</span><span class="muted" style="font-weight:700" id="cnt-'+p.id+'">0/'+p.steps.length+'</span></div><div class="pad" id="pad-'+p.id+'"></div></div>';
+  }).join('');
+}
+function setVisa(id){
+  if(!VISAS[id]) id='student';
+  currentVisa=id;
+  buildSectionScreens();
+  renderAllPhases();
+  renderJourneyMap();
+  updateCompliance();
+}
+/* map the profile "Visa type" field to a journey */
+function visaIdFromType(v){
+  switch(v){
+    case 'Students': return 'student';
+    case 'Working Professional (Engineer/Specialist in Humanities/International Services)': return 'company';
+    case 'Spouse': return 'family';
+    case 'Startup Founder': return 'founder';
+    case 'Others': return 'general';
+    default: return '';
+  }
+}
+function applyVisaFromField(){
+  var el=document.getElementById('pfVisaType'); if(!el) return;
+  var id=visaIdFromType(el.value);
+  if(id){ setVisa(id); var h=document.getElementById('pfVisaHint'); if(h){ h.textContent='Required — this sets your whole journey.'; h.style.color=''; } }
+  toggleSchoolCard();
+}
+/* School name + graduation date only make sense for students — hide them otherwise (setup + My details share this form) */
+function toggleSchoolCard(){
+  var card=document.getElementById('cardSchool'); if(!card) return;
+  var el=document.getElementById('pfVisaType');
+  var isStudent = el && visaIdFromType(el.value)==='student';
+  card.style.display = isStudent ? '' : 'none';
+}
+/* setup Continue — visa type is required before proceeding */
+function continueSetup(){
+  var el=document.getElementById('pfVisaType');
+  if(el && !visaIdFromType(el.value)){
+    var h=document.getElementById('pfVisaHint'); if(h){ h.textContent='Please choose your visa type to continue.'; h.style.color='var(--red)'; }
+    var card=document.getElementById('cardGenderNatVisa'); if(card && card.scrollIntoView){ card.scrollIntoView({behavior:'smooth',block:'center'}); }
+    el.focus();
+    return;
+  }
+  applyVisaFromField();
+  go('journey');
+}
+
+var currentVisa='student';
+
+/* Life moments per visa.
+   Student keeps its full, verified set. For the other visas the situational moments
+   (visa renewal, graduation, job change) are role-specific and are NOT defined in the
+   source documents — so rather than show wrong guidance we only surface the moments we
+   can be confident apply to everyone: change of address and leaving Japan. */
+function momentsForVisa(v){
+  if(v==='student') return MOMENTS;
+  return MOMENTS.filter(function(m){ return m.id==='arrive'||m.id==='settle'||m.id==='move'||m.id==='leave'; });
+}
+
+setVisa('student'); updateCompliance(); setMoment('settle'); applyVerify(); go('home'); initProfileFields();
+var _pfv=document.getElementById('pfVisaType'); if(_pfv) _pfv.value='Students'; // demo user (Jessie) is a student
+toggleSchoolCard();
 </script>
 <!-- ============================================================
      REAL MINATO MOVE-IN FORM FILLER (integrated)
