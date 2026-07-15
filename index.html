@@ -53,7 +53,13 @@ body{margin:0;font-family:'Manrope',-apple-system,BlinkMacSystemFont,"Segoe UI",
 
 .appbar{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--surface2) 88%,transparent);backdrop-filter:blur(12px);
   display:flex;align-items:center;justify-content:space-between;padding:8px 16px;min-height:46px}
-.appbar .ttl{font-weight:800;font-size:16px}
+.appbar .ttl{font-weight:800;font-size:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:74%;text-align:center}
+.appbar .ttl .crumb{font-weight:700;color:var(--ink2)}
+/* Home 'coming up' deadline banner + moment 'up next' card */
+.upnext{display:flex;align-items:center;gap:12px;background:linear-gradient(135deg,#fff,var(--orange-light));border:1px solid #ffd3b8;
+  border-radius:16px;padding:13px 14px;margin-top:12px;cursor:pointer;box-shadow:var(--shadow-sm)}
+.upnext .ji{font-size:22px;flex-shrink:0}
+.upnext:active{transform:scale(.99)}
 .iconbtn{width:38px;height:38px;border-radius:12px;border:0;background:transparent;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--ink)}
 .iconbtn:hover{background:#fff}
 .back{display:flex;align-items:center;gap:3px;font-weight:700;font-size:15px;color:var(--blue);cursor:pointer;background:none;border:0}
@@ -111,11 +117,24 @@ svg.ic{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:2;strok
 .scoreCard.mini{padding:12px 14px;border-radius:16px;gap:13px;margin:2px 0 12px}
 .scoreCard.mini::after{display:none}
 .ring.mini{width:52px;height:52px}
-.ring.mini .miniArc{stroke:var(--orange)}       /* brand-orange arc — contrasts the white number */
-.ring.mini .lab b{font-size:13px;font-weight:500;color:#fff;letter-spacing:.2px}  /* thinner % text */
-.ring.mini .lab span{font-size:7px;font-weight:600;color:var(--orange);letter-spacing:1px}
-.scoreCard.mini h3{font-size:11px;letter-spacing:.5px;text-transform:uppercase;color:#c3cdf2}
+.ring.mini .miniTrack{stroke:rgba(255,255,255,.18)}
+.ring.mini .miniArc{stroke:var(--orange)}
+.ring.mini .lab b{font-size:13px;font-weight:600;letter-spacing:.2px}   /* thin % text */
+.ring.mini .lab span{font-size:7px;font-weight:700;letter-spacing:1px}
+.scoreCard.mini h3{font-size:11px;letter-spacing:.5px;text-transform:uppercase}
 .scoreCard.mini p{font-size:13px}
+/* HEADER ring (chapter / life-moment · mandatory): navy card, orange arc + orange readout */
+.scoreCard.mini .lab b{color:var(--orange)}
+.scoreCard.mini .lab span{color:var(--orange)}
+.scoreCard.mini h3{color:#c3cdf2}
+/* SUB-HEADER ring (section · steps): softer light-orange card, deeper-orange arc, navy text */
+.scoreCard.mini.soft{background:var(--orange-light);color:var(--navy);border:1px solid #ffd3b8}
+.scoreCard.mini.soft .miniTrack{stroke:rgba(5,28,88,.14)}
+.scoreCard.mini.soft .miniArc{stroke:#EE7B33}
+.scoreCard.mini.soft .lab b{color:var(--navy)}
+.scoreCard.mini.soft .lab span{color:#c26a2c}
+.scoreCard.mini.soft h3{color:#b5652a}
+.scoreCard.mini.soft p{color:var(--navy)}
 
 /* next-step hero */
 .hero{border-radius:22px;padding:20px;margin-bottom:14px;color:#fff;box-shadow:var(--shadow);position:relative;overflow:hidden}
@@ -221,6 +240,17 @@ svg.ic{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:2;strok
 .secnav .navarrow.disabled{opacity:.28;pointer-events:none}
 .secnav .navmap{flex:1;height:50px;border-radius:18px;background:color-mix(in srgb,var(--surface) 90%,transparent);
   backdrop-filter:blur(16px);border:1px solid color-mix(in srgb,var(--line) 65%,transparent);box-shadow:var(--shadow-sm);
+  display:flex;align-items:center;justify-content:center;gap:6px;font-size:12.5px;font-weight:700;color:var(--ink2);cursor:pointer;white-space:nowrap}
+
+/* inline prev/next nav inside a life-moment sub-header (mirrors .secnav, but scrolls with content) */
+.phasenav{display:flex;align-items:center;gap:8px;margin-top:18px}
+.phasenav .navarrow{width:52px;height:50px;border-radius:16px;background:color-mix(in srgb,var(--surface) 92%,transparent);
+  border:1px solid color-mix(in srgb,var(--line) 65%,transparent);box-shadow:var(--shadow-sm);display:flex;align-items:center;
+  justify-content:center;font-size:19px;font-weight:600;color:var(--ink2);cursor:pointer;flex-shrink:0;transition:.15s}
+.phasenav .navarrow:active{transform:scale(.94)}
+.phasenav .navarrow.disabled{opacity:.28;pointer-events:none}
+.phasenav .navmap{flex:1;height:50px;border-radius:18px;background:color-mix(in srgb,var(--surface) 90%,transparent);
+  border:1px solid color-mix(in srgb,var(--line) 65%,transparent);box-shadow:var(--shadow-sm);
   display:flex;align-items:center;justify-content:center;gap:6px;font-size:12.5px;font-weight:700;color:var(--ink2);cursor:pointer;white-space:nowrap}
 
 /* celebration pop-up (balloons + confetti) */
@@ -606,6 +636,7 @@ td{padding:12px 13px;border-top:1px solid var(--line)}
               <button class="heroBtn" id="settleNextBtn" onclick="go('journeymap')">Show me how →</button>
             </div>
             <div class="jrow" onclick="go('journeymap')"><div class="ji">🗺️</div><div style="flex:1"><div style="font-weight:700;font-size:14px" id="settleJrowText">Your journey · 0 of 10 phases done</div><div class="jbar"><i id="settleJrowBar" style="width:0%"></i></div></div><span style="color:var(--blue);font-weight:800">›</span></div>
+            <div id="settleUpcoming"></div>
           </div>
 
           <div class="moment-panel" data-m="renew" style="display:none">
@@ -713,7 +744,7 @@ td{padding:12px 13px;border-top:1px solid var(--line)}
       </div>
 
       <!-- LIFE MOMENT MAP — sub-header list (student Parts 3–7), rendered by renderMomentMap() -->
-      <div class="view" id="v-moment">
+      <div class="view tabbed" id="v-moment">
         <div class="appbar"><button class="back" onclick="go(momentBack)">‹</button><span class="ttl" id="momentTtl">Life moment</span><span style="width:24px"></span></div>
         <div class="pad" id="momentBody"></div>
       </div>
@@ -1379,9 +1410,16 @@ function renderPhase(p){
   var phaseComplete = st.total>0 && st.done===st.total;
   if(p.outro && phaseComplete) html+='<div class="note" style="background:var(--green-light);color:var(--ink);font-weight:700">'+paraBlock(p.outro,'').replace(/<p class="">/g,'<p style="margin:0 0 6px">')+'</div>';
   if(isLast && phaseComplete) html+='<div class="note" style="background:var(--green-light);color:var(--ink);font-weight:700">'+meta.outro.map(function(l){return '<p style="margin:0 0 6px">'+md(l)+'</p>';}).join('')+'</div>';
+  if(phaseComplete){
+    var sibs=activePhases(), ix=sibs.indexOf(p), nx=sibs[ix+1];
+    html+= nx ? '<button class="btn primary" style="margin-top:12px" onclick="go(\'sec-'+nx.id+'\')">Next: '+nx.title+' →</button>'
+              : '<button class="btn primary" style="margin-top:12px" onclick="go(\'journeymap\')">Back to your journey →</button>';
+  }
   document.getElementById('pad-'+p.id).innerHTML=html;
   var st2=phaseStats(p);
   var cc=document.getElementById('cnt-'+p.id); if(cc) cc.textContent=st2.done+'/'+st2.total;
+  var secTtl=document.querySelector('#v-sec-'+p.id+' .ttl');
+  if(secTtl) secTtl.innerHTML='<span class="crumb">Chapter '+p.part+' › </span>'+(SEC_SHORT[p.id]||p.nav||p.title);
 }
 function secNavHtml(p){
   var PHS=activePhases();
@@ -1402,10 +1440,12 @@ function renderJourneyMap(){
   [1,2].forEach(function(part){
     var box=document.getElementById('gmapPart'+part); if(!box)return;
     var list=activePhases().filter(function(p){return p.part===part;});
+    var chD=0, chT=0;
     var html='';
     var nextDone=true; // becomes false once we've passed the first not-fully-done phase
     list.forEach(function(p,i){
       var st=phaseStats(p);
+      chD+=st.mustDone; chT+=st.mustTotal;
       var state = st.done===st.total ? 'done' : (nextDone ? 'now' : 'lock');
       if(state!=='done') nextDone=false;
       html+='<div class="gnode '+state+'" onclick="go(\'sec-'+p.id+'\')">'+
@@ -1414,7 +1454,8 @@ function renderJourneyMap(){
         '<div><div class="gl">'+p.title+'</div><div class="gm">'+st.done+'/'+st.total+' steps'+(p.duration?' · '+p.duration:'')+'</div></div>'+
       '</div>';
     });
-    box.innerHTML=html;
+    // header ring for this chapter, above its node list
+    box.innerHTML=complianceRing(chD,chT,'Chapter '+part+' overall')+html;
   });
   // "more life moments" — visual only, never counted; non-student visas swap graduation for change-of-job
   var more=document.getElementById('gmapMore');
@@ -1469,8 +1510,8 @@ function buildMomentScreens(mid){
   var host=document.getElementById('momentScreens'); if(!host) return;
   var m=momentById(mid); if(!m){ host.innerHTML=''; return; }
   host.innerHTML=m.phases.map(function(ph){
-    return '<div class="view" id="v-mph-'+ph.id+'">'+
-      '<div class="appbar"><button class="back" onclick="go(\'moment\')">‹</button><span class="ttl">'+md(ph.title)+'</span><span class="muted" style="font-weight:700" id="mcnt-'+ph.id+'">0/'+ph.steps.length+'</span></div>'+
+    return '<div class="view tabbed" id="v-mph-'+ph.id+'">'+
+      '<div class="appbar"><button class="back" onclick="go(\'moment\')">‹</button><span class="ttl"><span class="crumb">'+(MOMENT_SHORT[mid]||m.name)+' › </span>'+md(ph.title)+'</span><span class="muted" style="font-weight:700" id="mcnt-'+ph.id+'">0/'+ph.steps.length+'</span></div>'+
       '<div class="pad" id="mpad-'+ph.id+'"></div></div>';
   }).join('');
   m.phases.forEach(function(ph){ renderMomentPhase(mid,ph); });
@@ -1483,6 +1524,10 @@ function renderMomentMap(mid){
   var html='<span class="tag rec" style="background:color-mix(in srgb,var(--purple) 13%,transparent);color:var(--purple)">Life moment</span>';
   html+='<h1 class="big serif">'+md(m.name)+'</h1>';
   html+=intro.map(function(l){return '<p class="lede">'+md(l)+'</p>';}).join('');
+  // header ring for the whole life moment (mandatory-only, like the home compliance ring)
+  var mmD=0,mmT=0;
+  m.phases.forEach(function(ph){ var s=momentPhaseMust(ph); mmD+=s.mustDone; mmT+=s.mustTotal; });
+  html+=complianceRing(mmD,mmT,m.name+' overall');
   var allDone=true, nextDone=true;
   html+='<div class="gmap" style="margin-top:6px">';
   m.phases.forEach(function(ph,i){
@@ -1501,7 +1546,15 @@ function renderMomentMap(mid){
     var mo=Array.isArray(m.outro)?m.outro:[m.outro];
     html+='<div class="note" style="background:var(--green-light);color:var(--ink);font-weight:700;margin-top:12px">'+mo.map(function(l){return '<p style="margin:0 0 6px">'+md(l)+'</p>';}).join('')+'</div>';
   }
-  html+='<button class="btn soft" style="margin-top:14px" onclick="go(momentBack)">Back</button>';
+  if(allDone){
+    var nx=nextRelevantMoment(mid);
+    if(nx){ var nm=MOMENTS[momentIndex(nx)];
+      html+='<div style="font-size:12px;font-weight:800;color:var(--ink2);letter-spacing:.4px;margin:18px 2px 6px">UP NEXT</div>';
+      html+='<div class="upnext" onclick="openMoment(\''+nx+'\',\''+momentBack+'\')"><div class="ji">'+nm.icon+'</div><div style="flex:1;min-width:0"><div style="font-weight:800;font-size:14px">'+nm.name+'</div><div style="font-size:12px;color:var(--ink2)">'+(MOMENT_DUE[nx]||nm.sub)+'</div></div><span style="color:var(--blue);font-weight:800">›</span></div>';
+    }
+  }
+  html+=otherMomentsNav(mid);
+  html+='<button class="btn soft" style="margin-top:12px" onclick="go(\'journeymap\')">🗺️ Back to your journey</button>';
   var body=document.getElementById('momentBody'); if(body) body.innerHTML=html;
 }
 /* one sub-header's task screen (mirrors renderPhase) */
@@ -1524,11 +1577,19 @@ function renderMomentPhase(mid,ph){
       '<div style="flex:1;min-width:0"><div class="tt">'+ph.number+s.letter+'. '+md(s.title)+'</div>'+itemsHtml+timeHtml+tagHtml+'</div></div>';
   });
   var complete = st.total>0 && st.done===st.total;
+  var phs=momentById(mid).phases, idx=phs.indexOf(ph), prev=phs[idx-1], next=phs[idx+1];
   if(ph.outro && complete){
     var po=Array.isArray(ph.outro)?ph.outro:[ph.outro];
     html+='<div class="note" style="background:var(--green-light);color:var(--ink);font-weight:700">'+po.map(function(l){return '<p style="margin:0 0 6px">'+md(l)+'</p>';}).join('')+'</div>';
   }
-  html+='<button class="btn soft" style="margin-top:14px" onclick="go(\'moment\')">‹ Back to '+md(momentById(mid).name)+'</button>';
+  if(complete){
+    html+= next ? '<button class="btn primary" style="margin-top:12px" onclick="go(\'mph-'+next.id+'\')">Next: '+md(next.title)+' →</button>'
+                : '<button class="btn primary" style="margin-top:12px" onclick="go(\'moment\')">Finish → back to overview</button>';
+  }
+  // prev/next flow between sub-headers + a tap back to the moment overview
+  var prevBtn=prev?'<div class="navarrow" onclick="go(\'mph-'+prev.id+'\')" title="Previous: '+md(prev.title).replace(/"/g,'')+'">‹</div>':'<div class="navarrow disabled">‹</div>';
+  var nextBtn=next?'<div class="navarrow" onclick="go(\'mph-'+next.id+'\')" title="Next: '+md(next.title).replace(/"/g,'')+'">›</div>':'<div class="navarrow disabled">›</div>';
+  html+='<div class="phasenav">'+prevBtn+'<div class="navmap" onclick="go(\'moment\')">🗺️ '+md(momentById(mid).name)+'</div>'+nextBtn+'</div>';
   var pad=document.getElementById('mpad-'+ph.id); if(pad) pad.innerHTML=html;
   var cc=document.getElementById('mcnt-'+ph.id); if(cc) cc.textContent=st.done+'/'+st.total;
 }
@@ -1637,6 +1698,7 @@ function updateCompliance(){
 
   var jt=document.getElementById('settleJrowText'); if(jt) jt.textContent='Your journey · '+phasesDone+' of '+PHS.length+' phases done';
   var jb=document.getElementById('settleJrowBar'); if(jb) jb.style.width=Math.round(phasesDone/PHS.length*100)+'%';
+  renderHomeUpcoming();
 
   // next incomplete step (mandatory first, else any)
   var next=null;
@@ -1675,11 +1737,13 @@ function go(id){
   if(!next) return;
   if(cur&&cur!==next) cur.classList.remove('active');
   next.classList.add('active'); next.scrollTop=0; current=id;
-  // single fixed tab bar
+  // single fixed tab bar — also on life-moment screens so Home/Journey stay one tap away
   var bar=document.getElementById('tabbar');
-  var show=TABVIEWS.indexOf(id)>=0;
+  var inMoment = (id==='moment' || id.indexOf('mph-')===0);
+  var show=TABVIEWS.indexOf(id)>=0 || inMoment;
   bar.classList.toggle('show',show);
-  document.querySelectorAll('#tabbar .tab').forEach(function(t){t.classList.toggle('on',t.getAttribute('data-go')===id);});
+  var tabId = inMoment ? 'journeymap' : id; // moments live under the Journey tab
+  document.querySelectorAll('#tabbar .tab').forEach(function(t){t.classList.toggle('on',t.getAttribute('data-go')===tabId);});
   // single fixed section prev/next nav — only for phase screens (sec-*)
   var sbar=document.getElementById('secnav');
   if(id.indexOf('sec-')===0){
@@ -1852,11 +1916,83 @@ function setRing(pct){var a=document.getElementById('ringArc');if(a){a.setAttrib
 function stepRing(done,total){
   var pct=total?Math.round(done/total*100):0;
   var r=21, c=2*Math.PI*r, off=c*(1-pct/100);
-  return '<div class="scoreCard mini">'+
-    '<div class="ring mini"><svg width="52" height="52" viewBox="0 0 52 52"><circle cx="26" cy="26" r="'+r+'" stroke="rgba(255,255,255,.18)" stroke-width="5" fill="none"/><circle class="miniArc" cx="26" cy="26" r="'+r+'" stroke-width="5" fill="none" stroke-linecap="round" stroke-dasharray="'+c.toFixed(1)+'" stroke-dashoffset="'+off.toFixed(1)+'"/></svg>'+
+  return '<div class="scoreCard mini soft">'+
+    '<div class="ring mini"><svg width="52" height="52" viewBox="0 0 52 52"><circle class="miniTrack" cx="26" cy="26" r="'+r+'" stroke-width="5" fill="none"/><circle class="miniArc" cx="26" cy="26" r="'+r+'" stroke-width="5" fill="none" stroke-linecap="round" stroke-dasharray="'+c.toFixed(1)+'" stroke-dashoffset="'+off.toFixed(1)+'"/></svg>'+
       '<div class="lab"><b>'+pct+'%</b><span>DONE</span></div></div>'+
     '<div><h3>Section progress</h3><p>'+done+' of '+total+' steps done</p></div>'+
   '</div>';
+}
+/* mandatory-only ring for a whole chapter / life moment / overall (matches the home compliance metric) */
+function complianceRing(done,total,title){
+  var pct=total?Math.round(done/total*100):100;
+  var r=21, c=2*Math.PI*r, off=c*(1-pct/100);
+  var sub=total?(done+' of '+total+' mandatory done'):'No mandatory items';
+  return '<div class="scoreCard mini">'+
+    '<div class="ring mini"><svg width="52" height="52" viewBox="0 0 52 52"><circle class="miniTrack" cx="26" cy="26" r="'+r+'" stroke-width="5" fill="none"/><circle class="miniArc" cx="26" cy="26" r="'+r+'" stroke-width="5" fill="none" stroke-linecap="round" stroke-dasharray="'+c.toFixed(1)+'" stroke-dashoffset="'+off.toFixed(1)+'"/></svg>'+
+      '<div class="lab"><b>'+pct+'%</b><span>DONE</span></div></div>'+
+    '<div><h3>'+title+'</h3><p>'+sub+'</p></div>'+
+  '</div>';
+}
+/* relevance / deadline priority used for "Up next" and the Home "coming up" banner */
+var MOMENT_PRIORITY=['renew','move','gradjob','gradhunt','leave'];
+var MOMENT_SHORT={renew:'Visa renewal',gradjob:'Grad + job',gradhunt:'Job-hunting',move:'Moving home',leave:'Leaving Japan'};
+var SEC_SHORT={school:'School Phase',visa:'Visa Application',travelprep:'Travel Preparation',airport:'Arrival at Airport',housing:'Finding a Home',cityhall:'City Hall',bank:'Bank Account',phone:'Phone Number',permit:'Work Permit',daily:'Daily Life'};
+var MOMENT_DUE={
+  renew:'Your status expires in ~78 days — start now',
+  move:'File within 14 days of moving',
+  gradjob:'Apply ~3 months before you start work',
+  gradhunt:'Apply before your student status ends',
+  leave:'Start ~6–8 weeks before you go'
+};
+function momentComplete(id){
+  var m=(typeof STUDENT_MOMENTS!=='undefined')?STUDENT_MOMENTS[id]:null; if(!m) return false;
+  return m.phases.every(function(ph){ var s=momentPhaseStats(ph); return s.total>0 && s.done===s.total; });
+}
+function nextRelevantMoment(excludeId){
+  if(currentVisa!=='student'||typeof STUDENT_MOMENTS==='undefined') return null;
+  var avail=momentsForVisa('student').map(function(m){return m.id;});
+  for(var i=0;i<MOMENT_PRIORITY.length;i++){
+    var id=MOMENT_PRIORITY[i];
+    if(id===excludeId) continue;
+    if(avail.indexOf(id)<0) continue;
+    if(STUDENT_MOMENTS[id] && !momentComplete(id)) return id;
+  }
+  return null;
+}
+/* Home 'coming up' deadline prompt — surfaces the most time-critical incomplete moment */
+function renderHomeUpcoming(){
+  var el=document.getElementById('settleUpcoming'); if(!el) return;
+  var id=nextRelevantMoment(null);
+  if(!id){ el.innerHTML=''; return; }
+  var m=MOMENTS[momentIndex(id)]; if(!m){ el.innerHTML=''; return; }
+  el.innerHTML='<div class="upnext" onclick="openMoment(\''+id+'\',\'home\')">'+
+    '<div class="ji">'+m.icon+'</div>'+
+    '<div style="flex:1;min-width:0"><div style="font-size:11px;font-weight:800;color:#d9781f;letter-spacing:.4px">⏰ COMING UP</div>'+
+      '<div style="font-weight:800;font-size:14px">'+m.name+'</div>'+
+      '<div style="font-size:12px;color:var(--ink2)">'+(MOMENT_DUE[id]||m.sub)+'</div></div>'+
+    '<span style="color:var(--blue);font-weight:800">›</span></div>';
+}
+/* quick-nav to the OTHER life moments — keeps the journey feeling connected, not siloed */
+function otherMomentsNav(currentId){
+  if(currentVisa!=='student') return '';
+  var list=momentsForVisa(currentVisa).filter(function(m){ return m.id!=='arrive'&&m.id!=='settle'&&m.id!==currentId; });
+  if(!list.length) return '';
+  var nodes=list.map(function(m,i){
+    var has=typeof STUDENT_MOMENTS!=='undefined'&&STUDENT_MOMENTS[m.id];
+    var click=has?'openMoment(\''+m.id+'\',\''+momentBack+'\')':'openMomentSoon(\''+m.id+'\')';
+    return '<div class="gnode'+(has?'':' soon')+'" onclick="'+click+'">'+
+      (i<list.length-1?'<div class="gconn" style="top:48px;height:44px"></div>':'')+
+      '<div class="bub">'+m.icon+'</div>'+
+      '<div><div class="gl">'+m.name+(has?'':'<span class="soonpill">SOON</span>')+'</div><div class="gm">'+m.sub+'</div></div>'+
+    '</div>';
+  }).join('');
+  return '<div style="font-size:12px;font-weight:800;color:var(--ink2);letter-spacing:.4px;margin:22px 2px 6px">CONTINUE YOUR JOURNEY · OTHER LIFE MOMENTS</div><div class="gmap">'+nodes+'</div>';
+}
+/* mandatory tally for one life-moment sub-header */
+function momentPhaseMust(ph){
+  var t=0,dn=0;
+  ph.steps.forEach(function(s){ if(s.tag==='must'){ t++; if(sgChecked[sgId(ph.id,s.letter)]) dn++; } });
+  return {mustTotal:t,mustDone:dn};
 }
 function toggleTask(el){ el.classList.toggle('on'); recompute(); }
 function recompute(){
