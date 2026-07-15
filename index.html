@@ -6,7 +6,7 @@
 <title>NyuuLy Compass 2.0 — Prototype</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{
   /* Nyuuly_BrandBook.pdf v1.0 — A3-01 Brand color / UI palette */
@@ -24,7 +24,7 @@
 body{margin:0;font-family:'Manrope',-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--ink);
   background:linear-gradient(165deg,#e9eefb,#dde6f7 60%,#e7ecf8);min-height:100vh;
   display:flex;flex-direction:column;align-items:center;padding:24px 14px 60px}
-.serif{font-family:'Playfair Display',Georgia,serif}
+.serif{font-family:'Manrope',-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-weight:800;letter-spacing:-.6px}
 
 .pagehead{width:100%;max-width:1080px;display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap;gap:12px}
 .brandrow{display:flex;align-items:center;gap:10px;font-weight:800;font-size:17px;color:var(--navy)}
@@ -107,6 +107,15 @@ svg.ic{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:2;strok
 .ring .lab span{font-size:8px;letter-spacing:1px;color:#c3cdf2}
 .scoreCard h3{margin:0 0 2px;font-size:14px;font-weight:700;color:#dbe2ff}
 .scoreCard p{margin:0;font-size:13px;font-weight:700}
+/* compact per-section progress ring — echoes the home compliance card, smaller + less text */
+.scoreCard.mini{padding:12px 14px;border-radius:16px;gap:13px;margin:2px 0 12px}
+.scoreCard.mini::after{display:none}
+.ring.mini{width:52px;height:52px}
+.ring.mini .miniArc{stroke:var(--orange)}       /* brand-orange arc — contrasts the white number */
+.ring.mini .lab b{font-size:13px;font-weight:500;color:#fff;letter-spacing:.2px}  /* thinner % text */
+.ring.mini .lab span{font-size:7px;font-weight:600;color:var(--orange);letter-spacing:1px}
+.scoreCard.mini h3{font-size:11px;letter-spacing:.5px;text-transform:uppercase;color:#c3cdf2}
+.scoreCard.mini p{font-size:13px}
 
 /* next-step hero */
 .hero{border-radius:22px;padding:20px;margin-bottom:14px;color:#fff;box-shadow:var(--shadow);position:relative;overflow:hidden}
@@ -605,9 +614,9 @@ td{padding:12px 13px;border-top:1px solid var(--line)}
               <h2>Start your visa renewal</h2>
               <p class="hd">Your status expires in 78 days. As a <b>student</b>, you'll need an enrollment certificate, transcript and attendance record — different from a worker's renewal.</p>
               <div class="due">🛂 Apply from 3 months before · Immigration</div>
-              <button class="heroBtn" onclick="go('section-renew')">See what to gather →</button>
+              <button class="heroBtn" onclick="openMoment('renew','home')">See what to gather →</button>
             </div>
-            <div class="jrow" onclick="go('section-renew')"><div class="ji">🗺️</div><div style="flex:1"><div style="font-weight:700;font-size:14px">Renewal · step 2 of 4</div><div class="jbar"><i style="width:40%"></i></div></div><span style="color:var(--blue);font-weight:800">›</span></div>
+            <div class="jrow" onclick="openMoment('renew','home')"><div class="ji">🗺️</div><div style="flex:1"><div style="font-weight:700;font-size:14px">Renewal · step 2 of 4</div><div class="jbar"><i style="width:40%"></i></div></div><span style="color:var(--blue);font-weight:800">›</span></div>
           </div>
 
           <div class="moment-panel" data-m="arrive" style="display:none">
@@ -627,9 +636,9 @@ td{padding:12px 13px;border-top:1px solid var(--line)}
               <h2>Report your change of address</h2>
               <p class="hd">Moved to a new place? File a moving-out and moving-in notice at City Hall within <b>14 days</b> so your residence card stays valid.</p>
               <div class="due">📦 Within 14 days of moving · City Hall</div>
-              <button class="heroBtn" onclick="openMyDetails()">Update my address →</button>
+              <button class="heroBtn" onclick="openMoment('move','home')">See the moving checklist →</button>
             </div>
-            <div class="jrow" onclick="openMyDetails()"><div class="ji">🏠</div><div style="flex:1"><div style="font-weight:700;font-size:14px">Change of address · step 1 of 2</div><div class="jbar"><i style="width:20%"></i></div></div><span style="color:var(--blue);font-weight:800">›</span></div>
+            <div class="jrow" onclick="openMoment('move','home')"><div class="ji">🏠</div><div style="flex:1"><div style="font-weight:700;font-size:14px">Change of address · City Hall within 14 days</div><div class="jbar"><i style="width:20%"></i></div></div><span style="color:var(--blue);font-weight:800">›</span></div>
           </div>
 
           <div class="moment-panel" data-m="gradjob" style="display:none">
@@ -638,9 +647,9 @@ td{padding:12px 13px;border-top:1px solid var(--line)}
               <h2>Change your status to work</h2>
               <p class="hd">You've got a job offer 🎉 — switch from <b>Student</b> to a work visa before graduation. Your employer provides most of the key documents.</p>
               <div class="due">🎓 Apply ~3 months before you start work</div>
-              <button class="heroBtn" onclick="go('section-grad')">Start change of status →</button>
+              <button class="heroBtn" onclick="openMoment('gradjob','home')">Start change of status →</button>
             </div>
-            <div class="jrow" onclick="go('section-grad')"><div class="ji">🗺️</div><div style="flex:1"><div style="font-weight:700;font-size:14px">Change of status · step 2 of 4</div><div class="jbar"><i style="width:40%"></i></div></div><span style="color:var(--blue);font-weight:800">›</span></div>
+            <div class="jrow" onclick="openMoment('gradjob','home')"><div class="ji">🗺️</div><div style="flex:1"><div style="font-weight:700;font-size:14px">Change of status · step 2 of 4</div><div class="jbar"><i style="width:40%"></i></div></div><span style="color:var(--blue);font-weight:800">›</span></div>
           </div>
 
           <div class="moment-panel" data-m="gradhunt" style="display:none">
@@ -649,9 +658,9 @@ td{padding:12px 13px;border-top:1px solid var(--line)}
               <h2>Switch to a job-hunting status</h2>
               <p class="hd">Graduating without an offer yet? Stay and keep looking by changing to a <b>Designated Activities</b> job-seeker status — apply before your student status ends.</p>
               <div class="due">🧭 Apply before graduation · Immigration</div>
-              <button class="heroBtn" onclick="go('journeymap')">See what to prepare →</button>
+              <button class="heroBtn" onclick="openMoment('gradhunt','home')">See what to prepare →</button>
             </div>
-            <div class="jrow" onclick="go('journeymap')"><div class="ji">🗺️</div><div style="flex:1"><div style="font-weight:700;font-size:14px">Job-seeker status · step 1 of 3</div><div class="jbar"><i style="width:15%"></i></div></div><span style="color:var(--blue);font-weight:800">›</span></div>
+            <div class="jrow" onclick="openMoment('gradhunt','home')"><div class="ji">🗺️</div><div style="flex:1"><div style="font-weight:700;font-size:14px">Job-seeker status · step 1 of 3</div><div class="jbar"><i style="width:15%"></i></div></div><span style="color:var(--blue);font-weight:800">›</span></div>
           </div>
 
           <div class="moment-panel" data-m="leave" style="display:none">
@@ -660,9 +669,9 @@ td{padding:12px 13px;border-top:1px solid var(--line)}
               <h2>Wrap things up before you go</h2>
               <p class="hd">Leaving Japan? Cancel your residence, settle pension and tax, close your bank account and hand back your residence card at the airport.</p>
               <div class="due">✈️ Start ~1 month before departure</div>
-              <button class="heroBtn" onclick="go('journeymap')">See your leaving checklist →</button>
+              <button class="heroBtn" onclick="openMoment('leave','home')">See your leaving checklist →</button>
             </div>
-            <div class="jrow" onclick="go('journeymap')"><div class="ji">🗺️</div><div style="flex:1"><div style="font-weight:700;font-size:14px">Leaving Japan · step 1 of 5</div><div class="jbar"><i style="width:12%"></i></div></div><span style="color:var(--blue);font-weight:800">›</span></div>
+            <div class="jrow" onclick="openMoment('leave','home')"><div class="ji">🗺️</div><div style="flex:1"><div style="font-weight:700;font-size:14px">Leaving Japan · step 1 of 7</div><div class="jbar"><i style="width:12%"></i></div></div><span style="color:var(--blue);font-weight:800">›</span></div>
           </div>
 
           <button class="btn soft" style="margin-top:8px" onclick="openSheet()">🔄 Something changed? Update your situation</button>
@@ -702,6 +711,14 @@ td{padding:12px 13px;border-top:1px solid var(--line)}
           <button class="btn soft" onclick="go('journeymap')">Back to your journey</button>
         </div>
       </div>
+
+      <!-- LIFE MOMENT MAP — sub-header list (student Parts 3–7), rendered by renderMomentMap() -->
+      <div class="view" id="v-moment">
+        <div class="appbar"><button class="back" onclick="go(momentBack)">‹</button><span class="ttl" id="momentTtl">Life moment</span><span style="width:24px"></span></div>
+        <div class="pad" id="momentBody"></div>
+      </div>
+      <!-- Per-sub-header task screens for the open life moment (built by buildMomentScreens) -->
+      <div id="momentScreens"></div>
 
       <!-- SECTION: Part 1 phases -->
       <div class="view hasnav" id="v-sec-school">
@@ -1066,6 +1083,7 @@ td{padding:12px 13px;border-top:1px solid var(--line)}
   <button class="mi" onclick="showDesk()">Master dashboard</button>
 </div>
 
+<script src="visas-extra.js"></script>
 <script>
 var TABS=[
   ['home','Home','<svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>'],
@@ -1088,185 +1106,217 @@ function L(label,url){ return '<a href="'+url+'" target="_blank" rel="noopener">
 function md(t){ return t.replace(/\[([^\]]+)\]\(([^)]+)\)/g,function(_,label,url){return L(label,url);}); }
 
 var STUDENT_PHASES=[
-{id:'school',part:1,number:1,title:'School Phase',duration:'~10 weeks',
- intro:"Starting your study journey in Japan begins with thoughtful research and planning. Here's how to move forward smoothly.",
- outro:"Well done! You've officially completed your school application and are ready for the next big step: your visa process.",
- steps:[
-  {letter:'a',title:'Choose Your Study Program',tag:'rec',items:[
-    {icon:'🔹',text:'Decide whether you want to attend a university, language school, or vocational school.'}]},
-  {letter:'b',title:'Check That You Meet Both Academic And Financial Requirements',tag:'rec',items:[
-    {icon:'💡',text:'Language schools: Usually require about 150+ hours of Japanese study.'},
-    {icon:'💡',text:"Universities: Require a high school or undergraduate degree plus English or Japanese skills, depending on the program's language."},
-    {icon:'💡',text:'Vocational schools: Often need strong Japanese ability and are popular route for after language programs.'},
-    {icon:'note',text:'Not sure which path suits you best? [AskMe](https://nyuuly.com/compass/askme) for personal guidance.'}]},
-  {letter:'c',title:'Show You Can Cover Study And Living Costs In Japan',tag:'must',items:[
-    {icon:'🔹',text:'Estimate all expenses: tuition, visa fees, airfare, housing, and initial living costs.'},
-    {icon:'🔹',text:'Secure savings for around 1–2 million JPY.'},
-    {icon:'🔹',text:"Prepare proof of funds: required for both your school's screening and your Certificate of Eligibility (CoE), a document needed for your Japanese Visa."}]},
-  {letter:'d',title:'Apply to Your Chosen Schools And Pay Tuition',tag:'must',items:[
-    {icon:'🔹',text:'Subimt the application and transfer your tuition.'},
-    {icon:'🔹',text:'Apply for scholarship. Note that usually only universities, not language schools, offer scholarships.'}]}
- ]},
-{id:'visa',part:1,number:2,title:'Visa Application Phase',duration:'10 ~ 12 weeks',
- intro:"It's starting to feel real now. Just a few final steps before you're ready to fly.",
- outro:"Congratulations, you're officially cleared to enter Japan!",
- steps:[
-  {letter:'a',title:'Wait As Your School Submits The Application For CoE',tag:'must',items:[
-    {icon:'💡',text:'The Certificate of Eligibility (CoE) is an essential document for your Visa.'},
-    {icon:'💡',text:'Processing Time: Around 1–3 months, so patience is key.'},
-    {icon:'🔹',text:'Receive your CoE (original or digital copy) through your school.'}]},
-  {letter:'b',title:'Upon Receiving your CoE, Prepare Visa Documents Before Heading for Japanese Embassy',tag:'must',items:[
-    {icon:'🔹',text:'Original or printed CoE'},
-    {icon:'🔹',text:'Passport (valid for at least 6 months)'},
-    {icon:'🔹',text:'Visa application form + ID photos'},
-    {icon:'🔹',text:'Financial documents showing funds (bank statement, income proof)'},
-    {icon:'🔹',text:'Academic certificates and school acceptance letter'}]},
-  {letter:'c',title:'Submit Your Visa Application At The Japanese Embassy In Your Home-Country',tag:'must',items:[
-    {icon:'🔹',text:'Attend interview if requested'},
-    {icon:'🔹',text:'Wait for 5–10 business days until you get notified of your Visa approval.'},
-    {icon:'🔹',text:'Prepare the visa fee (approx. 3,000–6,000 JPY in local currency).'},
-    {icon:'🔹',text:'Pick up your passport with the Japanese Visa on it.'}]}
- ]},
-{id:'travelprep',part:1,number:3,title:'Travel Preparation',
- intro:"The countdown begins! Here's how to make your arrival smooth and stress-free.",
- phaseNote:'We recommend you to buy a Prepaid Data Only SIM before coming to Japan. [Check NyuuLy Mobile](https://nyuuly.com/mobile)',
- steps:[
-  {letter:'a',title:'Know Your Accommodation And School Details',tag:'must',items:[
-    {icon:'🔹',text:"Confirm your own Japanese address, school's address, and contact phone number — airport immigration will likely ask."}]},
-  {letter:'b',title:'Prepare Your Money (about 150,000 JPY in cash, for the first month expenses)',tag:'rec',items:[
-    {icon:'🔹',text:'Use online sites like [numbeo](https://www.numbeo.com/cost-of-living/comparison.jsp) to compare the costs of living with your home country.'},
-    {icon:'💡',text:"Cash transactions are still dominant in Japan. It is a safe country so your cash won't get stolen."},
-    {icon:'🔹',text:'Exchange currency at the airport, and bring an international debit/credit card too (if you have).'}]}
- ]},
-{id:'airport',part:2,number:1,title:'Arrival at Airport',duration:'2~3 hours',
- intro:"Here's what to expect at the airport to officially begin your life here.",
- outro:['Collect baggage and head out.','Welcome to your new home in the Land of the Rising Sun! 🎉','Well done 🥳🥳🎉🎉🎉'],
- steps:[
-  {letter:'a',title:'Get Your [Residence Card (Zairyū Kādo)](https://nyuuly.com/info-hub/articles/zairyu-card-residence-card) When You Arrive At The Airport.',tag:'must',items:[
-    {icon:'💡',text:'Residence Card is your most important ID proving legal residence in Japan.'},
-    {icon:'🔹',text:'Follow the signs for foreign residents, NOT re-entry (not residence card holders, as you do not have it yet).'},
-    {icon:'💡',text:'The immigration staff checks your CoE, passport and verifies your identify through biometrics and then issues your Residence Card.'}]},
-  {letter:'b',title:'Apply For Work Permit At Entry (Shikakugai Katsudō Kyoka)',tag:'rec',items:[
-    {icon:'🔹',text:'Apply for Work Permit at the airport, if you plan to work part-time. Doing it later takes extra steps and 1–2 weeks.'},
-    {icon:'🔹',text:'Make sure you get the Part-time Work Permit stamp on the back of your residence card.'}]},
-  {letter:'c',title:'Confirm Airport Transport & Luggage',tag:'rec',items:[
-    {icon:'🔹',text:'Take The Airport Bus, if you are flexible with time. Some foreigners prefer buses as you get a seat. [Learn More](https://tyo-nrt.com/en)'},
-    {icon:'💡',text:'Trains can be faster and more frequent, but especially during late evenings, they get very crowded.'},
-    {icon:'💡',text:'Narita Airport to Shinjuku Station costs about 1,500 JPY by cheap trains and [buses](https://www.narita-airport.jp/en/access/bus/lcb/), but around 30,000 JPY by taxi.'},
-    {icon:'💡',text:'Airports are usually far from center of cities.'},
-    {icon:'🔹',text:'Use a luggage delivery service like Yamato Transport (around 2,000–3,500 JPY) if you want to move around right after arrival. [Learn More](https://www.kuronekoyamato.co.jp/en/)'}]}
- ]},
-{id:'housing',part:2,number:2,title:'Finding Your New Home',duration:'~14 days',
- intro:"Finding a new place can feel overwhelming, but do not worry. Let's break it down to make it an exciting step towards settling in.",
- outro:"And that's it! You've finished setting up the utility for your new life in Japan.",
- steps:[
-  {letter:'a',title:'Search For A Room',tag:'rec',items:[
-    {icon:'🔹',text:'Search online (e.g., [SUUMO](https://suumo.jp/) for apartments, oakhouse for shared houses etc) or visit local agencies.'},
-    {icon:'🔹',text:'Make sure they accept foreigners as many landlords refuse lease to non-Japanese.'}]},
-  {letter:'b',title:'Prepare Initial Costs for Apartments/Mansions',tag:'rec',tagInferred:true,items:[
-    {icon:'💡',text:'Typical total: 300,000–600,000+ JPY'},
-    {icon:'💡',text:'Rent (first month): 70,000–120,000 JPY'},
-    {icon:'💡',text:'Deposit: ~1 month (refundable)'},
-    {icon:'💡',text:'Key Money: ~1 month (non-refundable)'},
-    {icon:'💡',text:'Agent Fee: ~1 month + tax'},
-    {icon:'💡',text:'Guarantor Fee: 0.5–1 month'}]},
-  {letter:'c',title:'Prepare Required Items',tag:'must',items:[
-    {icon:'🔹',text:'Residence card'},
-    {icon:'🔹',text:'Emergency contact in Japan'},
-    {icon:'🔹',text:"Read NyuuLy's [article about emergency in Japan](https://nyuuly.com/info-hub/articles/in-case-of-emergency)"}]},
-  {letter:'d',title:'Sign Contract',tag:'rec',tagInferred:true,items:[
-    {icon:'🔹',text:'Review term length and early-termination penalties.'},
-    {icon:'🔹',text:'Pay agreed fees and sign.'}]},
-  {letter:'e',title:'Set Up Utilities (start ~2 weeks before move-in)',tag:'rec',tagInferred:true,
-   note:'[Read our Guide](https://nyuuly.com/info-hub/articles/set-up-utilities-in-japan)',items:[
-    {icon:'🔹',text:'Prepare your Residence Card, and address.'},
-    {icon:'💡',text:'Water: usually on; change contract to your name (provider is set by area).'},
-    {icon:'💡',text:'Electricity: apply online/phone/in person; switch on the breaker if needed.'},
-    {icon:'💡',text:"Gas: book a visit; staff must turn it on while you're home. Bundled gas / electricity plans exist (e.g., Kanto: TEPCO, Tokyo Gas)."},
-    {icon:'💡',text:'Internet — Wired (Hikari): fastest; installation costs often 20,000–40,000 JPY. Monthly costs around 4,000 JPY.'},
-    {icon:'💡',text:'Internet — Mobile Wi-Fi or high-data SIM + phone hotspot: flexible and cheaper for short stays or light usage.'},
-    {icon:'🔹',text:"Consider NyuuLy Mobile's 50GB plan as a Mobile Wi-fi. [Learn More](https://nyuuly.com/mobile)"}]},
-  {letter:'f',title:'Move In & Furnish',tag:'rec',tagInferred:true,items:[
-    {icon:'🔹',text:'Buy new furniture: Nitori, IKEA, Yamada Denki.'},
-    {icon:'🔹',text:'Or buy second-hand furniture: Mercari, Second Street.'}]}
- ]},
-{id:'cityhall',part:2,number:3,title:'City Hall Paperwork: Becoming a Local Resident',duration:'3~4 hours',
- intro:"Now, let's help you officially become a local! This part consists of City Hall Procedure, and you have to complete them within 2 weeks of your living place decided.",
- note:'[Read our guide](https://nyuuly.com/info-hub/articles/japan-city-hall-all-in-one-for-new-residents)',
- outro:['That’s it! Congratulations on officially becoming a resident of your new city!',"You've checked off the biggest items on your first-week-in-Japan to-do list. 🎉"],
- steps:[
-  {letter:'a',title:'Prepare',tag:'rec',items:[
-    {icon:'🔹',text:'Make sure you have your new address.'},
-    {icon:'🔹',text:'Bring your [Residence Card (Zairyū Kādo)](https://nyuuly.com/info-hub/articles/zairyu-card-residence-card) which you received at the airport, passport, and know your school address.'},
-    {icon:'💡',text:'You normally cannot book an appointment, and must visit in person. It will take a couple of hours.'},
-    {icon:'🔹',text:'Follow this order for a smoother visit:'}]},
-  {letter:'b',title:'Decide Katakana Name Spelling',tag:'rec',items:[
-    {icon:'🔹',text:'Decide your katakana name — it would be needed for pension application and later for bank account opening.'}]},
-  {letter:'c',title:'Register Your Residency (Jūmin Tōroku) At Your Local City Hall',tag:'must',items:[
-    {icon:'🔹',text:'Fill out a Move-in Notification (Tennyu-doke) to register your residency.'},
-    {icon:'💡',text:'The staff will update the address on the back of your Residence Card and hand you back the card the same day.'}]},
-  {letter:'d',title:'Request 1-2 Copies Of [Certificate Of Residence (Juminhyo)](https://nyuuly.com/info-hub/articles/juminhyo-certificate-of-residence)',tag:'rec',items:[
-    {icon:'💡',text:"Certificate of Residence (Juminhyo) is an official certificate that proves your registered address in Japan. You'll need it often — for opening a bank account etc."}]},
-  {letter:'e',title:'Confirm National Health Insurance And Pension (Kokumin Kenkō Hoken)',tag:'rec',tagInferred:true,items:[
-    {icon:'💡',text:'If your sponsor is enrolling you at corporate Social Insurance (Shakai Hoken), you do NOT need to enroll at National Health Insurance and Pension here. Confirm that.'},
-    {icon:'🔹',text:'[Read Easy Healthcare in Japan](https://nyuuly.com/info-hub/articles/easy-healthcare-in-japan)'}]},
-  {letter:'f',title:'Receive Your Individual Number Notice',tag:'must',items:[
-    {icon:'🔹',text:'Keep the 12-digit number that you receive 2-3 weeks later. [Learn More](https://www.kojinbango-card.go.jp/en-tsuchicard/)'},
-    {icon:'🔹',text:'Please read [this guide](https://www.kojinbango-card.go.jp/en-uketori/), and [our guide](https://nyuuly.com/info-hub/articles/my-number-card).'}]}
- ]},
-{id:'bank',part:2,number:4,title:'Opening a Bank Account',duration:'setup 1~2 hours, cash card in 1~2 weeks',
- intro:'Opening a bank account should be your priority after registering your address. We recommend opening a Japan Post Bank account first, since most other banks require phone number. [Please read our Guide](https://nyuuly.com/articles/open-a-bank-account-in-japan-first-step-of-your-financial-journey)\n\nThe following is about opening an account at Japan Post Bank.',
- outro:"Give yourself a pat on the back! You've just completed some of the most crucial and often stressful steps, bringing you closer to making Japan your home.",
- steps:[
-  {letter:'a',title:'Prepare',tag:'must',items:[
-    {icon:'🔹',text:'Residence Card (with registered address), your Katakana name.'}]},
-  {letter:'b',title:'Apply Online',tag:'rec',items:[
-    {icon:'🔹',text:'Follow their instructions. Or, visit their branch with someone who speaks Japanese if facing difficulty. [Watch Their Guide](https://youtu.be/7cBLnSO6J0c)'}]},
-  {letter:'c',title:'Receive Your Cash Card',tag:'rec',tagInferred:true,items:[
-    {icon:'💡',text:'Your cash card arrives by mail in about 1–2 weeks.'}]}
- ]},
-{id:'phone',part:2,number:5,title:'Getting a Phone Number',
- intro:'Having a Japanese phone number (voice plan) is a must. [Read our Guide](https://nyuuly.com/info-hub/articles/acquire-a-sim-card-in-japan-a-simple-guide-for-your-first-days)',
- steps:[
-  {letter:'a',title:'Prepare Necessary Documents',tag:'must',items:[
-    {icon:'🔹',text:'Residence Card (with registered address), and your bank account or credit card information.'}]},
-  {letter:'b',title:'Purchase & Setup',tag:'rec',tagInferred:true,items:[
-    {icon:'🔹',text:'Buy online. Beware most carriers support only Japanese customer support.'},
-    {icon:'💡',text:'You can buy [NyuuLy Mobile SIM](https://nyuuly.com/mobile) online with full English customer support.'}]}
- ]},
-{id:'permit',part:2,number:6,title:'Part-time Work Permit (Shikakugai Katsudō Kyoka)',duration:'~2 weeks to issue',
- steps:[
-  {letter:'a',title:'Submit the form at your local immigration office. [Form](https://www.moj.go.jp/isa/content/930004124.pdf)',tag:'must',items:[
-    {icon:'🔹',text:"Didn't apply at the airport? Do it here before starting any job. [Learn More](https://www.moj.go.jp/isa/applications/procedures/16-8.html)"},
-    {icon:'💡',text:'Work limits: up to 28 hours/week.'},
-    {icon:'💡',text:'The immigration office will stamp on the back of your residence card.'},
-    {icon:'🔹',text:'Explore sites like [WORK JAPAN](https://www.workjapan.jp/) to learn about suitable part-time jobs and apply.'}]}
- ]},
-{id:'daily',part:2,number:7,title:'Navigating Daily Life',
- intro:"Now that you're settled, here are some important tips for a smoother daily life in Japan.",
- outro:'Great Job! Onwards and upwards!',
- steps:[
-  {letter:'a',title:'Follow The Garbage Sorting Rules',tag:'must',items:[
-    {icon:'💡',text:'Japan has very strict rules about garbage sorting.'},
-    {icon:'🔹',text:"Get the garbage guide from your city hall, or your city hall's website. E.g. [Shinjuku City's garbage guide](https://www.city.shinjuku.lg.jp/content/000259255.pdf)"},
-    {icon:'💡',text:'Burnable: kitchen waste (drained), paper scraps, soiled plastics, clothing.'},
-    {icon:'💡',text:'Recyclables: PET bottles, glass bottles, cans, paper/cardboard. Rinse items; remove PET caps/labels; bundle paper.'},
-    {icon:'💡',text:'Non-burnable: metals, ceramics, non-bottle glass, small appliances. Wrap and label sharp items.'},
-    {icon:'💡',text:'Oversize: usually items over 30 cm. For this, you need to buy garbage tickets from your local convenience store, book a pickup, and place items at the designated spot by the pickup time.'}]},
-  {letter:'b',title:'Know More About Getting Around',tag:'rec',items:[
-    {icon:'💡',text:'Suica/PASMO: Rechargeable cards for transit and small purchases; buy at major stations.'},
-    {icon:'💡',text:"Driver's License: Getting a driving license is very difficult. Attending driving camp is a good way to increase your chances. [Learn More](https://www.npa.go.jp/english/bureau/traffic/2_drivers_license_English_ver2.pdf)"},
-    {icon:'💡',text:'Bicycle: Register anti-theft (Bōhan Tōroku) at the shop. Consider bicycle liability insurance (often ~3,000 JPY/year, purchase online).'}]},
-  {letter:'c',title:'Figure out Japanese Toilets',tag:'opt',items:[
-    {icon:'🔹',text:'See the image for detailed toilet button functions.'}]}
- ]}
+{id:"school",part:1,number:1,title:"School Phase",duration:"~10 weeks",intro:["Your journey starts with research and planning."],outro:["Well done — your application's in. Next big step: your visa."],
+  steps:[
+   {letter:"a",title:"Choose Your Study Program",tag:"rec",items:[{icon:"🔹",text:"Decide between a university, language school, or vocational school."}],time:"~6 months before · a few hrs · —"},
+   {letter:"b",title:"Check Academic & Financial Requirements",tag:"rec",items:[{icon:"💡",text:"Language schools: about 150+ hours of Japanese study."},{icon:"💡",text:"Universities: a high-school/undergrad degree plus English or Japanese, by program."},{icon:"💡",text:"Vocational schools: strong Japanese; a popular route after language school."},{icon:"note",text:"Not sure which path fits? [AskMe](https://nyuuly.com/compass/askme) for personal guidance."}],time:"~6 months before · 30 min · —"},
+   {letter:"c",title:"Show You Can Cover Study & Living Costs",tag:"must",items:[{icon:"🔹",text:"Estimate tuition, visa, airfare, housing and living costs; secure ~1–2 million JPY in savings."},{icon:"🔹",text:"Prepare proof of funds — needed for your school screening and your Certificate of Eligibility (CoE), required for your visa."}],time:"~5 months before · ongoing · —"},
+   {letter:"d",title:"Apply to Schools & Pay Tuition",tag:"must",items:[{icon:"🔹",text:"Submit your applications and transfer tuition."},{icon:"🔹",text:"Apply for scholarships (usually universities, not language schools)."}],time:"~5 months before · half a day · reply in weeks"}
+  ]},
+{id:"visa",part:1,number:2,title:"Visa Application Phase",duration:"10–12 weeks",intro:["It's getting real — just a few steps before you fly."],outro:["Congratulations — you're officially cleared to enter Japan!"],
+  steps:[
+   {letter:"a",title:"Wait as Your School Submits the CoE Application",tag:"must",items:[{icon:"💡",text:"The CoE is an essential document for your visa."},{icon:"🔹",text:"Receive your CoE (original or digital) through your school."}],time:"after applying · school handles it · CoE in 1–3 months"},
+   {letter:"b",title:"Prepare Visa Documents (when your CoE arrives)",tag:"must",items:[{icon:"🔹",text:"CoE, passport (valid 6+ months), visa form + ID photos, financial documents, and academic certificates + acceptance letter."}],time:"when CoE arrives · 1 hr · —"},
+   {letter:"c",title:"Submit Your Visa at the Japanese Embassy (home country)",tag:"must",items:[{icon:"🔹",text:"Attend an interview if requested and pay the visa fee (~3,000–6,000 JPY in local currency)."},{icon:"🔹",text:"Pick up your passport with the visa on it."}],time:"after CoE · 1 hr · approval in 5–10 business days"}
+  ]},
+{id:"travelprep",part:1,number:3,title:"Travel Preparation",intro:["The countdown begins — let's make arrival smooth."],
+  steps:[
+   {letter:"a",title:"Know Your Accommodation & School Details",tag:"rec",items:[{icon:"🔹",text:"Confirm your Japanese address, school address, and a contact phone number — airport immigration will ask."}],time:"before flying · 15 min · —"},
+   {letter:"b",title:"Prepare Your Money (~150,000 JPY cash for month one)",tag:"rec",items:[{icon:"🔹",text:"Compare living costs with home using [numbeo](https://www.numbeo.com/cost-of-living/comparison.jsp)."},{icon:"💡",text:"Cash is still dominant in Japan — and it's a very safe country."},{icon:"🔹",text:"Exchange currency at the airport and bring an international debit/credit card if you have one."}],time:"before flying · 1 hr · —"},
+   {letter:"c",title:"Get a Prepaid Data SIM Before You Arrive",tag:"rec",items:[{icon:"🔹",text:"A data-only SIM keeps you connected on day one — [Check NyuuLy Mobile](https://nyuuly.com/mobile)."}],time:"before flying · 15 min · —"}
+  ]},
+{id:"airport",part:2,number:1,title:"Arrival at Airport",duration:"2–3 hours",intro:["Here's what to expect as your life here begins."],outro:["Welcome to your new home in the Land of the Rising Sun! 🎉"],
+  steps:[
+   {letter:"a",title:"Get Your [Residence Card (Zairyū Kādo)](https://nyuuly.com/info-hub/articles/zairyu-card-residence-card) at the Airport",tag:"must",items:[{icon:"💡",text:"Your most important ID — it proves legal residence in Japan."},{icon:"🔹",text:"Follow the signs for foreign residents (not re-entry — you don't have the card yet)."},{icon:"💡",text:"Immigration checks your CoE and passport, takes biometrics, and issues your card."}],time:"at the airport · on arrival · issued on the spot"},
+   {letter:"b",title:"Apply for the Work Permit at Entry (Shikakugai Katsudō Kyoka)",tag:"opt",items:[{icon:"🔹",text:"Planning to work part-time? Apply here — doing it later adds 1–2 weeks."},{icon:"🔹",text:"Check the permit stamp is on the back of your Residence Card."}],time:"at the airport · 10 min · stamped on the spot"},
+   {letter:"c",title:"Confirm Airport Transport & Luggage",tag:"rec",items:[{icon:"🔹",text:"Take the airport bus if you want a guaranteed seat — [Learn More](https://tyo-nrt.com/en)."},{icon:"💡",text:"Trains are faster and more frequent, but crowded in late evenings."},{icon:"💡",text:"Narita → Shinjuku is about 1,500 JPY by train/[buses](https://www.narita-airport.jp/en/access/bus/lcb/), but ~30,000 JPY by taxi."},{icon:"🔹",text:"Use luggage delivery like Yamato (~2,000–3,500 JPY) to travel light — [Learn More](https://www.kuronekoyamato.co.jp/en/)."}],time:"on arrival · — · luggage delivered same/next day"}
+  ]},
+{id:"housing",part:2,number:2,title:"Finding Your New Home",duration:"~14 days",intro:["Let's break it into an exciting step toward settling in."],outro:["And that's it — your new home is set up."],
+  steps:[
+   {letter:"a",title:"Search for a Room",tag:"rec",items:[{icon:"🔹",text:"Search online ([SUUMO](https://suumo.jp/?vos=op0014adwstw099000000zzz_01xmsyt111-xe_kwd-13279118830:cr-693174820227:sl-:adg-30983744560:dev-c:acc-6530195222:cam-385940440&gclsrc=aw.ds&gad_source=1&gad_campaignid=385940440&gbraid=0AAAAADfOefhjy6qIYgcqxsKmIZU3x8hoC&gclid=Cj0KCQiA7rDMBhCjARIsAGDBuECbj_TwXAwgbH9GJ2EeMp5Tf1u1z1Mgc9At_Vsg854BOItmK2V7EAwaAiIZEALw_wcB) for apartments, Oakhouse for share houses) or visit local agencies."},{icon:"🔹",text:"Confirm they accept foreigners — many landlords don't."}],time:"first days · ongoing · viewings over 1–2 wks"},
+   {letter:"b",title:"Budget the Initial Costs",tag:"rec",items:[{icon:"💡",text:"Typical total 300,000–600,000+ JPY: 1st-month rent 70–120k, deposit ~1mo (refundable), key money ~1mo (non-refundable), agent ~1mo+tax, guarantor 0.5–1mo."}]},
+   {letter:"c",title:"Prepare Required Items",tag:"rec",items:[{icon:"🔹",text:"Residence Card and an emergency contact in Japan — read NyuuLy's [article about emergency in Japan](https://nyuuly.com/info-hub/articles/in-case-of-emergency)."}]},
+   {letter:"d",title:"Sign the Contract",tag:"rec",items:[{icon:"🔹",text:"Review the term length and early-termination penalties, pay the agreed fees, and sign."}],time:"when you pick a place · 1 hr · —"},
+   {letter:"e",title:"Set Up Utilities — [Read our Guide](https://nyuuly.com/info-hub/articles/set-up-utilities-in-japan)",tag:"rec",items:[{icon:"🔹",text:"Have your Residence Card and address ready."},{icon:"💡",text:"Water: usually on; switch the contract to your name. Electricity: apply online/phone; flip the breaker. Gas: book a visit — staff must turn it on while you're home."},{icon:"💡",text:"Internet: wired Hikari is fastest (install ~20,000–40,000 JPY, ~4,000 JPY/mo); mobile Wi-Fi or a high-data SIM is cheaper and flexible — consider [NyuuLy Mobile's 50GB plan](https://nyuuly.com/mobile)."}],time:"~2 wks before move-in · 30 min · gas visit + net install up to 2–4 wks"},
+   {letter:"f",title:"Move In & Furnish",tag:"opt",items:[{icon:"🔹",text:"New: Nitori, IKEA, Yamada Denki. Second-hand: Mercari, Second Street."}]}
+  ]},
+{id:"cityhall",part:2,number:3,title:"City Hall Paperwork: Becoming a Local Resident",duration:"3–4 hours",intro:["Officially become a local — finish within 2 weeks of settling your address. [Read our guide](https://nyuuly.com/info-hub/articles/japan-city-hall-all-in-one-for-new-residents)."],outro:["Congratulations — you're officially a resident! Your biggest first-week items are done. 🎉"],
+  steps:[
+   {letter:"a",title:"Prepare",tag:"rec",items:[{icon:"🔹",text:"Know your new address; bring your [Residence Card](https://nyuuly.com/info-hub/articles/zairyu-card-residence-card) and passport, and know your school address."},{icon:"💡",text:"Usually no appointment — visit in person and allow a couple of hours."}]},
+   {letter:"b",title:"Decide Your Katakana Name Spelling",tag:"rec",items:[{icon:"🔹",text:"You'll need it for pension and, later, your bank account."}],time:"before city hall · 5 min · —"},
+   {letter:"c",title:"Register Your Residency (Jūmin Tōroku)",tag:"must",items:[{icon:"🔹",text:"File a Move-in Notification (Tennyu-doke)."},{icon:"💡",text:"Staff update the address on the back of your Residence Card and return it the same day."}],time:"within 14 days of move-in · included · same day"},
+   {letter:"d",title:"Request 1–2 Copies of the [Certificate of Residence (Juminhyo)](https://nyuuly.com/info-hub/articles/juminhyo-certificate-of-residence)",tag:"rec",items:[{icon:"💡",text:"It proves your registered address — you'll need it often, e.g. to open a bank account."}],time:"same visit · included · same day"},
+   {letter:"e",title:"Confirm National Health Insurance & Pension",tag:"must",items:[{icon:"💡",text:"If your sponsor enrols you in corporate Social Insurance (Shakai Hoken), you don't enrol here — confirm it. Read [Easy Healthcare in Japan](https://nyuuly.com/info-hub/articles/easy-healthcare-in-japan)."}],time:"same visit · included · same day"},
+   {letter:"f",title:"Receive Your Individual (My) Number Notice",tag:"rec",items:[{icon:"🔹",text:"Keep the 12-digit number — [Learn More](https://www.kojinbango-card.go.jp/en-tsuchicard/). Also read [this guide](https://www.kojinbango-card.go.jp/en-uketori/) and [our guide](https://nyuuly.com/info-hub/articles/my-number-card)."}],time:"after registering · — · arrives in 2–3 wks"}
+  ]},
+{id:"bank",part:2,number:4,title:"Opening a Bank Account",duration:"setup 1–2 hrs, card in 1–2 weeks",intro:["Your priority after registering your address. We recommend Japan Post Bank first, since most banks require a phone number — [Please read our Guide](https://nyuuly.com/articles/open-a-bank-account-in-japan-first-step-of-your-financial-journey)."],outro:["Pat yourself on the back — some of the most stressful steps, done."],
+  steps:[
+   {letter:"a",title:"Prepare",tag:"rec",items:[{icon:"🔹",text:"Residence Card (with registered address) and your katakana name."}]},
+   {letter:"b",title:"Apply Online",tag:"rec",items:[{icon:"🔹",text:"Follow their steps, or visit a branch with a Japanese speaker if stuck — [Watch Their Guide](https://youtu.be/7cBLnSO6J0c)."}],time:"after address registered · 1–2 hrs · —"},
+   {letter:"c",title:"Receive Your Cash Card",tag:"rec",items:[{icon:"💡",text:"Arrives by mail in about 1–2 weeks."}],time:"— · — · 1–2 wks"}
+  ]},
+{id:"phone",part:2,number:5,title:"Getting a Phone Number",intro:["A Japanese phone number (voice plan) is a must. [Read our Guide](https://nyuuly.com/info-hub/articles/acquire-a-sim-card-in-japan-a-simple-guide-for-your-first-days)."],
+  steps:[
+   {letter:"a",title:"Prepare Documents",tag:"rec",items:[{icon:"🔹",text:"Residence Card (with registered address) and your bank or credit card details."}]},
+   {letter:"b",title:"Purchase & Set Up",tag:"rec",items:[{icon:"🔹",text:"Buy online; note most carriers only offer Japanese support."},{icon:"💡",text:"[NyuuLy Mobile SIM](https://nyuuly.com/mobile) has full English customer support."}],time:"after bank account · 30 min · SIM ships in days"}
+  ]},
+{id:"permit",part:2,number:6,title:"Part-time Work Permit (Shikakugai Katsudō Kyoka)",duration:"~2 weeks to issue",
+  steps:[
+   {letter:"a",title:"Submit the [Form](https://www.moj.go.jp/isa/content/930004124.pdf) at Your Local Immigration Office",tag:"opt",items:[{icon:"🔹",text:"Didn't apply at the airport? Do it before starting any job — [Learn More](https://www.moj.go.jp/isa/applications/procedures/16-8.html)."},{icon:"💡",text:"Limit: up to 28 hours/week; immigration stamps the back of your Residence Card."},{icon:"🔹",text:"Explore sites like [WORK JAPAN](https://www.workjapan.jp/) to find and apply for part-time jobs."}],time:"if not done at airport · 20 min · stamped in ~2 wks"}
+  ]},
+{id:"daily",part:2,number:7,title:"Navigating Daily Life",intro:["Settled in — a few tips for smoother daily life."],
+  steps:[
+   {letter:"a",title:"Follow the Garbage Sorting Rules",tag:"rec",items:[{icon:"💡",text:"Rules are strict. Get your city's guide, e.g. [Shinjuku City's garbage guide](https://www.city.shinjuku.lg.jp/content/000259255.pdf)."},{icon:"💡",text:"Burnable: kitchen waste (drained), paper, soiled plastics, clothing. Recyclables: PET bottles, glass, cans, paper (rinse; remove PET caps/labels). Non-burnable: metals, ceramics, small appliances. Oversize (>30 cm): buy tickets at a konbini, book a pickup, put out on the day."}]},
+   {letter:"b",title:"Getting Around",tag:"opt",items:[{icon:"💡",text:"Suica/PASMO: rechargeable cards for transit and small buys; get them at major stations."},{icon:"💡",text:"Driver's license: hard to get — a driving camp improves your chances ([Learn More](https://www.npa.go.jp/english/bureau/traffic/2_drivers_license_English_ver2.pdf))."},{icon:"💡",text:"Bicycle: register anti-theft (Bōhan Tōroku) at the shop; consider liability insurance (~3,000 JPY/yr)."}]},
+   {letter:"c",title:"Figure Out Japanese Toilets",tag:"opt",items:[{icon:"🔹",text:"Check the button guide in your bathroom for functions like bidet, spray, and flush."}]}
+  ]}
 ];
-var PART_META={1:{label:'Part 1',title:'Before Arrival — Preparation',
-   intro:["This stage is all about setting a strong foundation.","You're probably feeling a mix of excitement and uncertainty — that's completely normal.","These steps will help you prepare with confidence and clarity."],
-   outro:['Congratulations again on taking this incredible step toward building your career in Japan.','If you ever feel uncertain or need help, remember you can always [AskMe](https://nyuuly.com/compass/askme).']},
- 2:{label:'Part 2',title:'After Arrival — On-boarding',
-   intro:['Welcome to Japan!','Those first days can be noisy with paperwork and emotions. Many of us at NyuuLy remember the same mix of joy and “where do I start?” moment. Here’s a clear roadmap so you stay in control.'],
-   outro:['Great Job! Onwards and upwards!','We at Nyuuly are here to support you every step of the way, so feel free to reach out and don’t forget to Enjoy Japan!','If you ever feel uncertain or need help, remember you can always [AskMe](https://nyuuly.com/compass/askme).']}};
+var PART_META={
+ 1:{label:"Part 1",title:"Before Arrival — Preparation",
+   intro:["This stage is about setting a strong foundation.", "A mix of excitement and nerves is completely normal — these steps bring clarity."],
+   outro:["Congratulations on taking this incredible step toward building your life in Japan.", "[AskMe](https://nyuuly.com/compass/askme) is here whenever you feel unsure or need help."]},
+ 2:{label:"Part 2",title:"After Arrival — On-boarding",
+   intro:["Welcome to Japan!", "The first days are noisy with paperwork and emotion — here's a clear roadmap so you stay in control."],
+   outro:["Great job — onwards and upwards! 🎉", "We at NyuuLy are here every step of the way, so reach out anytime — and don't forget to enjoy Japan!", "If you ever feel unsure, [AskMe](https://nyuuly.com/compass/askme) anytime."]}};
+var STUDENT_MOMENTS={
+ "renew":{name:"Renewing Your Student Visa",intro:["Your Student visa has an expiry date — renewing on time keeps your life in Japan safe and legal.", "Start early and the whole thing is simple."],outro:["Your stay is secured for another chapter. Keep your new card on you. 🎉"],
+ phases:[
+{id:"re1",number:1,title:"Prepare Early",duration:"start ~3 months before your card expires",intro:["Applying early protects you from last-minute stress."],outro:["Deadline known — half the battle won."],
+  steps:[
+   {letter:"a",title:"Check Your Expiry Date",tag:"must",items:[{icon:"🔹",text:"Read the \"Period of Stay (Date of Expiration)\" on the front of your Residence Card."},{icon:"💡",text:"Overstaying even one day is a serious violation — renew before this date."}],time:"3 months before expiry · 2 min · —"},
+   {letter:"b",title:"Confirm You Are Properly Enrolled",tag:"must",items:[{icon:"🔹",text:"Make sure you're enrolled and attending — immigration checks attendance and progress."}],time:"3 months before · 10 min · —"}
+  ]},
+{id:"re2",number:2,title:"Gather Your Documents",duration:"2–3 weeks before applying",intro:["Show that you're studying seriously and can support yourself."],outro:["Paperwork ready — the hard part's behind you."],
+  steps:[
+   {letter:"a",title:"Download & Fill the Application Form",tag:"must",items:[{icon:"🔹",text:"Download the [Application for Extension of Period of Stay](https://www.moj.go.jp/isa/content/930004118.pdf); fill the \"for applicant\" pages yourself."},{icon:"💡",text:"Your school completes the \"for organization\" pages — see the [Student status page](https://www.moj.go.jp/isa/applications/status/student.html) for the full list."}],time:"2–3 wks before · 30 min · —"},
+   {letter:"b",title:"Collect Your School Documents",tag:"must",items:[{icon:"🔹",text:"Request a Certificate of Enrollment and Academic Transcript from your student office."}],time:"2–3 wks before · 15 min · issued in a few days"},
+   {letter:"c",title:"Prepare Proof of Finances & a Photo",tag:"must",items:[{icon:"🔹",text:"Bank statement, scholarship certificate, or proof of remittance, plus one photo (4×3 cm, within 3 months)."}],time:"2–3 wks before · 30 min · —"},
+   {letter:"d",title:"Prepare the Fee",tag:"must",items:[{icon:"💡",text:"¥6,000 by revenue stamp (¥5,500 online), paid on approval — see the [fee notice](https://www.moj.go.jp/isa/01_00518.html) and [payment slip](https://www.moj.go.jp/isa/content/930002833.pdf)."}],time:"on approval · — · paid at pickup"}
+  ]},
+{id:"re3",number:3,title:"Submit Your Application",duration:"at immigration",intro:["In person, or online if registered."],
+  steps:[
+   {letter:"a",title:"Submit at Your Regional Immigration Bureau",tag:"must",items:[{icon:"🔹",text:"Bring your form, documents, passport and Residence Card to your [local immigration office](https://www.moj.go.jp/isa/about/region/index.html)."},{icon:"💡",text:"If your card expires while under review, you may stay up to 2 months past expiry (the \"special period\")."}],time:"before expiry · half a day (queues) · decision in 2–4 wks"},
+   {letter:"b",title:"Or Apply Online",tag:"opt",items:[{icon:"🔹",text:"Registered for the ISA system? Apply without visiting — [online application](https://www.moj.go.jp/isa/applications/online/onlineshinsei.html)."}],time:"before expiry · 30 min · decision in 2–4 wks"},
+   {letter:"c",title:"Receive Your New Residence Card",tag:"must",items:[{icon:"🔹",text:"Collect your new card and pay the fee when you're notified."}],time:"when notified · 30 min · —"}
+  ]}
+ ]},
+ "gradjob":{name:"Graduating With a Job Offer",intro:["A company wants you — now your Student visa needs to become a work visa before you start.", "This is a change of status of residence; timing it right lets you begin work smoothly."],outro:["You've made the leap from student to professional. Take a breath — you earned this. 🎉"],
+ phases:[
+{id:"gj1",number:1,title:"Coordinate With Your Employer",duration:"as soon as you accept",intro:["Much of the paperwork depends on them."],outro:["Employer aligned — now the official application."],
+  steps:[
+   {letter:"a",title:"Confirm Your Work Visa Type",tag:"must",items:[{icon:"🔹",text:"Most graduates move to \"Engineer / Specialist in Humanities / International Services\" — see the [official status page](https://www.moj.go.jp/isa/applications/status/gijinkoku.html)."},{icon:"💡",text:"Your job must relate to your field of study; immigration checks this."}],time:"on accepting offer · 15 min · —"},
+   {letter:"b",title:"Collect Documents From Your Employer",tag:"must",items:[{icon:"🔹",text:"Ask HR for your contract, company registration & financials, a company overview, and the \"for organization\" pages."},{icon:"💡",text:"Category 1–2 (large/listed) companies need fewer documents from you."}],time:"right after · varies · HR provides in 1–2 wks"},
+   {letter:"c",title:"Agree on Timing",tag:"rec",items:[{icon:"🔹",text:"Applications for spring graduates are accepted from December, so you can start on time (often April 1)."},{icon:"💡",text:"You can't legally begin work until the change is approved."}],time:"from December · 15 min · —"}
+  ]},
+{id:"gj2",number:2,title:"Apply to Change Your Status",duration:"before your Student visa expires",intro:["The core step that turns you from student into worker."],outro:["You're legally cleared to work. A few life-admin steps remain."],
+  steps:[
+   {letter:"a",title:"Download & Fill the Application",tag:"must",items:[{icon:"🔹",text:"Download the [Application for Change of Status of Residence](https://www.moj.go.jp/isa/content/930004088.pdf); complete the applicant pages."},{icon:"💡",text:"The [Study in Japan immigration guide](https://www.studyinjapan.go.jp/en/work-in-japan/immigration-procedures/) explains the full flow in English."}],time:"after offer · 45 min · —"},
+   {letter:"b",title:"Prepare Your Graduation Proof",tag:"must",items:[{icon:"🔹",text:"Graduation certificate (or Certificate of Expected Graduation) plus your transcript."}],time:"at graduation · 15 min · —"},
+   {letter:"c",title:"Submit to Immigration",tag:"must",items:[{icon:"🔹",text:"Submit at your [regional immigration office](https://www.moj.go.jp/isa/about/region/index.html), or [online](https://www.moj.go.jp/isa/applications/online/onlineshinsei.html) if registered."}],time:"as early as possible · half a day · decision in 1–2 months"},
+   {letter:"d",title:"Prepare Photo & Fee",tag:"must",items:[{icon:"🔹",text:"One photo (4×3 cm). ¥6,000 by revenue stamp (¥5,500 online), paid on approval via the [payment slip](https://www.moj.go.jp/isa/content/930002833.pdf)."}],time:"on approval · — · paid at pickup"},
+   {letter:"e",title:"Collect Your New Residence Card",tag:"must",items:[{icon:"🔹",text:"Collect your work-status card and keep the approval — your employer will want a copy."}],time:"when notified · 30 min · —"}
+  ]},
+{id:"gj3",number:3,title:"Update Insurance, Pension & Tax",duration:"when you start work",intro:["Becoming an employee changes how these work."],
+  steps:[
+   {letter:"a",title:"Move to Employee Insurance & Pension",tag:"must",items:[{icon:"🔹",text:"Your company enrols you in Employees' Health Insurance and Employees' Pension (厚生年金)."},{icon:"🔹",text:"Cancel National Health Insurance and National Pension at your city office so you're not billed twice."}],time:"when you start · employer handles enrolment · same day at city hall"},
+   {letter:"b",title:"Report an Address Change if You Move",tag:"must",items:[{icon:"🔹",text:"Moving for the job? File moving-out/in at city hall within 14 days and update your [Residence Card address](https://www.moj.go.jp/isa/applications/procedures/nyuukokukanri10_00023.html)."}],time:"within 14 days of moving · 1 hr · same day"},
+   {letter:"c",title:"Understand Resident Tax",tag:"rec",items:[{icon:"🔹",text:"Billed on last year's income, usually from the June after you start earning."},{icon:"💡",text:"Often deducted from salary automatically — see the [Study in Japan employment guide](https://www.studyinjapan.go.jp/en/work-in-japan/employment/status.html)."}],time:"from next June · — · deducted monthly"}
+  ]}
+ ]},
+ "gradhunt":{name:"Graduating, Still Job-Hunting",intro:["No offer yet? You don't have to leave — Japan lets recent graduates stay and keep searching.", "A \"Designated Activities\" visa gives you up to a year to job-hunt legally."],outro:["Keep going — the right opportunity often arrives right after the hardest stretch. 💪"],
+ phases:[
+{id:"gh1",number:1,title:"Get Your School's Recommendation",duration:"before you graduate",intro:["This visa depends on one document only your school can give."],outro:["Recommendation secured — ready to apply."],
+  steps:[
+   {letter:"a",title:"Request a Letter of Recommendation",tag:"must",items:[{icon:"🔹",text:"Ask your school to issue a Letter of Recommendation for continued job-hunting (official [recommendation form](https://www.moj.go.jp/isa/content/930002543.pdf))."},{icon:"💡",text:"You can't apply without it, and schools have limited windows — ask your student office early."}],time:"before graduating · 20 min · school issues in 1–2 wks"},
+   {letter:"b",title:"Confirm You Qualify",tag:"must",items:[{icon:"🔹",text:"You must have graduated from a Japanese university, KOSEN, or vocational school and been job-hunting since before graduation — see the [official job-hunting page](https://www.moj.go.jp/isa/applications/status/designatedactivities14.html)."}],time:"before applying · 10 min · —"}
+  ]},
+{id:"gh2",number:2,title:"Change to Designated Activities",duration:"before your Student visa expires",intro:["Granted for 6 months, renewable once — up to a year total."],outro:["Status sorted — now keep life steady."],
+  steps:[
+   {letter:"a",title:"Apply to Change Your Status",tag:"must",items:[{icon:"🔹",text:"Submit the [Application for Change of Status of Residence](https://www.moj.go.jp/isa/content/930004088.pdf) with your graduation certificate and recommendation letter."},{icon:"💡",text:"Also show you can cover your living costs during the search."}],time:"before expiry · 45 min · decision in 1–2 months"},
+   {letter:"b",title:"Renew Once if You Need More Time",tag:"opt",items:[{icon:"🔹",text:"After the first 6 months, extend for another 6 with an updated letter and proof of ongoing job-hunting."}],time:"after first 6 months · 45 min · decision in weeks"},
+   {letter:"c",title:"Apply for Permission to Work Part-Time",tag:"opt",items:[{icon:"🔹",text:"Request permission to work up to 28 hrs/week while searching — see the [work-permit guidance](https://www.moj.go.jp/isa/applications/procedures/nyuukokukanri07_00002.html)."}],time:"with your application · 15 min · stamped in ~2 wks"}
+  ]},
+{id:"gh3",number:3,title:"Support Yourself & Keep Searching",duration:"throughout",intro:["A calm routine and a realistic budget make this lighter."],
+  steps:[
+   {letter:"a",title:"Budget for the Gap",tag:"rec",items:[{icon:"🔹",text:"Plan for rent, insurance, pension and daily costs on lower income; keep 2–3 months set aside if you can."},{icon:"💡",text:"You still owe National Health Insurance and resident tax — budget for them."}],time:"throughout · planning · —"},
+   {letter:"b",title:"Use Free Job-Hunting Support",tag:"rec",items:[{icon:"🔹",text:"Register with [Hello Work](https://www.hellowork.mhlw.go.jp/) and the Employment Service Centers for Foreigners for free placement help."},{icon:"💡",text:"Attend international-student job fairs and use your school's career office."}],time:"throughout · ongoing · —"},
+   {letter:"c",title:"Keep Records of Your Search",tag:"rec",items:[{icon:"🔹",text:"Save applications, interviews and event attendance — you'll need to show activity when you renew."}],time:"throughout · ongoing · —"}
+  ]}
+ ]},
+ "move":{name:"Moving Home (Change of Address)",intro:["Moving within Japan is mostly paperwork with deadlines — do it in order and it's painless."],outro:["And you're home — new place, address registered, everything forwarded. 🎉"],
+ phases:[
+{id:"mv1",number:1,title:"Before You Move",duration:"3–4 weeks before",intro:["Lock in dates first."],outro:["Dates set — the rest is just checklists."],
+  steps:[
+   {letter:"a",title:"Give Notice to Your Landlord",tag:"must",items:[{icon:"🔹",text:"Send your move-out notice within your contract's notice period (usually 1 month); book the inspection."},{icon:"💡",text:"Late notice can cost an extra month's rent."}],time:"3–4 wks before · 20 min · inspection on move-out day"},
+   {letter:"b",title:"Book Your Movers",tag:"rec",items:[{icon:"🔹",text:"Compare quotes and reserve a date — weekdays and mid-month are cheaper."}],time:"3–4 wks before · 1 hr · —"},
+   {letter:"c",title:"Sort & Toss",tag:"rec",items:[{icon:"🔹",text:"Book oversized garbage (sodai gomi) on your city's site; buy tickets at a konbini."}],time:"2–3 wks before · 20 min · collection 1–2 wks out"}
+  ]},
+{id:"mv2",number:2,title:"Transfer Your Utilities",duration:"1–2 weeks before",intro:["One call each, all set to your move date."],outro:["Services will follow you home."],
+  steps:[
+   {letter:"a",title:"Internet",tag:"rec",items:[{icon:"🔹",text:"Ask your provider about transfer vs. new install at the new place."},{icon:"💡",text:"Start early — new fiber installs can take 2–4 weeks and are the #1 delay."}],time:"3–4 wks before · 20 min · install up to 2–4 wks"},
+   {letter:"b",title:"Electricity, Gas & Water",tag:"rec",items:[{icon:"🔹",text:"Give each provider your move date and new address; for gas, book a technician to open the line."}],time:"1–2 wks before · 30 min · gas opening needs booking"},
+   {letter:"c",title:"Forward Your Mail",tag:"rec",items:[{icon:"🔹",text:"Set up [Japan Post forwarding](https://www.post.japanpost.jp/service/tenkyo/index_en.html) — free, redirects for 1 year."}],time:"1 wk before · 10 min · starts in a few days"}
+  ]},
+{id:"mv3",number:3,title:"Old City Hall",duration:"only if changing city/ward",intro:["Same city? Skip to Phase 4."],outro:["Checked out. One counter to go."],
+  steps:[
+   {letter:"a",title:"File Moving-Out Notification (転出届)",tag:"must",items:[{icon:"🔹",text:"Submit at your old city office from ~14 days before moving; collect the moving-out certificate (転出証明書)."},{icon:"💡",text:"With a My Number Card you can file online and skip the counter — see [Mynaportal moving service](https://www.digital.go.jp/en/policies/moving_onestop_service)."}],time:"from 14 days before · 30–60 min · same day"}
+  ]},
+{id:"mv4",number:4,title:"New City Hall",duration:"within 14 days of moving in",intro:["The key deadline — don't miss it."],outro:["The legal must-dos are done. 🙌"],
+  steps:[
+   {letter:"a",title:"File Moving-In Notification (転入届 / 転居届)",tag:"must",items:[{icon:"🔹",text:"Bring your moving-out certificate (none needed if same city), Residence Card, and My Number Card."},{icon:"💡",text:"Legally required within 14 days — late filing risks a fine up to ¥200,000."}],time:"within 14 days after moving · 1 hr · same day"},
+   {letter:"b",title:"Update Your Residence Card Address",tag:"must",items:[{icon:"🔹",text:"Done at the same counter — new address printed on the back. No immigration visit needed ([details](https://www.moj.go.jp/isa/applications/procedures/nyuukokukanri10_00023.html))."}],time:"same visit · included · same day"},
+   {letter:"c",title:"Move Insurance, Pension & My Number",tag:"must",items:[{icon:"🔹",text:"Transfer your National Health Insurance and National Pension address and update your My Number Card — all at the same office."}],time:"same visit · included · same day"}
+  ]},
+{id:"mv5",number:5,title:"Update Everyone Else",duration:"first week in",intro:["Quick admin so nothing gets lost."],
+  steps:[
+   {letter:"a",title:"Bank, Cards & Phone",tag:"rec",items:[{icon:"🔹",text:"Change your address with your bank, credit cards, and phone carrier (usually in-app)."}],time:"1st week · 20 min · —"},
+   {letter:"b",title:"School or Employer",tag:"rec",items:[{icon:"🔹",text:"Give your school or employer your new address for their records."}],time:"1st week · 10 min · —"}
+  ]}
+ ]},
+ "leave":{name:"Leaving Japan",intro:["Leaving Japan is a lot of small deadlines — start early and it stays easy."],outro:["And that's it — you did it. 🎉", "You closed a whole life in Japan with care. That's genuinely hard, and you handled all of it.", "Safe travels, and thank you for letting Japan be part of your story. 💛", "Questions at any stage? [AskMe](https://nyuuly.com/compass/askme) anytime."],
+ phases:[
+{id:"lv1",number:1,title:"Plan Your Departure",duration:"6–8 weeks before",intro:["Tell people early."],outro:["Departure plan set. ✅"],
+  steps:[
+   {letter:"a",title:"Book Your Flight Home",tag:"rec",items:[{icon:"🔹",text:"Confirm your move-out date, then book."}],time:"6–8 wks before · 30 min · —"},
+   {letter:"b",title:"Notify Your School",tag:"rec",items:[{icon:"🔹",text:"Give your student office your leaving date; ask which form you need (withdrawal, graduation, or dorm)."}],time:"6–8 wks before · 15 min · reply in days"},
+   {letter:"c",title:"Notify Your Landlord",tag:"must",items:[{icon:"🔹",text:"Send your move-out notice within your contract's notice period (usually 1 month); book the inspection."},{icon:"💡",text:"Late notice can cost an extra month's rent."}],time:"6–8 wks before · 20 min · inspection on move-out day"}
+  ]},
+{id:"lv2",number:2,title:"Close Your Utilities",duration:"~4 weeks before",intro:["Set every stop date to move-out day."],outro:["Apartment almost cleared."],
+  steps:[
+   {letter:"a",title:"Internet",tag:"rec",items:[{icon:"🔹",text:"Give your provider the stop date; return the router/ONU."}],time:"3–4 wks before · 15 min · pickup ~1 wk"},
+   {letter:"b",title:"Electricity, Gas & Water",tag:"rec",items:[{icon:"🔹",text:"Call each; for gas, ask if a technician must visit. Pay final bills, keep receipts."}],time:"2–3 wks before · 30 min · gas visit may need booking"},
+   {letter:"c",title:"Oversized Garbage (Sodai Gomi)",tag:"rec",items:[{icon:"🔹",text:"Apply on your city's site (search \"sodai gomi + city\"), buy tickets at a konbini, put items out on the day."},{icon:"💡",text:"Fridges, washers, TVs, ACs use appliance recycling instead."}],time:"2–3 wks before · 20 min · collection 1–2 wks out"}
+  ]},
+{id:"lv3",number:3,title:"Close Bank & Cards",duration:"~2 weeks before",intro:["Order matters here."],outro:["Money sorted — the trickiest part, done. 🙌"],
+  steps:[
+   {letter:"a",title:"Settle Final Bills",tag:"must",items:[{icon:"🔹",text:"Clear rent, utilities, phone, cards, school fees; confirm portals show zero."}],time:"2 wks before · 30 min · —"},
+   {letter:"b",title:"Cancel Credit Cards",tag:"rec",items:[{icon:"🔹",text:"Call the number on the card; cut through the chip and strip."},{icon:"💡",text:"Cancel cards before closing your bank account."}],time:"~10 days before · 20 min/card · instant"},
+   {letter:"c",title:"Close Your Bank Account",tag:"rec",items:[{icon:"🔹",text:"Take passbook, cash card, Residence Card, passport, hanko to any counter (madoguchi)."},{icon:"💡",text:"Counters close ~3 PM."}],time:"final week · 30–45 min · same day"}
+  ]},
+{id:"lv4",number:4,title:"City Hall Paperwork",duration:"half a day",intro:["The big one — bring everything, go early."],outro:["Hardest list — done. Take the applause. 🎉"],
+  steps:[
+   {letter:"a",title:"File Moving-Out Notification",tag:"must",items:[{icon:"🔹",text:"Fill the \"leaving Japan\" move-out form from your city's site; submit at the counter."},{icon:"💡",text:"Must be in person, not online — or you'll keep being billed for health insurance."}],time:"within 14 days of leaving · 1–2 hrs · same day"},
+   {letter:"b",title:"Cancel Health Insurance & Pension",tag:"must",items:[{icon:"🔹",text:"Cancel National Health Insurance, pay the final premium, and start your [lump-sum pension withdrawal](https://www.nenkin.go.jp/international/english/lumpsum/lumpsum.html)."},{icon:"💡",text:"Claim the pension refund within 2 years."}],time:"same visit · included · refund in months"},
+   {letter:"c",title:"Return My Number Card & Settle Resident Tax",tag:"must",items:[{icon:"🔹",text:"Return/stamp your My Number Card; ask the tax desk to settle your balance in one payment (ikkatsu)."},{icon:"💡",text:"Resident tax is billed a year behind."}],time:"same visit · included · same day"},
+   {letter:"d",title:"Forward Your Mail",tag:"rec",items:[{icon:"🔹",text:"Set up [Japan Post forwarding](https://www.post.japanpost.jp/service/tenkyo/index_en.html) so bills and refunds still reach you."}],time:"same week · 10 min · starts in days"}
+  ]},
+{id:"lv5",number:5,title:"Tax Office",duration:"only if you worked",intro:["Never earned here? Skip this."],outro:["Wallet saved."],
+  steps:[
+   {letter:"a",title:"Appoint a Tax Representative",tag:"rec",items:[{icon:"🔹",text:"Ask a trusted resident to be your agent; file the [Notification of Tax Agent](https://www.nta.go.jp/english/taxes/individual/12004.htm) (Nozei Kanrinin) at the tax office."},{icon:"💡",text:"Without one, you lose ~20% withheld from your pension refund."}],time:"2–3 wks before · 1 hr · handled after you leave"}
+  ]},
+{id:"lv6",number:6,title:"Pack, Sell & Donate",duration:"final week",intro:["The hard part's over — just sort and pack."],outro:["Packed and ready. Rest up."],
+  steps:[
+   {letter:"a",title:"Sort Belongings",tag:"rec",items:[{icon:"🔹",text:"Split into take / sell / donate / recycle / give away; sell furniture early."}],time:"1 wk before · a few hrs · —"},
+   {letter:"b",title:"Pack Smart",tag:"rec",items:[{icon:"🔹",text:"Weigh bags to your airline limit. Carry-on: passport, Residence Card, cash/cards, tax & pension papers."}],time:"2–3 days before · half a day · —"}
+  ]},
+{id:"lv7",number:7,title:"Final Days & Airport",intro:["Keys, phone, and one last card."],
+  steps:[
+   {letter:"a",title:"Inspect & Return Keys",tag:"rec",items:[{icon:"🔹",text:"Clean, empty the mailbox, finish the inspection, hand back keys. Photograph the room if you want your deposit."}],time:"move-out day · 1 hr · deposit later"},
+   {letter:"b",title:"Cancel Your Phone",tag:"rec",items:[{icon:"🔹",text:"Move logins/2FA off your number first, then cancel."}],time:"last 2–3 days · 30 min · instant"},
+   {letter:"c",title:"Return Your Residence Card",tag:"must",items:[{icon:"🔹",text:"Give it to the officer at the airport as you leave (unless you have a re-entry permit)."}],time:"at the airport · 2 min · —"}
+  ]}
+ ]}
+};
 
 /* ---- persistence ---- */
 var SG_KEY='nyuuly.compass.studentJourney.v1';
@@ -1301,11 +1351,12 @@ function renderStep(p,s){
     return '<div class="td" style="margin-top:5px">'+it.icon+' '+md(it.text)+'</div>';
   }).join('');
   var noteHtml=s.note?('<div class="note" style="margin:8px 0">'+md(s.note)+'</div>'):'';
+  var timeHtml=s.time?('<div class="td" style="margin-top:6px;color:var(--ink2);font-size:12px">⏱ '+md(s.time)+'</div>'):'';
   var tagHtml='<span class="tag '+s.tag+(s.tagInferred?' inferred':'')+'" '+(s.tagInferred?'title="Not explicitly tagged in the source document — defaulted to Recommended.">':'>')+
     (s.tag==='must'?'Mandatory':s.tag==='rec'?'Recommended':'Optional')+(s.tagInferred?' †':'')+'</span>';
   return '<div class="task" style="align-items:flex-start">'+
     '<div class="chk'+(on?' on':'')+'" onclick="sgToggle(\''+p.id+'\',\''+s.letter+'\')"><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg></div>'+
-    '<div style="flex:1;min-width:0"><div class="tt">'+p.number+s.letter+'. '+md(s.title)+'</div>'+noteHtml+itemsHtml+tagHtml+'</div></div>';
+    '<div style="flex:1;min-width:0"><div class="tt">'+p.number+s.letter+'. '+md(s.title)+'</div>'+noteHtml+itemsHtml+timeHtml+tagHtml+'</div></div>';
 }
 function renderPhase(p){
   var isFirst = p.number===1, isLast = (function(){
@@ -1320,7 +1371,7 @@ function renderPhase(p){
   html+=paraBlock(p.intro,'lede');
   if(p.note) html+='<div class="note">'+md(p.note)+'</div>';
   var st=phaseStats(p), pct=st.total?Math.round(st.done/st.total*100):0;
-  html+='<div class="jrow" style="cursor:default"><div style="flex:1"><div style="font-weight:700;font-size:13px">'+st.done+'/'+st.total+' steps done</div><div class="jbar"><i style="width:'+pct+'%"></i></div></div></div>';
+  html+=stepRing(st.done,st.total);
   p.steps.forEach(function(s){ html+=renderStep(p,s); });
   if(p.phaseNote) html+='<div class="note">'+md(p.phaseNote)+'</div>';
   // Every phase now behaves like City Hall: the green encouragement/outro
@@ -1371,10 +1422,13 @@ function renderJourneyMap(){
   if(more){
     var mlist=momentsForVisa(currentVisa).filter(function(m){ return m.id!=='arrive' && m.id!=='settle'; });
     more.innerHTML=mlist.map(function(m,i){
-      return '<div class="gnode soon" onclick="openMomentSoon(\''+m.id+'\')">'+
+      var hasJourney = currentVisa==='student' && typeof STUDENT_MOMENTS!=='undefined' && STUDENT_MOMENTS[m.id];
+      var click = hasJourney ? 'openMoment(\''+m.id+'\',\'journeymap\')' : 'openMomentSoon(\''+m.id+'\')';
+      var pill = hasJourney ? '' : '<span class="soonpill">SOON</span>';
+      return '<div class="gnode '+(hasJourney?'':'soon')+'" onclick="'+click+'">'+
         (i<mlist.length-1?'<div class="gconn" style="top:48px;height:44px"></div>':'')+
         '<div class="bub">'+m.icon+'</div>'+
-        '<div><div class="gl">'+m.name+'<span class="soonpill">SOON</span></div><div class="gm">'+m.sub+'</div></div>'+
+        '<div><div class="gl">'+m.name+pill+'</div><div class="gm">'+m.sub+'</div></div>'+
       '</div>';
     }).join('');
   }
@@ -1392,6 +1446,116 @@ function openMomentSoon(id){
   var t=document.getElementById('msTitle'); if(t) t.textContent=m.name;
   var s=document.getElementById('msSub'); if(s) s.textContent=m.sub;
   go('moment-soon');
+}
+
+/* ---- student life-moment journeys (Parts 3–7). These mirror Chapters 1 & 2:
+   the life moment opens a MAP of its sub-headers (like the chapter list); tapping a
+   sub-header opens its own task screen; finishing a sub-header fires the same congrats
+   pop-up. They live outside activePhases() so they never touch the compliance score. ---- */
+var momentBack='journeymap';
+var openMomentId=null;
+function momentById(mid){ return (typeof STUDENT_MOMENTS!=='undefined')?STUDENT_MOMENTS[mid]:null; }
+function momentPhaseById(pid){
+  if(typeof STUDENT_MOMENTS==='undefined') return null;
+  for(var k in STUDENT_MOMENTS){ var ph=STUDENT_MOMENTS[k].phases.filter(function(x){return x.id===pid;})[0]; if(ph) return {mid:k,phase:ph}; }
+  return null;
+}
+function momentPhaseStats(ph){
+  var total=ph.steps.length,done=0;
+  ph.steps.forEach(function(s){ if(sgChecked[sgId(ph.id,s.letter)]) done++; });
+  return {total:total,done:done};
+}
+/* build one detail screen per sub-header (like the static sec-* / dynamic secScreens) */
+function buildMomentScreens(mid){
+  var host=document.getElementById('momentScreens'); if(!host) return;
+  var m=momentById(mid); if(!m){ host.innerHTML=''; return; }
+  host.innerHTML=m.phases.map(function(ph){
+    return '<div class="view" id="v-mph-'+ph.id+'">'+
+      '<div class="appbar"><button class="back" onclick="go(\'moment\')">‹</button><span class="ttl">'+md(ph.title)+'</span><span class="muted" style="font-weight:700" id="mcnt-'+ph.id+'">0/'+ph.steps.length+'</span></div>'+
+      '<div class="pad" id="mpad-'+ph.id+'"></div></div>';
+  }).join('');
+  m.phases.forEach(function(ph){ renderMomentPhase(mid,ph); });
+}
+/* the sub-header MAP (Chapter-style node list) */
+function renderMomentMap(mid){
+  var m=momentById(mid); if(!m) return;
+  var ttl=document.getElementById('momentTtl'); if(ttl) ttl.textContent=m.name;
+  var intro=Array.isArray(m.intro)?m.intro:[m.intro];
+  var html='<span class="tag rec" style="background:color-mix(in srgb,var(--purple) 13%,transparent);color:var(--purple)">Life moment</span>';
+  html+='<h1 class="big serif">'+md(m.name)+'</h1>';
+  html+=intro.map(function(l){return '<p class="lede">'+md(l)+'</p>';}).join('');
+  var allDone=true, nextDone=true;
+  html+='<div class="gmap" style="margin-top:6px">';
+  m.phases.forEach(function(ph,i){
+    var st=momentPhaseStats(ph);
+    if(st.done!==st.total) allDone=false;
+    var state = st.done===st.total ? 'done' : (nextDone ? 'now' : 'lock');
+    if(state!=='done') nextDone=false;
+    html+='<div class="gnode '+state+'" onclick="go(\'mph-'+ph.id+'\')">'+
+      (i<m.phases.length-1?'<div class="gconn" style="top:48px;height:44px"></div>':'')+
+      '<div class="bub">'+(state==='done'?'✅':String(ph.number))+'</div>'+
+      '<div><div class="gl">'+md(ph.title)+'</div><div class="gm">'+st.done+'/'+st.total+' steps'+(ph.duration?' · '+ph.duration:'')+'</div></div>'+
+    '</div>';
+  });
+  html+='</div>';
+  if(m.outro && allDone){
+    var mo=Array.isArray(m.outro)?m.outro:[m.outro];
+    html+='<div class="note" style="background:var(--green-light);color:var(--ink);font-weight:700;margin-top:12px">'+mo.map(function(l){return '<p style="margin:0 0 6px">'+md(l)+'</p>';}).join('')+'</div>';
+  }
+  html+='<button class="btn soft" style="margin-top:14px" onclick="go(momentBack)">Back</button>';
+  var body=document.getElementById('momentBody'); if(body) body.innerHTML=html;
+}
+/* one sub-header's task screen (mirrors renderPhase) */
+function renderMomentPhase(mid,ph){
+  var st=momentPhaseStats(ph), pct=st.total?Math.round(st.done/st.total*100):0;
+  var html='<span class="tag rec" style="background:color-mix(in srgb,var(--purple) 13%,transparent);color:var(--purple)">'+md(momentById(mid).name)+'</span>';
+  html+='<h1 class="big serif">'+ph.number+'. '+md(ph.title)+(ph.duration?' <span style="font-size:15px;color:var(--ink2);font-weight:700">('+ph.duration+')</span>':'')+'</h1>';
+  (ph.intro||[]).forEach(function(l){ html+='<p class="lede">'+md(l)+'</p>'; });
+  html+=stepRing(st.done,st.total);
+  ph.steps.forEach(function(s){
+    var on=!!sgChecked[sgId(ph.id,s.letter)];
+    var itemsHtml=s.items.map(function(it){
+      if(it.icon==='note') return '<div class="note" style="margin:8px 0">'+md(it.text)+'</div>';
+      return '<div class="td" style="margin-top:5px">'+it.icon+' '+md(it.text)+'</div>';
+    }).join('');
+    var timeHtml=s.time?('<div class="td" style="margin-top:6px;color:var(--ink2);font-size:12px">⏱ '+md(s.time)+'</div>'):'';
+    var tagHtml='<span class="tag '+s.tag+'">'+(s.tag==='must'?'Mandatory':s.tag==='rec'?'Recommended':'Optional')+'</span>';
+    html+='<div class="task" style="align-items:flex-start">'+
+      '<div class="chk'+(on?' on':'')+'" onclick="momentToggle(\''+mid+'\',\''+ph.id+'\',\''+s.letter+'\')"><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg></div>'+
+      '<div style="flex:1;min-width:0"><div class="tt">'+ph.number+s.letter+'. '+md(s.title)+'</div>'+itemsHtml+timeHtml+tagHtml+'</div></div>';
+  });
+  var complete = st.total>0 && st.done===st.total;
+  if(ph.outro && complete){
+    var po=Array.isArray(ph.outro)?ph.outro:[ph.outro];
+    html+='<div class="note" style="background:var(--green-light);color:var(--ink);font-weight:700">'+po.map(function(l){return '<p style="margin:0 0 6px">'+md(l)+'</p>';}).join('')+'</div>';
+  }
+  html+='<button class="btn soft" style="margin-top:14px" onclick="go(\'moment\')">‹ Back to '+md(momentById(mid).name)+'</button>';
+  var pad=document.getElementById('mpad-'+ph.id); if(pad) pad.innerHTML=html;
+  var cc=document.getElementById('mcnt-'+ph.id); if(cc) cc.textContent=st.done+'/'+st.total;
+}
+function momentToggle(mid,phaseId,letter){
+  var m=momentById(mid); if(!m) return;
+  var ph=m.phases.filter(function(x){return x.id===phaseId;})[0]; if(!ph) return;
+  var before=momentPhaseStats(ph); var wasComplete=before.total>0 && before.done===before.total;
+  sgChecked[sgId(phaseId,letter)]=!sgChecked[sgId(phaseId,letter)];
+  sgSave();
+  renderMomentPhase(mid,ph);
+  renderMomentMap(mid);
+  var after=momentPhaseStats(ph); var isComplete=after.total>0 && after.done===after.total;
+  if(!wasComplete && isComplete){
+    var who=userFirstName();
+    var raw = ph.outro ? (Array.isArray(ph.outro)?ph.outro.join(' '):ph.outro) : "You've checked off every step in this sub-header.";
+    var body = raw.replace(/\*\*(.*?)\*\*/g,'$1').replace(/\[(.*?)\]\((.*?)\)/g,'$1');
+    celebrate('🎉','Nice work, '+who+' — '+ph.title+' done!', body);
+  }
+}
+function openMoment(id, from){
+  if(currentVisa!=='student' || typeof STUDENT_MOMENTS==='undefined' || !STUDENT_MOMENTS[id]){ openMomentSoon(id); return; }
+  momentBack = from || 'journeymap';
+  openMomentId = id;
+  buildMomentScreens(id);
+  renderMomentMap(id);
+  go('moment');
 }
 
 function sgToggle(phaseId,letter){
@@ -1685,6 +1849,16 @@ function jumpMenu(id){closeSettingsMenu();go(id);}
 /* ring + tasks */
 var R=31, CIRC=2*Math.PI*R;
 function setRing(pct){var a=document.getElementById('ringArc');if(a){a.setAttribute('stroke-dasharray',CIRC);a.setAttribute('stroke-dashoffset',CIRC*(1-pct/100));}var p=document.getElementById('ringPct');if(p)p.textContent=Math.round(pct)+'%';}
+/* compact steps-completed ring for a single section (self-contained SVG, computed inline) */
+function stepRing(done,total){
+  var pct=total?Math.round(done/total*100):0;
+  var r=21, c=2*Math.PI*r, off=c*(1-pct/100);
+  return '<div class="scoreCard mini">'+
+    '<div class="ring mini"><svg width="52" height="52" viewBox="0 0 52 52"><circle cx="26" cy="26" r="'+r+'" stroke="rgba(255,255,255,.18)" stroke-width="5" fill="none"/><circle class="miniArc" cx="26" cy="26" r="'+r+'" stroke-width="5" fill="none" stroke-linecap="round" stroke-dasharray="'+c.toFixed(1)+'" stroke-dashoffset="'+off.toFixed(1)+'"/></svg>'+
+      '<div class="lab"><b>'+pct+'%</b><span>DONE</span></div></div>'+
+    '<div><h3>Section progress</h3><p>'+done+' of '+total+' steps done</p></div>'+
+  '</div>';
+}
 function toggleTask(el){ el.classList.toggle('on'); recompute(); }
 function recompute(){
   var list=document.getElementById('taskList'); if(!list)return;
@@ -2000,271 +2174,9 @@ var VISA_META=[
 ];
 function visaMeta(id){ for(var i=0;i<VISA_META.length;i++){ if(VISA_META[i].id===id) return VISA_META[i]; } return VISA_META[0]; }
 
-/* ---------- shared Part-2 step blocks (NyuuLy boilerplate, reused across visas; state is keyed by phase id so sharing objects is safe) ---------- */
-function mkP(o){
-  o.steps=o.stepDefs.map(function(d,i){
-    var s={letter:String.fromCharCode(97+i),title:d.t,tag:d.g,items:d.items||[]};
-    if(d.note) s.note=d.note;
-    if(d.inf) s.tagInferred=true;
-    return s;
-  });
-  delete o.stepDefs; return o;
-}
-var DA_RC={t:'Get Your [Residence Card (Zairyū Kādo)](https://nyuuly.com/info-hub/articles/zairyu-card-residence-card) When You Arrive At The Airport.',g:'must',items:[
-  {icon:'💡',text:'Residence Card is your most important ID proving legal residence in Japan.'},
-  {icon:'🔹',text:'Follow the signs for foreign residents, NOT re-entry (as you do not have your card yet).'},
-  {icon:'💡',text:'Immigration checks your CoE and passport, verifies your identity via biometrics, then issues your Residence Card.'}]};
-var DA_WP={t:'Apply For Work Permit At Entry (Shikakugai Katsudō Kyoka)',g:'rec',items:[
-  {icon:'🔹',text:'Apply for the Work Permit at the airport if you plan to work part-time — doing it later takes 1–2 extra weeks.'},
-  {icon:'🔹',text:'Make sure you get the Part-time Work Permit stamp on the back of your residence card.'}]};
-var DA_TRANSPORT={t:'Confirm Airport Transport & Luggage',g:'rec',items:[
-  {icon:'🔹',text:'Take the airport bus if you are flexible with time — some prefer buses as you get a seat. [Learn More](https://tyo-nrt.com/en)'},
-  {icon:'💡',text:'Trains can be faster and more frequent, but get very crowded late evening.'},
-  {icon:'💡',text:'Narita to Shinjuku is about 1,500 JPY by train/[bus](https://www.narita-airport.jp/en/access/bus/lcb/), but ~30,000 JPY by taxi.'},
-  {icon:'🔹',text:'Use a luggage service like Yamato Transport (~2,000–3,500 JPY) to move around right after arrival. [Learn More](https://www.kuronekoyamato.co.jp/en/)'}]};
-var DH=[
-  {t:'Search For A Room',g:'rec',items:[
-    {icon:'🔹',text:'Search online (e.g., [SUUMO](https://suumo.jp/) for apartments, oakhouse for shared houses) or visit local agencies.'},
-    {icon:'🔹',text:'Make sure they accept foreigners, as many landlords refuse to lease to non-Japanese.'}]},
-  {t:'Prepare Initial Costs for Apartments/Mansions',g:'rec',inf:true,items:[
-    {icon:'💡',text:'Typical total: 300,000–600,000+ JPY.'},
-    {icon:'💡',text:'Rent (first month) 70,000–120,000 JPY; Deposit ~1 month (refundable); Key Money ~1 month (non-refundable).'},
-    {icon:'💡',text:'Agent Fee ~1 month + tax; Guarantor Fee 0.5–1 month.'}]},
-  {t:'Prepare Required Items',g:'must',items:[
-    {icon:'🔹',text:'Residence card and an emergency contact in Japan.'},
-    {icon:'🔹',text:"Read NyuuLy's [article about emergency in Japan](https://nyuuly.com/info-hub/articles/in-case-of-emergency)."}]},
-  {t:'Sign Contract',g:'rec',inf:true,items:[
-    {icon:'🔹',text:'Review term length and early-termination penalties, then pay the agreed fees and sign.'}]},
-  {t:'Set Up Utilities (start ~2 weeks before move-in)',g:'rec',inf:true,items:[
-    {icon:'🔹',text:'Prepare your Residence Card and address. [Read our Guide](https://nyuuly.com/info-hub/articles/set-up-utilities-in-japan)'},
-    {icon:'💡',text:'Water is usually on (change to your name). Electricity: apply online/phone/in person. Gas: book a visit (staff must turn it on while you are home).'},
-    {icon:'💡',text:'Internet: wired Hikari is fastest (~4,000 JPY/month, install 20,000–40,000 JPY), or a mobile Wi-Fi / high-data SIM. Consider [NyuuLy Mobile](https://nyuuly.com/mobile).'}]},
-  {t:'Move In & Furnish',g:'rec',inf:true,items:[
-    {icon:'🔹',text:'Buy new furniture (Nitori, IKEA, Yamada Denki) or second-hand (Mercari, Second Street).'}]}
-];
-var DCH_PREP={t:'Prepare',g:'rec',items:[
-  {icon:'🔹',text:'Make sure you have your new address, and bring your [Residence Card](https://nyuuly.com/info-hub/articles/zairyu-card-residence-card) and passport.'},
-  {icon:'💡',text:'You normally cannot book an appointment and must visit in person — it takes a couple of hours.'}]};
-var DCH_KATAKANA={t:'Decide Katakana Name Spelling',g:'rec',items:[
-  {icon:'🔹',text:'Decide your katakana name — needed for pension and later for opening a bank account.'}]};
-var DCH_REGISTER={t:'Register Your Residency (Jūmin Tōroku) At Your Local City Hall',g:'must',items:[
-  {icon:'🔹',text:'Fill out a Move-in Notification (Tennyū-todoke) to register your residency.'},
-  {icon:'💡',text:'Staff update the address on the back of your Residence Card and hand it back the same day.'}]};
-var DCH_JUMINHYO={t:'Request Copies Of [Certificate Of Residence (Jūminhyō)](https://nyuuly.com/info-hub/articles/juminhyo-certificate-of-residence)',g:'rec',items:[
-  {icon:'💡',text:'Proves your registered address — needed often, e.g. for opening a bank account.'}]};
-function dchNHI(text,tag){ return {t:'Confirm National Health Insurance And Pension (Kokumin Kenkō Hoken)',g:tag||'rec',items:[
-  {icon:'💡',text:text},
-  {icon:'🔹',text:'[Read Easy Healthcare in Japan](https://nyuuly.com/info-hub/articles/easy-healthcare-in-japan)'}]}; }
-var DCH_MYNUMBER={t:'Receive Your Individual Number Notice',g:'must',items:[
-  {icon:'🔹',text:'Keep the 12-digit number that arrives 2–3 weeks later. [Learn More](https://www.kojinbango-card.go.jp/en-tsuchicard/)'},
-  {icon:'🔹',text:'Read [this guide](https://www.kojinbango-card.go.jp/en-uketori/) and [our guide](https://nyuuly.com/info-hub/articles/my-number-card).'}]};
-var DCH_HANKO={t:'Apply For Hanko Registration',g:'rec',items:[
-  {icon:'🔹',text:'Buy your seal in advance and register it — you may need it for contracts or business.'}]};
-var DBANK=[
-  {t:'Prepare',g:'must',items:[{icon:'🔹',text:'Residence Card (with registered address) and your katakana name.'}]},
-  {t:'Apply Online',g:'rec',items:[{icon:'🔹',text:'Follow their instructions, or visit a branch with a Japanese speaker if needed. [Watch Their Guide](https://youtu.be/7cBLnSO6J0c)'}]},
-  {t:'Receive Your Cash Card',g:'rec',inf:true,items:[{icon:'💡',text:'Your cash card arrives by mail in about 1–2 weeks.'}]}
-];
-var DPHONE=[
-  {t:'Prepare Necessary Documents',g:'must',items:[{icon:'🔹',text:'Residence Card (with registered address) and your bank account or credit card information.'}]},
-  {t:'Purchase & Setup',g:'rec',inf:true,items:[
-    {icon:'🔹',text:'Buy online. Beware most carriers offer only Japanese support.'},
-    {icon:'💡',text:'You can buy a [NyuuLy Mobile SIM](https://nyuuly.com/mobile) online with full English support.'}]}
-];
-var DDAILY=[
-  {t:'Follow The Garbage Sorting Rules',g:'must',items:[
-    {icon:'💡',text:'Japan has very strict garbage-sorting rules. Get the guide from your city hall or its website.'},
-    {icon:'💡',text:'Burnable, recyclables (rinse PET/cans), non-burnable, and oversize (buy a ticket, book a pickup) are collected separately.'}]},
-  {t:'Know More About Getting Around',g:'rec',items:[
-    {icon:'💡',text:'Suica/PASMO: rechargeable cards for transit and small purchases.'},
-    {icon:'💡',text:"Driver's license is hard to get; a driving camp helps. Register a bicycle for anti-theft (Bōhan Tōroku)."}]},
-  {t:'Figure Out Japanese Toilets',g:'opt',items:[{icon:'🔹',text:'See the image for detailed toilet button functions.'}]}
-];
-
-/* partMeta shared by the 4 non-student visas (same shape and feel as the Student journey) */
-var GEN_PART_META={
-  1:{label:'Part 1',title:'Before Arrival — Preparation',
-     intro:['This stage is all about setting a strong foundation.',"You're probably feeling a mix of excitement and uncertainty — that's completely normal.",'These steps will help you prepare with confidence and clarity.'],
-     outro:['Congratulations again on taking this incredible step toward your new life in Japan.','If you ever feel uncertain or need help, remember you can always [AskMe](https://nyuuly.com/compass/askme).']},
-  2:{label:'Part 2',title:'After Arrival — On-boarding',
-     intro:['Welcome to Japan!','Those first days can be a blur of paperwork and emotion. Here’s a clear roadmap so you stay in control.'],
-     outro:['Great Job! Onwards and upwards!','We at NyuuLy are here to support you every step of the way — and don’t forget to enjoy Japan!','If you ever feel uncertain or need help, remember you can always [AskMe](https://nyuuly.com/compass/askme).']}
-};
-
-/* shared Part-2 "settling in" phases builder — takes a visa prefix + City Hall step list, returns the common tail */
-function commonPart2(pre, cityhallSteps, opts){
-  opts=opts||{};
-  var airport=[DA_RC]; if(opts.workPermitAtEntry) airport.push(DA_WP); airport.push(DA_TRANSPORT);
-  var out=[];
-  var n=0;
-  out.push(mkP({id:pre+'_airport',part:2,number:++n,title:'Arrival at Airport',nav:'Arrival at Airport',duration:'2~3 hours',
-    intro:'Here’s what to expect at the airport to officially begin your life here.',
-    outro:['Collect baggage and head out.','Welcome to your new home in the Land of the Rising Sun! 🎉','Well done 🥳🎉'],
-    stepDefs:airport}));
-  if(!opts.noHousing){
-    out.push(mkP({id:pre+'_housing',part:2,number:++n,title:'Finding Your New Home',nav:'Finding Your New Home',duration:'~14 days',
-      intro:'Finding a place can feel overwhelming — let’s break it into an exciting step toward settling in.',
-      outro:'And that’s it! You’ve set up the essentials of your new home in Japan.',
-      stepDefs:DH}));
-  }
-  out.push(mkP({id:pre+'_cityhall',part:2,number:++n,title:'City Hall Paperwork: Becoming a Local Resident',nav:'City Hall',duration:'3~4 hours',
-    intro:'Now let’s make you an official local! Complete these within 2 weeks of moving to your Japanese address. [Read our guide](https://nyuuly.com/info-hub/articles/japan-city-hall-all-in-one-for-new-residents)',
-    outro:['That’s it! Congratulations on officially becoming a resident of your new city!','You’ve checked off the biggest items on your first-week-in-Japan to-do list. 🎉'],
-    stepDefs:cityhallSteps}));
-  out.push(mkP({id:pre+'_bank',part:2,number:++n,title:'Opening a Bank Account',nav:'Bank Account',duration:'setup 1~2 hours, card in 1~2 weeks',
-    intro:'Opening a bank account should be a priority after registering your address. We recommend Japan Post Bank first. [Guide](https://nyuuly.com/articles/open-a-bank-account-in-japan-first-step-of-your-financial-journey)',
-    outro:'Give yourself a pat on the back — you’ve cleared some of the most crucial steps.',
-    stepDefs:DBANK}));
-  out.push(mkP({id:pre+'_phone',part:2,number:++n,title:'Getting a Phone Number',nav:'Phone Number',
-    intro:'A Japanese phone number (voice plan) is a must. [Read our Guide](https://nyuuly.com/info-hub/articles/acquire-a-sim-card-in-japan-a-simple-guide-for-your-first-days)',
-    stepDefs:DPHONE}));
-  if(opts.permitPhase){
-    out.push(mkP({id:pre+'_permit',part:2,number:++n,title:'Part-time Work Permit (Shikakugai Katsudō Kyoka)',nav:'Work Permit',duration:'~2 weeks to issue',
-      intro:'If you plan to work part-time, get your work permit before starting any job.',
-      stepDefs:[{t:'Submit The Form At Your Local Immigration Office',g:'must',items:[
-        {icon:'🔹',text:'Didn’t apply at the airport? Do it here before starting work. [Form](https://www.moj.go.jp/isa/content/930004124.pdf) · [Learn More](https://www.moj.go.jp/isa/applications/procedures/16-8.html)'},
-        {icon:'💡',text:'Work limit: up to 28 hours/week. Immigration stamps the back of your residence card.'}]}]}));
-  }
-  out.push(mkP({id:pre+'_daily',part:2,number:++n,title:'Navigating Daily Life',nav:'Daily Life',
-    intro:'Now that you’re settled, here are tips for smoother daily life in Japan.',
-    stepDefs:DDAILY}));
-  if(opts.businessPhase){
-    out.push(mkP({id:pre+'_biz',part:2,number:++n,title:'Setting Up Your Business in Japan',nav:'Business Setup',
-      intro:'Now that you’ve onboarded, prepare to legally establish your company and transition to the Business Manager Visa.',
-      outro:'Well done — your business foundation is taking shape!',
-      stepDefs:[
-        {t:'Communicate With the Foreign Entrepreneurship Promotion Organization',g:'must',items:[
-          {icon:'🔹',text:'Visit the [organization](https://www.meti.go.jp/english/policy/economy/startup_nbp/startup_visa.html) that issued your eligibility certificate. They interview you ~monthly to track progress.'}]},
-        {t:'Prepare the 30 Million JPY Capital And Hire A Japan-Resident Employee',g:'must',items:[
-          {icon:'🔹',text:'Prepare ≥30,000,000 JPY in company capital during your 1–2 year Startup Visa.'},
-          {icon:'🔹',text:'Hire at least one full-time Japanese or long-term resident; you or they must be fluent (JLPT N2/N1).'}]},
-        {t:'Prepare Your Business Plan & Incorporation Documents',g:'must',items:[
-          {icon:'🔹',text:'Draft a full business plan with financials and prepare Articles of Incorporation.'},
-          {icon:'🔹',text:'Deposit capital, verify the plan with a professional, and submit to the Legal Affairs Bureau. Registration tax ~60,000–150,000 JPY.'}]},
-        {t:'Secure A Physical Office',g:'must',items:[
-          {icon:'🔹',text:'Rent a private, lockable office under your corporate name.'}]}
-      ]}));
-  }
-  return out;
-}
-
-var COMPANY_PHASES=[
-  mkP({id:'cmp_offer',part:1,number:1,title:'Your New Job Offer',
-    intro:'Congrats on securing a job in Japan! Getting clarity on your role now makes your transition smoother. (We assume you already have a job offer.)',
-    outro:'Offer sorted — now on to your visa.',
-    stepDefs:[{t:'Review & Accept Your Offer',g:'rec',items:[
-      {icon:'🔹',text:'Confirm role, start date, working hours, salary structure, and overtime expectations.'},
-      {icon:'🔹',text:'Check employment benefits, especially Social Insurance (Shakai Hoken).'},
-      {icon:'note',text:'We want your excitement to last — understand what you are signing up for.'}]}]}),
-  mkP({id:'cmp_visa',part:1,number:2,title:'Your Visa Application Journey',
-    intro:'Your company takes the lead, but staying proactive keeps everything moving smoothly.',
-    outro:"Congratulations, you're officially cleared to enter Japan!",
-    stepDefs:[
-      {t:'Wait As Your Employer Submits The Application For CoE',g:'must',items:[
-        {icon:'💡',text:'The Certificate of Eligibility (CoE) is essential for your visa. Processing takes ~1–3 months.'},
-        {icon:'🔹',text:'Receive your CoE (original or digital) through your employer.'}]},
-      {t:'Prepare Visa Documents Before Heading For The Japanese Embassy',g:'must',items:[
-        {icon:'🔹',text:'Original/printed CoE, passport (6+ months valid), visa form + ID photos, and a copy of your employment contract.'}]},
-      {t:'Submit Your Visa Application At The Japanese Embassy In Your Home Country',g:'must',items:[
-        {icon:'🔹',text:'Attend an interview if requested; wait 5–10 business days for approval.'},
-        {icon:'🔹',text:'Pick up your passport with the visa; prepare the fee (~3,000–6,000 JPY in local currency).'}]}
-    ]}),
-  mkP({id:'cmp_travel',part:1,number:3,title:'Travel Preparation',
-    intro:'The countdown begins! Here’s how to make your arrival smooth and stress-free.',
-    phaseNote:'We recommend buying a Prepaid Data-Only SIM before coming to Japan. [Check NyuuLy Mobile](https://nyuuly.com/mobile)',
-    stepDefs:[
-      {t:'Know Your Accommodation And Employer Details',g:'must',items:[
-        {icon:'🔹',text:'Confirm your Japanese address, employer’s address, and a contact phone number — airport immigration will likely ask.'}]},
-      {t:'Prepare Your Money (about 250,000 JPY in cash)',g:'rec',items:[
-        {icon:'💡',text:'Salaries are usually paid on the 25th. Japan is cash-dominant but safe.'},
-        {icon:'🔹',text:'Exchange currency at the airport and bring an international card. Compare costs on [numbeo](https://www.numbeo.com/cost-of-living/comparison.jsp).'}]}
-    ]})
-].concat(commonPart2('cmp',[DCH_PREP,DCH_KATAKANA,DCH_REGISTER,DCH_JUMINHYO,DCH_MYNUMBER]));
-
-var GENERAL_PHASES=[
-  mkP({id:'gen_visa',part:1,number:1,title:'Securing Your Visa',
-    intro:'Whether you’re on a Working Holiday, Cultural Activities, or another status, clarity is key.',
-    outro:"Congratulations, you're officially cleared to enter Japan!",
-    stepDefs:[
-      {t:'Wait As Your Sponsor Submits The Application For CoE',g:'must',items:[
-        {icon:'💡',text:'Your sponsor is whoever invites you (employer or family). The CoE is essential; processing ~1–3 months.'},
-        {icon:'🔹',text:'Receive your CoE (original or digital) through your sponsor.'}]},
-      {t:'Prepare Visa Documents Before Heading For The Japanese Embassy',g:'must',items:[
-        {icon:'🔹',text:'CoE, passport (6+ months), visa form + ID photos, and documents proving your activity (activity plan, proof of funds).'}]},
-      {t:'Submit Your Visa Application At The Japanese Embassy In Your Home Country',g:'must',items:[
-        {icon:'🔹',text:'Attend an interview if requested; wait 5–10 business days; pick up your passport with the visa. Fee ~3,000–6,000 JPY.'}]}
-    ]}),
-  mkP({id:'gen_travel',part:1,number:2,title:'Travel Preparation',
-    intro:'The countdown begins! Here’s how to make your arrival smooth and stress-free.',
-    phaseNote:'We recommend buying a Prepaid Data-Only SIM before coming to Japan. [Check NyuuLy Mobile](https://nyuuly.com/mobile)',
-    stepDefs:[
-      {t:"Know Your Accommodation And Sponsor's Details",g:'must',items:[
-        {icon:'🔹',text:'Confirm your Japanese address — airport immigration will likely ask.'}]},
-      {t:'Prepare Your Money (about 150,000 JPY in cash)',g:'rec',items:[
-        {icon:'💡',text:'Japan is cash-dominant but safe.'},
-        {icon:'🔹',text:'Exchange currency at the airport and bring an international card. Compare costs on [numbeo](https://www.numbeo.com/cost-of-living/comparison.jsp).'}]}
-    ]})
-].concat(commonPart2('gen',[DCH_PREP,DCH_KATAKANA,DCH_REGISTER,DCH_JUMINHYO,dchNHI('If your sponsor enrolls you in company Social Insurance (Shakai Hoken), you don’t need to enroll here — confirm that.','rec'),DCH_MYNUMBER]));
-
-var FAMILY_PHASES=[
-  mkP({id:'fam_docs',part:1,number:1,title:'Preparing Your Dependent Visa Documents',
-    intro:'Joining your family in Japan is a big step. Your inviter (spouse/partner already in Japan) does most of the heavy lifting here.',
-    stepDefs:[
-      {t:'Ask Your Inviter To Prepare Their Documents (In Japan)',g:'must',items:[
-        {icon:'🔹',text:'Proof of relationship (marriage/relative certificate), copy of inviter’s Residence Card, proof of income (e.g. 1-year bank statement), and proof of accommodation (lease copy).'},
-        {icon:'🔹',text:'Employment Certificate (if on a work visa) or School Enrollment Certificate (if on a student visa).'}]},
-      {t:'Prepare, On Your Side (In Your Home Country)',g:'must',items:[
-        {icon:'🔹',text:'Passport.'}]}
-    ]}),
-  mkP({id:'fam_visa',part:1,number:2,title:'Your Visa Application Journey',
-    intro:'Your inviter applies for your CoE in Japan; you finish at the embassy.',
-    outro:"Congratulations, you're officially cleared to enter Japan!",
-    stepDefs:[
-      {t:'Wait As Your Inviter Submits The Application For CoE',g:'must',items:[
-        {icon:'💡',text:'The CoE is essential; processing takes 2–3 months. Your inviter handles this at their local immigration office.'},
-        {icon:'🔹',text:'Receive your CoE (original or digital) through your inviter.'}]},
-      {t:'Prepare Visa Documents Before Heading For The Japanese Embassy',g:'must',items:[
-        {icon:'🔹',text:'CoE, passport (6+ months), visa form + ID photos, copy of proof of relationship, and copy of inviter’s Residence Card.'},
-        {icon:'🔹',text:'Translate non-Japanese documents (e.g. marriage certificate) into Japanese (passport excepted).'}]},
-      {t:'Submit Your Visa Application At The Japanese Embassy In Your Home Country',g:'must',items:[
-        {icon:'🔹',text:'Attend an interview if requested; wait 5–10 business days; pick up your passport with the visa. Fee ~3,000–6,000 JPY.'}]}
-    ]}),
-  mkP({id:'fam_travel',part:1,number:3,title:'Travel Preparation',
-    intro:'You’re almost there — here’s how to prepare for a smooth arrival.',
-    phaseNote:'We recommend buying a Prepaid Data-Only SIM before coming to Japan. [Check NyuuLy Mobile](https://nyuuly.com/mobile)',
-    stepDefs:[
-      {t:"Know Your Accommodation And Inviter's Details",g:'must',items:[
-        {icon:'🔹',text:'Confirm your inviter’s full address, name, and phone number — airport immigration will likely ask.'}]},
-      {t:'Prepare Your Money (about 100,000 JPY in cash)',g:'rec',items:[
-        {icon:'💡',text:'Japan is cash-dominant but safe.'},
-        {icon:'🔹',text:'Exchange currency at the airport and bring an international card.'}]}
-    ]})
-].concat(commonPart2('fam',[DCH_PREP,DCH_KATAKANA,DCH_REGISTER,DCH_JUMINHYO,dchNHI('You’ll enroll in the same Health Insurance and Pension as your inviter.','must'),DCH_MYNUMBER],{workPermitAtEntry:true,noHousing:true,permitPhase:true}));
-
-var FOUNDER_PHASES=[
-  mkP({id:'fdr_visa',part:1,number:1,title:'Apply for a Startup Visa (Before Business Manager Visa)',
-    intro:'Congrats on deciding to start your business in Japan! We recommend a Startup Visa first, then switching to a Business Manager Visa after 1–2 years.',
-    outro:"Congratulations, you're officially cleared to enter Japan!",
-    stepDefs:[
-      {t:'Apply For Startup Visa Eligibility Confirmation',g:'must',items:[
-        {icon:'🔹',text:'Apply at the Foreign Entrepreneurship Promotion Organization in your business’s prefecture. [List](https://www.meti.go.jp/english/policy/economy/startup_nbp/startup_visa.html)'},
-        {icon:'💡',text:'Key criteria: a plan to raise 30M JPY, hire one long-term resident/Japanese, and JLPT N2 (you or employee).'}]},
-      {t:'Find A Proxy In Japan To Submit The CoE Application',g:'must',items:[
-        {icon:'🔹',text:'With your “Startup Preparation Activity Plan Confirmation Certificate”, have a proxy (scrivener or friend) apply for your CoE. Processing ~1–3 months. [Guide](https://www.investtokyo.metro.tokyo.lg.jp/en/oursupports/bdc-tokyo/startupvisa.html)'}]},
-      {t:'Submit Visa Application At The Japanese Embassy (Home Country)',g:'must',items:[
-        {icon:'🔹',text:'CoE, passport (6+ months), visa form + ID photos, and your Plan Confirmation Certificate. Wait 5–10 business days; fee ~3,000–6,000 JPY.'}]}
-    ]}),
-  mkP({id:'fdr_travel',part:1,number:2,title:'Travel Preparation',
-    intro:'The countdown begins! Here’s how to make your arrival smooth and stress-free.',
-    phaseNote:'We recommend buying a Prepaid Data-Only SIM before coming to Japan. [Check NyuuLy Mobile](https://nyuuly.com/mobile)',
-    stepDefs:[
-      {t:'Know Your Accommodation',g:'must',items:[
-        {icon:'🔹',text:'Confirm your Japanese address — airport immigration will likely ask.'}]},
-      {t:'Prepare Your Money (about 350,000 JPY in cash)',g:'rec',items:[
-        {icon:'💡',text:'Japan is cash-dominant but safe.'},
-        {icon:'🔹',text:'Exchange currency at the airport and bring an international card.'}]}
-    ]})
-].concat(commonPart2('fdr',[DCH_PREP,DCH_KATAKANA,DCH_REGISTER,DCH_JUMINHYO,dchNHI('Since your company isn’t set up yet, enroll at National Health Insurance and Pension here.','must'),DCH_MYNUMBER,DCH_HANKO],{businessPhase:true}));
+/* The 4 non-student visa journeys (Company / General / Family / Founder) and their
+   shared builders now live in visas-extra.js, loaded before this script to keep
+   index.html lighter. They populate the same globals the VISAS registry below uses. */
 
 var VISAS={
   student:{phases:STUDENT_PHASES, partMeta:PART_META},
@@ -2348,7 +2260,7 @@ toggleSchoolCard();
      Opens over the app when the user taps "Moving-in Notification".
      Config paths (adjust if your repo names differ):
 ============================================================ -->
-<div id="ff-overlay" style="position:fixed;inset:0;background:#0c1020;color:#eef1f8;z-index:9999;display:none;flex-direction:column;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif">
+<div id="ff-overlay" style="position:fixed;inset:0;background:#0c1020;color:#eef1f8;z-index:9999;display:none;flex-direction:column;font-family:'Manrope',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif">
   <div style="display:flex;align-items:center;gap:10px;padding:11px 16px;background:#111731;border-bottom:1px solid #26304b;flex-wrap:wrap">
     <b style="font-size:14px">🗾 Minato Moving-in form · auto-filled</b>
     <span style="flex:1"></span>
@@ -2468,7 +2380,7 @@ function ffChips(){
   var fs=parseFloat(document.getElementById('ff-fsize').value)*ffScale;
   FF_FIELDS.forEach(function(fd){var k=fd[0]; if(!ffEnabled[k])return;
     var c=document.createElement('div'); c.className='ffchip'; c.dataset.k=k;
-    c.style.cssText='position:absolute;color:#000;white-space:nowrap;cursor:grab;user-select:none;line-height:1;background:rgba(255,235,120,.35);border:1px dashed rgba(180,140,0,.55);padding:1px 2px;border-radius:3px;font-family:sans-serif';
+    c.style.cssText='position:absolute;color:#000;white-space:nowrap;cursor:grab;user-select:none;line-height:1;background:rgba(255,235,120,.35);border:1px dashed rgba(180,140,0,.55);padding:1px 2px;border-radius:3px;font-family:Manrope,sans-serif';
     c.style.left=(ffPOS[k]?ffPOS[k].x:130)+'px'; c.style.top=(ffPOS[k]?ffPOS[k].y:90)+'px'; c.style.fontSize=fs+'px';
     c.appendChild(document.createTextNode(ffVals[k]||''));
     ov.appendChild(c); ffDrag(c,k);
